@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "pairs": [
+    {"a":"reluctant","b":"hesitant","a_note":"כבר יודע שלא רוצה, ועושה בחוסר חשק.","b_note":"עוד לא החליט, מהסס."},
+    {"a":"followup","b":"touchbase","a_note":"חוזרים אחרי משהו שכבר קרה: פגישה, מייל, שיחה.","b_note":"עדכון קצר וכללי, גם בלי סיבה מיוחדת."},
+    {"a":"procrastinate","b":"putoff","a_note":"הרגל של דחייה, בדרך כלל בלי לציין מה.","b_note":"דוחים משהו מסוים: put off the dentist."},
+    {"a":"figureout","b":"comeupwith","a_note":"להבין או לפתור משהו שכבר קיים.","b_note":"להמציא משהו חדש."},
+    {"a":"wrapup","b":"followup","a_note":"לסיים עכשיו, לסגור את הנושא.","b_note":"לחזור לזה אחר כך."},
+    {"a":"hangout","b":"touchbase","a_note":"לבלות יחד, בשביל הכיף.","b_note":"עדכון קצר, בעיקר בעבודה."},
+    {"a":"overwhelmed","b":"procrastinate","a_note":"הרגשה: יותר מדי עליי.","b_note":"פעולה: לדחות את מה שצריך לעשות."},
+    {"a":"longshot","b":"headsup","a_note":"סיכוי קלוש.","b_note":"התראה מראש."}
+  ]
+}
