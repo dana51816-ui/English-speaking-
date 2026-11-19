@@ -1,0 +1,593 @@
+<title>WORDPLAY M4 Direction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&family=Secular+One&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Heebo:wght@400;700;900&family=Unbounded:wght@600;800&display=swap">
+<style>
+/* Layout: a long review document; quiet chrome, the two directions live inside phone frames that carry their own worlds. */
+:root{
+  --bg:#F3F1EC; --fg:#1D1B22; --muted:#5F5A68; --line:#D9D4CB; --panel:#FFFFFF; --accent:#3A57E8; --warn:#C2410C; --ok:#15803D;
+  --f-h:"Secular One","Rubik",system-ui,sans-serif; --f-b:"Rubik",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15141A;--fg:#EEEAF2;--muted:#A9A2B5;--line:#2E2B36;--panel:#1E1C25;--accent:#8EA2FF;--warn:#FB923C;--ok:#4ADE80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15141A;--fg:#EEEAF2;--muted:#A9A2B5;--line:#2E2B36;--panel:#1E1C25;--accent:#8EA2FF;--warn:#FB923C;--ok:#4ADE80;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-b);font-size:16px;line-height:1.6;direction:rtl}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 80px;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-h);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,48px)} h2{font-size:clamp(24px,3.6vw,34px)} h3{font-size:20px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:500}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:18px}
+.en{direction:ltr;unicode-bidi:isolate}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{color:var(--fg);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--panel)}
+nav.toc a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* audit */
+.audit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.audit figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.audit img{width:100%;border-radius:18px;border:1px solid var(--line);display:block}
+.audit figcaption{font-size:13px;color:var(--muted)}
+.issues{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;counter-reset:i}
+.issue{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.issue b{font-size:16px}
+.issue span{font-size:14.5px;color:var(--muted)}
+.issue .sev{align-self:flex-start;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px;border:1px solid currentColor}
+.sev.hi{color:var(--warn)} .sev.md{color:var(--muted)}
+
+/* directions */
+.dir-head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:start}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14.5px;margin:0}
+.facts dt{color:var(--muted)} .facts dd{margin:0}
+.sw{display:inline-flex;gap:4px;vertical-align:middle}
+.sw i{width:18px;height:18px;border-radius:5px;display:inline-block;border:1px solid rgba(0,0,0,.15)}
+.phones{display:flex;gap:22px;overflow-x:auto;padding:8px 2px 18px;scroll-snap-type:x mandatory}
+.ph{flex:none;display:flex;flex-direction:column;gap:8px;align-items:center;scroll-snap-align:center}
+.ph>small{font-size:13px;color:var(--muted)}
+.phone{width:320px;height:660px;border-radius:44px;padding:10px;background:#0E0D12;box-shadow:0 20px 40px -18px rgba(0,0,0,.45);position:relative}
+.scr{width:100%;height:100%;border-radius:35px;overflow:hidden;position:relative;isolation:isolate}
+.hint{font-size:13px;color:var(--muted);text-align:center}
+
+/* ============ DIRECTION A: RISO POP-UP ============ */
+.A{--blue:#1F4FD8;--pink:#FF4FA3;--yel:#FFD93B;--mint:#3CCB9A;--paper:#FBF7EE;--ink:#14204A;
+  font-family:"Rubik",sans-serif;color:var(--ink);background:var(--blue)}
+.A .grain{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.18;mix-blend-mode:multiply;
+  background-image:radial-gradient(rgba(20,32,74,.55) .6px,transparent .9px);background-size:4px 4px}
+.A .disp{font-family:"Secular One",sans-serif}
+.A .en-d{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;direction:ltr}
+.A .mis{text-shadow:2px 1px 0 var(--pink)}
+.A .top{position:absolute;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:22px 18px 0;z-index:5}
+.A .chip{background:var(--paper);color:var(--ink);border-radius:999px;padding:3px 11px;font-weight:700;font-size:13px;box-shadow:2px 2px 0 var(--ink);display:inline-flex;gap:4px;align-items:center}
+.A .logo{font-family:"Bricolage Grotesque";font-weight:800;color:var(--paper);font-size:20px;direction:ltr;text-shadow:2px 1px 0 var(--pink)}
+.A .book{position:absolute;top:70px;left:12px;right:12px;height:390px;perspective:900px}
+.A .page{position:absolute;inset:0;border-radius:20px;background:var(--paper);overflow:hidden;transform-origin:right center;transition:transform .55s cubic-bezier(.3,.7,.2,1),opacity .3s;backface-visibility:hidden;box-shadow:4px 5px 0 var(--ink)}
+.A .page.out{transform:rotateY(-100deg);opacity:0}
+.A .page svg{width:100%;height:100%;display:block}
+.A .pg-t{position:absolute;top:12px;right:14px;left:14px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+.A .pg-t b{font-family:"Secular One";font-size:21px;font-weight:400}
+.A .pg-t span{font-size:12px;font-weight:700;background:var(--yel);padding:2px 9px;border-radius:999px}
+.A .turn{position:absolute;top:50%;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);border:0;font-size:18px;z-index:4;cursor:pointer;transform:translateY(-50%)}
+.A .turn.l{left:-4px} .A .turn.r{right:-4px}
+.A .sway{animation:sway 6s ease-in-out infinite alternate;transform-origin:50% 100%}
+.A .sway2{animation:sway 7s ease-in-out -2s infinite alternate;transform-origin:50% 100%}
+@keyframes sway{from{transform:rotate(-1.2deg)}to{transform:rotate(1.2deg)}}
+.A .cta{position:absolute;left:16px;right:16px;bottom:94px;height:68px;flex-direction:column;line-height:1.1;border:0;border-radius:18px;background:var(--yel);color:var(--ink);font-family:"Secular One";font-size:24px;box-shadow:0 6px 0 var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .08s,box-shadow .08s}
+.A .cta:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.A .cta small{font-family:"Rubik";font-size:12.5px;font-weight:700;opacity:.75;gap:0}
+.A .tray{position:absolute;left:0;right:0;bottom:0;height:80px;background:var(--paper);border-radius:22px 22px 0 0;display:flex;align-items:center;gap:10px;padding:0 16px 10px}
+.A .tray .q{flex:1;display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700}
+.A .tray .bar{height:8px;border-radius:8px;background:#E6DFCF;overflow:hidden}
+.A .tray .bar i{display:block;height:100%;width:33%;background:var(--pink)}
+.A .tray .tk{width:46px;height:46px;border-radius:14px;background:var(--blue);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;text-align:center;line-height:1.1}
+/* exercise A */
+.A .ex-top{position:absolute;top:22px;left:16px;right:16px;display:flex;align-items:center;gap:10px;z-index:5}
+.A .strip{flex:1;display:flex;gap:4px}
+.A .strip i{flex:1;height:12px;border-radius:3px;background:rgba(251,247,238,.25);transform:skewX(-12deg)}
+.A .strip i.d{background:var(--yel)} .A .strip i.c{background:var(--paper);animation:blink 1s infinite alternate}
+@keyframes blink{to{opacity:.5}}
+.A .qcard{position:absolute;top:62px;left:14px;right:14px;height:236px;background:var(--paper);border-radius:22px;box-shadow:4px 5px 0 var(--ink);padding:16px;display:flex;flex-direction:column;align-items:center;gap:6px;transform:rotate(-1deg)}
+.A .qcard .kind{align-self:flex-end;font-size:12px;font-weight:700;background:var(--pink);color:#fff;border-radius:6px;padding:1px 8px;transform:rotate(2deg)}
+.A .qcard .w{font-size:44px;line-height:1;margin-top:14px;color:var(--ink)}
+.A .qcard .st{font-size:14px;color:#5A6488;direction:ltr}
+.A .qcard .q{font-size:17px;font-weight:700;margin-top:auto}
+.A .spk{position:absolute;top:80px;right:30px;width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--paper);display:flex;align-items:center;justify-content:center;border:0}
+.A .opts{position:absolute;left:14px;right:14px;bottom:24px;display:flex;flex-direction:column;gap:10px}
+.A .opt{position:relative;min-height:62px;border:0;border-radius:16px;background:var(--paper);color:var(--ink);font:700 16px "Rubik";text-align:right;padding:10px 16px 10px 52px;box-shadow:0 5px 0 var(--ink);cursor:pointer;transition:transform .12s,box-shadow .12s,background .2s;animation:bob 3.2s ease-in-out infinite;animation-delay:calc(var(--i)*-.8s)}
+.A .opt::before{content:"";position:absolute;left:14px;top:50%;width:24px;height:24px;margin-top:-12px;background:var(--c);clip-path:var(--shape)}
+@keyframes bob{50%{transform:translateY(-2px) rotate(var(--r,0deg))}}
+.A .opt:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.A .opt.good{background:var(--mint);animation:pop .4s cubic-bezier(.2,1.6,.4,1)}
+.A .opt.bad{background:#FFD0D9;animation:crumple .45s}
+.A .opt.dim{opacity:.45;animation:none}
+@keyframes pop{40%{transform:scale(1.06) rotate(-2deg)}}
+@keyframes crumple{20%{transform:skewX(8deg) scale(.97)}45%{transform:skewX(-6deg)}70%{transform:skewX(3deg)}}
+.A .stamp{position:absolute;top:200px;right:34px;z-index:8;font-family:"Secular One";font-size:30px;color:var(--pink);border:5px solid var(--pink);border-radius:14px;padding:0 14px;transform:rotate(-14deg) scale(2);opacity:0;mix-blend-mode:multiply;pointer-events:none;text-shadow:3px 2px 0 rgba(31,79,216,.6)}
+.A .stamp.on{animation:stamp .35s cubic-bezier(.2,1.4,.4,1) forwards}
+.A .stamp.no{color:var(--blue);border-color:var(--blue);text-shadow:3px 2px 0 rgba(255,79,163,.6)}
+@keyframes stamp{to{opacity:1;transform:rotate(-14deg) scale(1)}}
+.A .bits{position:absolute;inset:0;pointer-events:none;z-index:9}
+.A .bits i{position:absolute;width:12px;height:16px;top:var(--y);left:var(--x);background:var(--c);clip-path:var(--shape);animation:fall 1s ease-in forwards;animation-delay:var(--d)}
+@keyframes fall{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--dx),300px) rotate(540deg);opacity:0}}
+.A .pup{position:absolute;top:192px;left:-2px;width:92px;height:108px;z-index:6;pointer-events:none}
+/* end A */
+.A .press{position:absolute;top:72px;left:20px;right:20px;height:300px}
+.A .sheet{position:absolute;inset:0;background:var(--paper);border-radius:12px;box-shadow:4px 5px 0 var(--ink);padding:18px;display:flex;flex-direction:column;align-items:center;gap:8px;animation:slideout .8s cubic-bezier(.2,.9,.3,1) both}
+@keyframes slideout{from{transform:translateY(-110%) rotate(3deg)}to{transform:none}}
+.A .slot{position:absolute;top:58px;left:10px;right:10px;height:18px;border-radius:9px;background:var(--ink);z-index:3}
+.A .sheet .big{font-size:38px;line-height:1.05;text-align:center}
+.A .sheet .sub{font-size:14px;color:#5A6488;text-align:center}
+.A .sheet .words{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:auto}
+.A .sheet .words span{font:800 14px "Bricolage Grotesque";direction:ltr;background:var(--yel);padding:3px 10px;border-radius:7px;transform:rotate(var(--r))}
+.A .gain{position:absolute;top:388px;left:20px;right:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.A .gain div{background:var(--paper);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:8px 4px;text-align:center;display:flex;flex-direction:column;line-height:1.15}
+.A .gain b{font-family:"Secular One";font-size:26px;font-weight:400} .A .gain span{font-size:11.5px;font-weight:700}
+.A .gain small{font-size:10px;color:#5A6488}
+
+/* ============ DIRECTION B: NIGHT CITY ============ */
+.B{--sky:#071226;--sky2:#0F2A47;--cyan:#38E8FF;--amber:#FFB547;--mag:#FF4FD8;--glass:rgba(160,220,255,.09);--txt:#EAF6FF;
+  font-family:"Heebo",sans-serif;color:var(--txt);background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 70%,#123B55 100%)}
+.B .disp{font-family:"Heebo";font-weight:900}
+.B .en-d{font-family:"Unbounded",sans-serif;font-weight:800;direction:ltr}
+.B .top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:24px 18px 0;z-index:6}
+.B .logo{font-family:"Unbounded";font-weight:800;font-size:16px;letter-spacing:.04em;direction:ltr;color:var(--txt)}
+.B .logo i{font-style:normal;color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.B .pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 11px;background:var(--glass);border:1px solid rgba(160,220,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:13px;font-weight:700}
+.B .pill b{color:var(--amber)}
+.B .city{position:absolute;inset:0;z-index:1}
+.B .city svg{width:100%;height:100%;display:block}
+.B .win{fill:#1D3150}
+.B .win.l1{fill:#8A6A3A}.B .win.l2{fill:var(--amber)}.B .win.l3{fill:#FFE3A6;filter:url(#bglow)}
+.B .flick{animation:flick 4s infinite}
+@keyframes flick{0%,92%,100%{opacity:1}94%{opacity:.4}}
+.B .beam{animation:beam 3s ease-in-out infinite alternate;transform-origin:50% 100%}
+@keyframes beam{from{opacity:.35}to{opacity:.75}}
+.B .car{stroke-dasharray:14 80;animation:drive 3.2s linear infinite}
+.B .car.r{animation-duration:4.4s;animation-direction:reverse}
+@keyframes drive{to{stroke-dashoffset:-188}}
+.B .info{position:absolute;left:16px;right:16px;bottom:120px;z-index:4;display:flex;flex-direction:column;gap:6px}
+.B .info .t{font-size:13px;color:#9EC4DD;font-weight:700}
+.B .info b{font-size:28px;font-weight:900;line-height:1.1}
+.B .meter{display:flex;gap:10px;font-size:12.5px;color:#BFD9EA}
+.B .meter span{display:inline-flex;align-items:center;gap:5px}
+.B .meter i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.B .cta{position:absolute;left:16px;right:16px;bottom:30px;height:70px;border-radius:22px;border:1px solid rgba(56,232,255,.6);background:linear-gradient(180deg,rgba(56,232,255,.28),rgba(56,232,255,.1));color:var(--txt);font:900 23px "Heebo";z-index:5;box-shadow:0 0 24px rgba(56,232,255,.35),inset 0 1px 0 rgba(255,255,255,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .1s,box-shadow .2s}
+.B .cta:active{transform:scale(.97);box-shadow:0 0 40px rgba(56,232,255,.6)}
+.B .cta small{font-size:13px;font-weight:700;color:#9EC4DD}
+.B .tag{position:absolute;z-index:3;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:rgba(7,18,38,.7);border:1px solid rgba(160,220,255,.25);white-space:nowrap}
+.B .tag.cur{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(56,232,255,.4)}
+/* exercise B */
+.B .sky-strip{position:absolute;top:22px;left:16px;right:16px;height:40px;display:flex;align-items:flex-end;gap:3px;z-index:5}
+.B .sky-strip i{flex:1;border-radius:3px 3px 0 0;background:#1D3150;height:var(--h);position:relative;transition:background .4s,box-shadow .4s}
+.B .sky-strip i.d{background:var(--amber);box-shadow:0 0 10px rgba(255,181,71,.6)}
+.B .sky-strip i.c{background:#2B4C74;outline:1px solid var(--cyan)}
+.B .qpanel{position:absolute;top:76px;left:14px;right:14px;height:230px;border-radius:26px;background:linear-gradient(160deg,rgba(160,220,255,.16),rgba(160,220,255,.04));border:1px solid rgba(160,220,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:18px;display:flex;flex-direction:column;align-items:center;gap:6px;overflow:hidden}
+.B .qpanel::after{content:"";position:absolute;top:-40%;left:-60%;width:50%;height:180%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:rotate(18deg);animation:sheen 5s ease-in-out infinite}
+@keyframes sheen{0%,60%{left:-60%}100%{left:130%}}
+.B .qpanel .kind{align-self:flex-end;font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:.04em}
+.B .qpanel .w{font-size:34px;margin-top:16px;text-shadow:0 0 18px rgba(56,232,255,.45)}
+.B .qpanel .st{font-size:13px;color:#9EC4DD;direction:ltr}
+.B .qpanel .q{font-size:17px;font-weight:700;margin-top:auto}
+.B .opts{position:absolute;left:14px;right:14px;bottom:26px;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:4}
+.B .opt{position:relative;min-height:112px;border-radius:20px;border:1px solid rgba(160,220,255,.2);background:rgba(15,42,71,.72);color:var(--txt);font:700 15px "Heebo";text-align:right;padding:34px 12px 12px;cursor:pointer;overflow:hidden;transition:transform .12s,border-color .2s,background .3s,box-shadow .3s;line-height:1.3}
+.B .opt::before{content:attr(data-k);position:absolute;top:10px;right:12px;width:20px;height:20px;border-radius:6px;border:1px solid var(--c);color:var(--c);font:800 11px "Unbounded";display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px var(--c)}
+.B .opt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--c);box-shadow:0 0 12px var(--c);opacity:.7}
+.B .opt:active{transform:scale(.96)}
+.B .opt.good{border-color:var(--amber);background:rgba(255,181,71,.2);box-shadow:0 0 28px rgba(255,181,71,.45)}
+.B .opt.bad{animation:glitch .4s steps(2) 1;border-color:var(--mag);background:rgba(255,79,216,.12)}
+.B .opt.dim{opacity:.4}
+@keyframes glitch{25%{transform:translate(-3px,1px);filter:hue-rotate(60deg)}50%{transform:translate(3px,-1px)}75%{transform:translate(-1px,0);filter:none}}
+.B .trail{position:absolute;height:4px;border-radius:4px;background:linear-gradient(90deg,transparent,var(--amber));box-shadow:0 0 12px var(--amber);z-index:9;pointer-events:none;transform-origin:left center;opacity:0}
+.B .trail.go{animation:trail .55s ease-out forwards}
+@keyframes trail{0%{opacity:1;transform:scaleX(.1)}70%{opacity:1}100%{opacity:0;transform:scaleX(1)}}
+.B .toast{position:absolute;top:326px;left:96px;right:20px;text-align:right;font-weight:900;font-size:18px;z-index:7;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
+.B .toast.on{opacity:1;transform:none}
+.B .bot{position:absolute;top:304px;left:14px;width:72px;height:80px;z-index:6;pointer-events:none}
+/* end B */
+.B .end-h{position:absolute;top:70px;left:0;right:0;text-align:center;z-index:4;display:flex;flex-direction:column;gap:4px;align-items:center}
+.B .end-h small{font-size:13px;color:var(--cyan);font-weight:700;letter-spacing:.05em}
+.B .end-h b{font-size:34px;line-height:1.05;font-weight:900}
+.B .count{font-family:"Unbounded";font-weight:800;font-size:58px;color:var(--amber);text-shadow:0 0 24px rgba(255,181,71,.7);line-height:1;direction:ltr}
+.B .stats{position:absolute;left:16px;right:16px;bottom:118px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;z-index:4}
+.B .stats div{border-radius:16px;background:rgba(7,18,38,.66);border:1px solid rgba(160,220,255,.2);padding:9px 4px;text-align:center;display:flex;flex-direction:column;line-height:1.2;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.B .stats b{font-size:22px;font-weight:900}.B .stats span{font-size:11.5px;color:#BFD9EA}.B .stats small{font-size:10px;color:#7FA3BC}
+
+/* Margo shared */
+.margoA .arm{transform-box:fill-box;animation:wave 2.4s ease-in-out infinite}
+.margoA .arm.r{transform-origin:90% 10%;animation-delay:-1.2s}
+.margoA .arm.l{transform-origin:10% 10%}
+.margoA .head{transform-box:fill-box;transform-origin:50% 90%;animation:tilt 3.5s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-14deg)}}
+@keyframes tilt{50%{transform:rotate(4deg)}}
+.margoA.cheer .arm.l{animation:upL .5s forwards}.margoA.cheer .arm.r{animation:upR .5s forwards}
+@keyframes upL{to{transform:rotate(105deg)}}@keyframes upR{to{transform:rotate(-105deg)}}
+.margoA.oops .head{animation:none;transform:rotate(-10deg)}
+.margoA .mouth-o,.margoA.cheer .mouth-n,.margoA.oops .mouth-n{display:none}.margoA.cheer .mouth-o{display:inline}
+.margoA .mouth-s{display:none}.margoA.oops .mouth-s{display:inline}
+.margoB{animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-5px)}}
+.margoB .eye{transform-box:fill-box;transform-origin:center;animation:bl 4s infinite}
+@keyframes bl{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.margoB.cheer{animation:jump .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes jump{30%{transform:translateY(-14px) scale(1.06,.94)}60%{transform:translateY(0) scale(.95,1.05)}}
+.margoB.oops{animation:shake .4s}
+@keyframes shake{25%{transform:rotate(-8deg)}75%{transform:rotate(6deg)}}
+.margoB .m-s{display:none}.margoB.oops .m-s{display:inline}.margoB.oops .m-n{display:none}
+.margoB .m-o{display:none}.margoB.cheer .m-o{display:inline}.margoB.cheer .m-n{display:none}
+
+.reset{position:absolute;top:22px;left:14px;z-index:20;font-size:11px;border-radius:999px;padding:2px 8px;border:0;cursor:pointer;opacity:.85}
+
+/* compare / plan */
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:right;vertical-align:top}
+th{font-weight:700;background:color-mix(in srgb,var(--panel) 80%,var(--line))}
+.tbl{overflow-x:auto;border-radius:12px}
+.steps{display:flex;flex-direction:column;gap:10px;padding:0;margin:0;list-style:none}
+.steps li{display:grid;grid-template-columns:64px 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.steps li>b{font-family:var(--f-h);font-weight:400;font-size:22px;color:var(--accent)}
+.steps li div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.steps li span{font-size:14.5px;color:var(--muted)}
+.rec{border:2px solid var(--accent);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.label{font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px;background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+ul.plain{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:860px){.audit{grid-template-columns:repeat(2,minmax(0,1fr))}.issues,.dir-head{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:12px">
+  <span class="eyebrow">WORDPLAY · M4 · שלב א + ב</span>
+  <h1>אבחון ויזואלי ושני כיווני עיצוב</h1>
+  <p class="lead">מה חסר היום כדי שהאפליקציה תרגיש כמו משחק, ושני עולמות שונים באמת לבחירה. כל המסכים למטה חיים: אפשר ללחוץ על תשובות, להפוך דף במסע ולראות את מרגו מגיבה. הכול בקוד, בלי נכסים בתשלום.</p>
+  <nav class="toc"><a href="#audit">אבחון</a><a href="#dirA">כיוון A</a><a href="#dirB">כיוון B</a><a href="#pick">השוואה והמלצה</a><a href="#assets">קוד מול נכסים</a><a href="#plan">תוכנית ביצוע</a><a href="#content">הרחבת התוכן</a></nav>
+</header>
+
+<!-- ============ AUDIT ============ -->
+<section id="audit">
+  <span class="eyebrow">שלב א</span>
+  <h2>אבחון: איפה M3 עדיין נראה כמו אתר</h2>
+  <div class="audit">
+    <figure><img src="img/home.jpg" alt="מסך הבית ב-M3" loading="lazy"><figcaption>בית: שישה אזורים בגלילה אחת</figcaption></figure>
+    <figure><img src="img/map.jpg" alt="המסע ב-M3" loading="lazy"><figcaption>מסע: רוב השלבים מנעולים ואפורים</figcaption></figure>
+    <figure><img src="img/pick.jpg" alt="תרגיל טריוויה ב-M3" loading="lazy"><figcaption>טריוויה: כרטיס למעלה, כפתורים למטה</figcaption></figure>
+    <figure><img src="img/end.jpg" alt="מסך סיום ב-M3" loading="lazy"><figcaption>סיום: טבלת נתונים במקום רגע</figcaption></figure>
+  </div>
+  <div class="issues">
+    <div class="issue"><span class="sev hi">חמור</span><b>1. אין עולם, יש רשימה</b><span>המסע הוא עמודה של קופסאות עם מנעולים. 26 מתוך 27 שלבים נראים אפורים, כך שהדבר הראשון שרואים זה מה שחסום ולא מה שהשגת.</span></div>
+    <div class="issue"><span class="sev hi">חמור</span><b>2. הכול כרטיס מעוגל עם צל</b><span>אותו רדיוס, אותו צל, כרטיס בתוך כרטיס. כשהכול באותו משקל, העין לא יודעת מה חשוב. זה המקור העיקרי לתחושת "תבנית".</span></div>
+    <div class="issue"><span class="sev hi">חמור</span><b>3. הבית עמוס ולא עונה על "מה עכשיו"</b><span>במה, 3 מספרים, כפתור, משימות, מדף פרסים ומסע נערמים זה על זה. המסע מתחיל רק אחרי בערך 1,200 פיקסלים של גלילה.</span></div>
+    <div class="issue"><span class="sev hi">חמור</span><b>4. מרגו היא מדבקה</b><span>אווטאר של 64 פיקסלים בפינה, עם בועת טקסט שמכסה את פס ההתקדמות. היא לא זזה, לא מצביעה ולא חיה בתוך העולם.</span></div>
+    <div class="issue"><span class="sev md">בינוני</span><b>5. תגובה לנכון ולשגוי כמעט זהה</b><span>בשני המקרים: צבע, חותמת וכפתור "המשך". אין הבדל בתנועה, בצליל או בדמות, ולכן אין "רגע".</span></div>
+    <div class="issue"><span class="sev md">בינוני</span><b>6. טקסט קטן וחלש על כהה</b><span>הרבה 12–13 פיקסלים בסגול-אפור על סגול כהה. התגיות בכותרת התרגיל כמעט לא קריאות.</span></div>
+    <div class="issue"><span class="sev md">בינוני</span><b>7. צבע הפרק הוא רק נקודה</b><span>לכל פרק יש צבע, אבל הוא מופיע רק בתגית קטנה. הרקע הסגול זהה בכל מקום, ולכן אין תחושת מעבר בין עולמות.</span></div>
+    <div class="issue"><span class="sev md">בינוני</span><b>8. ההתקדמות לא מתורגמת לשליטה</b><span>הרמה של מילה מוצגת כארבע נקודות קטנות בבנק המילים. אין דימוי שמראה ש"העולם שלי מתמלא" ככל שהזיכרון מתחזק.</span></div>
+  </div>
+  <p>הלמידה עצמה עובדת טוב, וזה לא משתנה. הבעיה היא שהמסכים מציגים <b>מידע</b>, והמשחק צריך להציג <b>מקום</b>. שני הכיוונים למטה פותרים את זה באותה דרך: <b>הזיכרון שלך הוא מה שבונה את העולם</b>. כל מילה שנשלפה מוסיפה משהו גלוי לעולם, וזה מדד אמיתי מהמנוע ולא קישוט.</p>
+</section>
+
+<!-- ============ DIRECTION A ============ -->
+<section id="dirA">
+  <span class="eyebrow">שלב ב · כיוון A</span>
+  <div class="dir-head">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h2>ריזו פופ-אפ: עולם מנייר שמודפס כשלומדים</h2>
+      <p>ספר פופ-אפ מודפס בריזוגרף: נייר חתוך בשכבות, צבעי דפוס זוהרים, גרעיניות של רשת נקודות ותזוזה קלה בין שכבות הצבע. כל פרק הוא עמוד בספר. אזור שעוד לא למדת הוא <b>סקיצה בעיפרון</b>, ובכל שלב שעובר את הרף מתווספת לו עוד שכבת צבע. העולם ממש מודפס מהזיכרון שלך.</p>
+    </div>
+    <dl class="facts">
+      <dt>אור וחומר</dt><dd>אור יום, נייר מט, צללים קשים ושטוחים</dd>
+      <dt>צבע</dt><dd><span class="sw"><i style="background:#1F4FD8"></i><i style="background:#FF4FA3"></i><i style="background:#FFD93B"></i><i style="background:#3CCB9A"></i><i style="background:#FBF7EE"></i></span> כחול דפוס, ורוד זוהר, צהוב</dd>
+      <dt>טיפוגרפיה</dt><dd>Secular One לעברית, Bricolage Grotesque לאנגלית</dd>
+      <dt>תנועה</dt><dd>קיפול, דפדוף, הטבעת חותמת, נדנוד של נייר</dd>
+      <dt>מרגו</dt><dd>בובת נייר עם סיכות במפרקים: הידיים והראש זזים בנפרד</dd>
+      <dt>התקדמות</dt><dd>סקיצה ← שכבה אחת ← הדפס מלא</dd>
+    </dl>
+  </div>
+  <div class="phones">
+    <div class="ph"><div class="phone"><div class="scr A" id="A-home"></div></div><small>בית: עמוד הפרק הנוכחי. החיצים מדפדפים לפרק הבא (סקיצה)</small></div>
+    <div class="ph"><div class="phone"><div class="scr A" id="A-ex"></div></div><small>תרגיל טריוויה: לחצי על תשובה נכונה או שגויה</small></div>
+    <div class="ph"><div class="phone"><div class="scr A" id="A-end"></div></div><small>סיום שלב: הגיליון יוצא מהמכבש</small></div>
+  </div>
+</section>
+
+<!-- ============ DIRECTION B ============ -->
+<section id="dirB">
+  <span class="eyebrow">שלב ב · כיוון B</span>
+  <div class="dir-head">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h2>עיר הלילה: עיר שנדלקת ככל שזוכרים</h2>
+      <p>עיר בלילה עם זכוכית, אור וניאון. כל פרק הוא שכונה, וכל מילה היא חלון. חלון נדלק כשמילה נשלפת, ומתחזק כשהיא יציבה לאורך ימים. שלב שעבר את הרף מקבל שלט ניאון. במבט אחד רואים איפה העיר מוארת ואיפה עוד חשוך.</p>
+    </div>
+    <dl class="facts">
+      <dt>אור וחומר</dt><dd>לילה, זכוכית מטושטשת, הילות אור</dd>
+      <dt>צבע</dt><dd><span class="sw"><i style="background:#071226"></i><i style="background:#0F2A47"></i><i style="background:#38E8FF"></i><i style="background:#FFB547"></i><i style="background:#FF4FD8"></i></span> לילה כחול-ירקרק, ציאן, ענבר</dd>
+      <dt>טיפוגרפיה</dt><dd>Heebo Black לעברית, Unbounded לאנגלית</dd>
+      <dt>תנועה</dt><dd>החלקה, הבהוב, שובלי אור, פריצת אור כשחלון נדלק</dd>
+      <dt>מרגו</dt><dd>דמות עגולה ומבריקה עם צעיף זוהר, מרחפת וקופצת</dd>
+      <dt>התקדמות</dt><dd>חלון חשוך ← עמום ← דולק ← ניאון</dd>
+    </dl>
+  </div>
+  <div class="phones">
+    <div class="ph"><div class="phone"><div class="scr B" id="B-home"></div></div><small>בית: העיר כולה, השכונה הנוכחית מסומנת באלומה</small></div>
+    <div class="ph"><div class="phone"><div class="scr B" id="B-ex"></div></div><small>תרגיל טריוויה: לחצי על תשובה נכונה או שגויה</small></div>
+    <div class="ph"><div class="phone"><div class="scr B" id="B-end"></div></div><small>סיום שלב: השכונה נדלקת</small></div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section id="pick">
+  <h2>השוואה והמלצה</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>A · ריזו פופ-אפ</th><th>B · עיר הלילה</th></tr>
+    <tr><td>תחושה</td><td>חם, ידני, הומוריסטי. כמו ספר יצירה יוקרתי</td><td>קולנועי, מרשים, "וואו" מיידי</td></tr>
+    <tr><td>קריאות</td><td>מצוינת: טקסט כהה על נייר בהיר</td><td>טובה, אבל דורשת זהירות עם זכוכית על רקע עמוס</td></tr>
+    <tr><td>ייחודיות</td><td>נדיר באפליקציות לימוד. זהות שקשה להתבלבל בה</td><td>שפת ניאון וזכוכית נפוצה יותר במשחקים</td></tr>
+    <tr><td>שימוש יומיומי</td><td>נעים גם בבוקר וגם לאורך 30 דקות</td><td>מושלם בערב, עלול להעייף ביום</td></tr>
+    <tr><td>מרגו</td><td>בובת נייר עם מפרקים: הרבה אופי, טבעי לסגנון</td><td>דמות עגולה ומבריקה: חמודה, אבל פחות ייחודית</td></tr>
+    <tr><td>ביצועים באייפון</td><td>קל: צבעים שטוחים, מעט אפקטים</td><td>כבד יותר: טשטוש והילות. דורש מצב "אנימציות מופחתות"</td></tr>
+    <tr><td>דימוי ההתקדמות</td><td>סקיצה שהופכת להדפס</td><td>חלונות שנדלקים</td></tr>
+  </table></div>
+  <div class="rec">
+    <span class="label" style="align-self:flex-start">ההמלצה שלי</span>
+    <h3>כיוון A, ריזו פופ-אפ</h3>
+    <p>הוא נותן זהות שאי אפשר לבלבל עם אפליקציה אחרת. הוא קריא יותר לסשנים ארוכים, קל יותר לאייפון, ומרגו כבובת נייר מקבלת בו הכי הרבה אופי. אם את רוצה את הדרמה של הלילה, אפשר לשאול מ-B רעיון אחד: עמוד "לילה" בספר לסשן ערב, או חלונות שנדלקים בתוך העמוד. רק רעיון אחד, כדי לא לאבד זהות.</p>
+  </div>
+</section>
+
+<!-- ============ ASSETS ============ -->
+<section id="assets">
+  <h2>מה אפשר בקוד ומה דורש נכסים</h2>
+  <div class="tbl"><table>
+    <tr><th>רכיב</th><th>בקוד, בלי עלות</th><th>נכס חיצוני (אופציונלי)</th></tr>
+    <tr><td>מסכים, כפתורים, מעברים, חותמות, קונפטי</td><td>הכול, כמו בהמחשות כאן</td><td>לא נדרש</td></tr>
+    <tr><td>עולם המסע: 9 עמודים או שכונות</td><td>כן. איורים וקטוריים פשוטים שמורכבים מצורות, כמו כאן</td><td>איורי רקע מפורטים לכל פרק. אפשר ביצירת תמונות. עלות: לא נבדקה, אציג מחיר מדויק לפני כל הזמנה</td></tr>
+    <tr><td>מרגו: הבעות ותנועות</td><td>כן. דמות SVG עם מפרקים, כ-6 הבעות ו-5 תנועות</td><td>עיצוב דמות מקצועי על ידי מאייר/ת. רק אם הקוד לא יספיק</td></tr>
+    <tr><td>טקסטורת נייר וגרעיניות</td><td>כן, בתבנית CSS קלה כמו כאן</td><td>סריקת נייר אמיתי (תמונה קטנה). הבדל עדין</td></tr>
+    <tr><td>צלילים</td><td>צלילים מסונתזים, כמו היום</td><td>חבילת אפקטים חינמית ברישיון פתוח (CC0)</td></tr>
+    <tr><td>גופנים</td><td>Google Fonts, בחינם</td><td>לא נדרש</td></tr>
+  </table></div>
+  <p>המלצה: לבנות את כל M4 בקוד בלבד. רק אם אחרי ה-Vertical Slice תרגישי שחסר עומק באיורי העולם, אציג הצעת מחיר לאיורי רקע לפני כל הוצאה.</p>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <h2>תוכנית ביצוע שלא מסכנת את הגרסה העובדת</h2>
+  <ol class="steps">
+    <li><b>ג</b><div><strong>Vertical Slice בקישור נפרד</strong><span>שלושה מסכים בכיוון שתבחרי: בית, תרגיל וסיום, מחוברים למנוע האמיתי עם תוכן אמיתי. הקישור הראשי וההתקדמות שלך לא נוגעים בזה. בודקים באייפון.</span></div></li>
+    <li><b>ג.1</b><div><strong>תשתית עיצוב</strong><span>קובץ טוקנים אחד (צבע, טיפוגרפיה, תנועה), שכבת ערכת נושא נפרדת מהלוגיקה, והגדרה "לדלג על אנימציות" שמכבדת גם את הגדרת האייפון.</span></div></li>
+    <li><b>ד.1</b><div><strong>כל סוגי התרגילים בשפה החדשה</strong><span>שמיעה, השלמה, שליפה שקטה, טריוויה, "איך אומרים?", התאמה וסצנה. אותה לוגיקה ואותן שאלות, תפאורה חדשה. מעבר ייחודי בין שאלות.</span></div></li>
+    <li><b>ד.2</b><div><strong>המסע כעולם</strong><span>9 עמודים או שכונות שמחוברים לנתוני הזיכרון. רגע פתיחה של שלב, מעבר בין פרקים, ופתיחה של עונה.</span></div></li>
+    <li><b>ד.3</b><div><strong>מרגו 2.0</strong><span>דמות עם מפרקים, הבעות ותנועות. היא נמצאת בתוך העולם, מצביעה על השלב הבא ומגיבה בלי להסתיר תשובות.</span></div></li>
+    <li><b>ד.4</b><div><strong>בנק המילים, הגדרות, משימות והישגים</strong><span>אותן פונקציות בשפה החדשה, וגם חזרה ביום הבא: "מה השתנה בעולם מאז אתמול".</span></div></li>
+    <li><b>✓</b><div><strong>בדיקות רגרסיה בכל שלב</strong><span>בדיקה אוטומטית שתישמר בפרויקט: כל 8 סוגי התרגילים, שמירה אחרי רענון, מעבר יום, בנק מילים, חדר הלבשה ומשימות. בגדלים של iPhone SE, 15 ו-Pro Max. בדיקה שאף אלמנט לא מכסה תשובה. רק כשהכול עובר, מעבירים לקישור הראשי.</span></div></li>
+  </ol>
+  <p>לפני המעבר לקישור הראשי שומרים עותק של M3 בתיקייה ובתג, כמו שעשינו עם M1. מבנה הנתונים לא משתנה, ולכן ההתקדמות עוברת כמו שהיא.</p>
+</section>
+
+<!-- ============ CONTENT ============ -->
+<section id="content">
+  <h2>הרחבת המאגר, במקביל ובלי לעכב</h2>
+  <ul class="plain">
+    <li><b>קצב:</b> כ-48 פריטים חדשים (2 פרקים) עם כל גרסה, ובכל פעם רק בכמות שאפשר לבדוק כמו שצריך. היום יש 216.</li>
+    <li><b>יעדים:</b> כ-500 פריטים עד סוף M5, ו-1,000 ומעלה בהמשך. כמות היא לא מטרה בפני עצמה.</li>
+    <li><b>חלוקה:</b> כל פריט מסומן ברמה (ביניים, ביניים-מתקדם, מתקדם), בתחום (יומיום, עבודה, שיחה, סדרות) ובסוג (מילה, צירוף, ניב, סלנג). עונה נבנית מאיזון בין התחומים.</li>
+    <li><b>מניעת כפילויות:</b> הבודק האוטומטי יורחב לזיהוי מילה זהה, צורה קרובה (למשל freeze ו-froze) ותרגום כמעט זהה בין פריטים.</li>
+    <li><b>בקרת איכות:</b> כל פריט עובר את הבודק: משפט עם מילת יעד אחת, 2 מסיחים עם הסבר, והגייה. בנוסף, דגימה ידנית של 10% שאני קוראת לפני פרסום. פריט שנכשל לא נכנס.</li>
+    <li><b>תיעדוף:</b> קודם מילים בשכיחות גבוהה בשיחה ובעבודה, ואחר כך ניבים וסלנג של סדרות.</li>
+  </ul>
+</section>
+
+<section class="rec" style="gap:10px">
+  <h3>מה אני צריכה ממך</h3>
+  <p>לבחור כיוון: A, B, או A עם רעיון אחד מ-B. אחרי הבחירה אבנה את ה-Vertical Slice בקישור נפרד, מחובר למנוע האמיתי, לבדיקה באייפון.</p>
+</section>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="bglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+    <pattern id="dots" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1.1" fill="#14204A" opacity=".25"/></pattern>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="6" stroke="#8C90A6" stroke-width="1"/></pattern>
+  </defs>
+</svg>
+
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const SHAPES=["polygon(50% 0,100% 100%,0 100%)","circle(50%)","polygon(0 0,100% 0,100% 100%,0 100%)","polygon(50% 0,100% 50%,50% 100%,0 50%)"];
+const Q={en:"bottleneck",stress:"BOT-tle-neck",opts:[["לחזור למישהו בהמשך, לעקוב",0],["צוואר בקבוק, מה שמאט את כל התהליך",1],["להתעדכן בקצרה, ליצור קשר",0],["מוצף, יותר מדי עליי",0]]};
+const SPK='<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="2" fill="none"/></svg>';
+const STAR='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8 5.7 21.5l1.6-7.2L2 9.6 9 9z" fill="currentColor"/></svg>';
+
+/* ---------- Margo A: paper puppet with split pins ---------- */
+function margoA(){return '<svg class="margoA" viewBox="0 0 110 130" width="100%" height="100%">'+
+ '<g class="arm l"><path d="M30 64 L14 92 L22 96 L36 70z" fill="#FF4FA3" stroke="#14204A" stroke-width="2"/><circle cx="17" cy="95" r="6" fill="#F6C9A8" stroke="#14204A" stroke-width="2"/><circle cx="33" cy="67" r="2.6" fill="#FFD93B" stroke="#14204A"/></g>'+
+ '<g class="arm r"><path d="M78 64 L96 90 L88 95 L72 70z" fill="#FF4FA3" stroke="#14204A" stroke-width="2"/><circle cx="93" cy="94" r="6" fill="#F6C9A8" stroke="#14204A" stroke-width="2"/><circle cx="75" cy="67" r="2.6" fill="#FFD93B" stroke="#14204A"/></g>'+
+ '<path d="M30 62 Q55 52 80 62 L88 124 L22 124z" fill="#3CCB9A" stroke="#14204A" stroke-width="2.4"/><path d="M30 62 Q55 52 80 62 L88 124 L22 124z" fill="url(#dots)"/>'+
+ '<path d="M55 62 L55 124" stroke="#14204A" stroke-width="1.6" stroke-dasharray="3 4"/><circle cx="55" cy="80" r="2.4" fill="#FFD93B" stroke="#14204A"/><circle cx="55" cy="96" r="2.4" fill="#FFD93B" stroke="#14204A"/>'+
+ '<g class="head"><path d="M34 60 Q55 70 76 60 L74 54 Q55 62 36 54z" fill="#FF4FA3" stroke="#14204A" stroke-width="2"/>'+
+ '<path d="M37 34 Q37 14 55 14 Q73 14 73 34 Q73 54 55 54 Q37 54 37 34z" fill="#F6C9A8" stroke="#14204A" stroke-width="2.4"/>'+
+ '<path d="M35 22 Q42 4 62 6 Q82 8 80 22 Q66 16 52 20 Q42 22 35 22z" fill="#1F4FD8" stroke="#14204A" stroke-width="2.2"/><circle cx="62" cy="5" r="3.4" fill="#FFD93B" stroke="#14204A" stroke-width="1.6"/>'+
+ '<path d="M44 30 l6 -2 M60 28 l6 2" stroke="#14204A" stroke-width="2.2" stroke-linecap="round"/>'+
+ '<circle cx="47" cy="36" r="2.6" fill="#14204A"/><circle cx="63" cy="36" r="2.6" fill="#14204A"/><circle cx="43" cy="43" r="3.4" fill="#FF4FA3" opacity=".45"/><circle cx="67" cy="43" r="3.4" fill="#FF4FA3" opacity=".45"/>'+
+ '<path class="mouth-n" d="M50 45 Q55 49 60 45" stroke="#14204A" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
+ '<path class="mouth-o" d="M49 44 Q55 53 61 44z" fill="#14204A"/><path class="mouth-s" d="M50 48 Q55 44 60 48" stroke="#14204A" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
+ '</g></svg>';}
+
+/* ---------- Margo B: round glowing character ---------- */
+function margoB(){return '<svg class="margoB" viewBox="0 0 72 80" width="100%" height="100%">'+
+ '<ellipse cx="36" cy="76" rx="18" ry="3" fill="#38E8FF" opacity=".3"/>'+
+ '<path d="M18 56 Q36 46 54 56 L52 72 Q36 76 20 72z" fill="#16406A" stroke="#38E8FF" stroke-width="1.2"/>'+
+ '<path d="M18 52 Q36 60 54 52 L56 58 Q36 66 16 58z" fill="#FF4FD8" filter="url(#bglow)"/>'+
+ '<circle cx="36" cy="32" r="22" fill="#FFD7BC"/><circle cx="36" cy="32" r="22" fill="none" stroke="#FFB547" stroke-width="1" opacity=".5"/>'+
+ '<path d="M12 22 Q20 4 40 6 Q62 8 60 22 Q46 14 30 18 Q20 20 12 22z" fill="#FFB547"/><circle cx="44" cy="5" r="3" fill="#38E8FF" filter="url(#bglow)"/>'+
+ '<g class="eye"><ellipse cx="28" cy="33" rx="4.4" ry="5.6" fill="#0B1A33"/><circle cx="29.6" cy="31" r="1.6" fill="#fff"/></g>'+
+ '<g class="eye"><ellipse cx="44" cy="33" rx="4.4" ry="5.6" fill="#0B1A33"/><circle cx="45.6" cy="31" r="1.6" fill="#fff"/></g>'+
+ '<circle cx="22" cy="41" r="3.5" fill="#FF4FD8" opacity=".35"/><circle cx="50" cy="41" r="3.5" fill="#FF4FD8" opacity=".35"/>'+
+ '<path class="m-n" d="M32 43 Q36 46 40 43" stroke="#0B1A33" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+ '<path class="m-o" d="M31 42 Q36 50 41 42z" fill="#0B1A33"/><path class="m-s" d="M32 46 Q36 42 40 46" stroke="#0B1A33" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+ '</svg>';}
+
+/* ---------- A: pages ---------- */
+function pageOffice(){ // printed: full color
+ let s='<svg viewBox="0 0 296 390" preserveAspectRatio="xMidYMid slice">';
+ s+='<rect width="296" height="390" fill="#FBF7EE"/><circle cx="220" cy="92" r="34" fill="#FFD93B"/><circle cx="220" cy="92" r="34" fill="url(#dots)"/>';
+ s+='<g class="sway2"><path d="M-10 250 Q60 170 140 220 T310 200 V390 H-10z" fill="#FF4FA3" opacity=".9"/><path d="M-10 250 Q60 170 140 220 T310 200 V390 H-10z" fill="url(#dots)"/></g>';
+ // towers
+ const T=[[20,150,46],[72,120,40],[118,166,50],[174,110,44],[224,140,52]];
+ s+='<g class="sway">';
+ T.forEach(([x,y,w],i)=>{s+='<rect x="'+(x+4)+'" y="'+(y+4)+'" width="'+w+'" height="'+(300-y)+'" fill="#14204A"/><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+(300-y)+'" fill="'+(i%2?"#1F4FD8":"#FBF7EE")+'" stroke="#14204A" stroke-width="2"/>';
+  for(let wy=y+10;wy<290;wy+=16)for(let wx=x+7;wx<x+w-8;wx+=12)s+='<rect x="'+wx+'" y="'+wy+'" width="6" height="8" fill="'+(i%2?"#FFD93B":"#1F4FD8")+'" opacity="'+((wx+wy)%3?1:.35)+'"/>';});
+ s+='</g><path d="M-10 300 Q148 270 310 300 V390 H-10z" fill="#3CCB9A" stroke="#14204A" stroke-width="2"/><path d="M-10 300 Q148 270 310 300 V390 H-10z" fill="url(#dots)"/>';
+ // path + tokens
+ s+='<path d="M250 372 Q200 330 148 344 T44 318" fill="none" stroke="#14204A" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>';
+ s+='<g><circle cx="250" cy="366" r="17" fill="#FFD93B" stroke="#14204A" stroke-width="2.4"/><path d="M243 366l5 5 9-10" stroke="#14204A" stroke-width="3" fill="none"/></g>';
+ s+='<g><circle cx="148" cy="342" r="21" fill="#FF4FA3" stroke="#14204A" stroke-width="2.6"/><text x="148" y="349" text-anchor="middle" font-family="Secular One" font-size="19" fill="#FBF7EE">2</text></g>';
+ s+='<circle cx="148" cy="342" r="27" fill="none" stroke="#FF4FA3" stroke-width="2"><animate attributeName="r" values="22;32;22" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.8s" repeatCount="indefinite"/></circle>';
+ s+='<g><circle cx="46" cy="318" r="16" fill="#FBF7EE" stroke="#14204A" stroke-width="2" stroke-dasharray="4 3"/><text x="46" y="324" text-anchor="middle" font-family="Secular One" font-size="15" fill="#8C90A6">3</text></g>';
+ return s+'</svg>';}
+function pageSketch(){ // not yet printed: pencil sketch
+ let s='<svg viewBox="0 0 296 390" preserveAspectRatio="xMidYMid slice"><rect width="296" height="390" fill="#FBF7EE"/>';
+ s+='<g fill="none" stroke="#8C90A6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">';
+ s+='<path d="M-10 270 Q70 200 150 240 T310 220"/><path d="M-6 274 Q72 206 152 245 T306 226" opacity=".5"/>';
+ [[30,200,60],[110,180,70],[200,206,64]].forEach(([x,y,w])=>{s+='<path d="M'+x+' 300 V'+(y+20)+' L'+(x+w/2)+' '+y+' L'+(x+w)+' '+(y+20)+' V300"/><rect x="'+(x+w/2-8)+'" y="'+(y+40)+'" width="16" height="18"/>';});
+ s+='<path d="M-10 300 Q148 280 310 300"/></g>';
+ s+='<rect x="30" y="200" width="236" height="100" fill="url(#hatch)" opacity=".18"/>';
+ s+='<g transform="translate(148 345)"><rect x="-74" y="-16" width="148" height="32" rx="16" fill="#14204A"/><text y="5" text-anchor="middle" font-family="Rubik" font-weight="700" font-size="12" fill="#FBF7EE">יודפס כשתעברי את שלב 1</text></g>';
+ return s+'</svg>';}
+
+function buildAHome(){
+ const el=$("A-home");
+ el.innerHTML='<div class="grain"></div><div class="top"><span class="logo">WORDplay</span><span style="display:flex;gap:6px"><span class="chip">🔥 4</span><span class="chip">'+STAR+' 63</span></span></div>'+
+ '<div class="book">'+
+  '<div class="page" id="pgA1"><div class="pg-t"><b>במשרד</b><span>עמוד 1 מתוך 9 · מודפס 40%</span></div>'+pageOffice()+'<div style="position:absolute;right:110px;bottom:50px;width:70px;height:84px">'+margoA()+'</div></div>'+
+  '<div class="page out" id="pgA2"><div class="pg-t"><b>החיים בחוץ</b><span style="background:#E6DFCF">סקיצה</span></div>'+pageSketch()+'</div>'+
+  '<button class="turn l" id="tL" aria-label="לפרק הבא">‹</button><button class="turn r" id="tR" aria-label="לפרק הקודם">›</button>'+
+ '</div>'+
+ '<button class="cta"><span>ממשיכים</span><small>שלב 2: הפרויקט מתעכב · 6 דק\'</small></button>'+
+ '<div class="tray"><div class="tk">3 חזרות</div><div class="q"><span>משימות היום · 1/3</span><span class="bar"><i></i></span></div><div class="tk" style="background:#FF4FA3">בנק<br>8</div></div>';
+ let on=1;
+ const flip=()=>{on=on===1?2:1;$("pgA1").classList.toggle("out",on!==1);$("pgA2").classList.toggle("out",on!==2);};
+ $("tL").onclick=flip;$("tR").onclick=flip;
+}
+
+function buildAEx(){
+ const el=$("A-ex");
+ const strip=Array.from({length:10},(_,i)=>'<i class="'+(i<4?"d":i===4?"c":"")+'"></i>').join("");
+ el.innerHTML='<div class="grain"></div><div class="ex-top"><span class="chip" style="font-size:12px">✕</span><div class="strip">'+strip+'</div><span class="chip">🔥 3</span></div>'+
+ '<div class="qcard"><span class="kind">טריוויה</span><span class="w en-d mis">'+Q.en+'</span><span class="st">'+Q.stress+'</span><span class="q disp" style="font-family:\'Secular One\';font-weight:400;font-size:19px">מה זה אומר?</span></div>'+
+ '<button class="spk" aria-label="השמעה">'+SPK+'</button>'+
+ '<div class="pup" id="pupA">'+margoA()+'</div>'+
+ '<div class="stamp" id="stA">כן!</div><div class="bits" id="bitsA"></div>'+
+ '<div class="opts">'+Q.opts.map((o,i)=>'<button class="opt" data-ok="'+o[1]+'" style="--i:'+i+';--c:'+["#FF4FA3","#1F4FD8","#FFD93B","#3CCB9A"][i]+';--shape:'+SHAPES[i]+';--r:'+(i%2?.6:-.6)+'deg">'+o[0]+'</button>').join("")+'</div>'+
+ '<button class="reset" id="rsA" style="background:#FBF7EE;color:#14204A;top:auto;bottom:4px;left:50%;transform:translateX(-50%)">שוב</button>';
+ const pup=el.querySelector(".margoA");
+ el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+  if(el.dataset.done)return; el.dataset.done=1;
+  const ok=b.dataset.ok==="1";
+  el.querySelectorAll(".opt").forEach(x=>{if(x.dataset.ok==="1")x.classList.add("good");else if(x!==b)x.classList.add("dim");});
+  const st=$("stA");st.textContent=ok?"כן!":"כמעט";st.className="stamp on"+(ok?"":" no");
+  pup.classList.add(ok?"cheer":"oops");
+  if(ok){$("bitsA").innerHTML=Array.from({length:18},(_,i)=>'<i style="--x:'+(30+Math.random()*240)+'px;--y:'+(80+Math.random()*80)+'px;--dx:'+(Math.random()*80-40)+'px;--d:'+(Math.random()*.15)+'s;--c:'+["#FF4FA3","#FFD93B","#3CCB9A","#1F4FD8"][i%4]+';--shape:'+SHAPES[i%4]+'"></i>').join("");}
+  else b.classList.add("bad");
+ });
+ $("rsA").onclick=()=>buildAEx();
+}
+
+function buildAEnd(){
+ const el=$("A-end");
+ el.innerHTML='<div class="grain"></div><div class="top"><span class="logo">WORDplay</span><span class="chip">'+STAR+' 86</span></div>'+
+ '<div class="slot"></div><div class="press"><div class="sheet">'+
+  '<span style="font-size:12px;font-weight:700;background:#FF4FA3;color:#fff;border-radius:6px;padding:1px 8px;align-self:flex-start">שלב 1 · במשרד</span>'+
+  '<span class="big disp mis" style="font-family:\'Secular One\'">יום ראשון<br>בעבודה הודפס!</span>'+
+  '<span class="sub">שכבה חדשה נוספה לעמוד המשרד. השלב "הפרויקט מתעכב" נפתח.</span>'+
+  '<div class="words">'+["leverage","follow up","touch base","bottleneck","hesitant"].map((w,i)=>'<span style="--r:'+(i%2?2:-2)+'deg">'+w+'</span>').join("")+'</div>'+
+ '</div><div class="stamp on" style="top:-6px;right:auto;left:-4px;font-size:24px;animation-delay:.7s;opacity:0">40%</div></div>'+
+ '<div class="gain"><div><b>5/6</b><span>חדשות נקלטו</span><small>נמדד</small></div><div><b>+23</b><span>כוכבים</span><small>תשובות + משימה</small></div><div><b>4</b><span>רצף ימים</span><small>נמדד</small></div></div>'+
+ '<div style="position:absolute;left:12px;bottom:96px;width:84px;height:100px">'+margoA().replace('class="margoA"','class="margoA cheer"')+'</div>'+
+ '<button class="cta" style="bottom:22px;left:104px"><span>לשלב הבא</span></button>'+
+ '<button class="reset" id="rsAE" style="background:#FBF7EE;color:#14204A;top:auto;bottom:4px;left:50%;transform:translateX(-50%)">שוב</button>';
+ $("rsAE").onclick=()=>buildAEnd();
+}
+
+/* ---------- B: city ---------- */
+function rnd(seed){let x=Math.sin(seed)*10000;return x-Math.floor(x);}
+function citySVG(opts){
+ const W=300,H=640,base=opts.base||470; let s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice">';
+ if(opts.moon!==false)s+='<circle cx="232" cy="118" r="26" fill="#EAF6FF" opacity=".9"/><circle cx="232" cy="118" r="44" fill="#EAF6FF" opacity=".08"/>';
+ for(let i=0;i<40;i++)s+='<circle cx="'+(rnd(i)*300)+'" cy="'+(rnd(i+99)*260)+'" r="'+(rnd(i+7)*1.1+.3)+'" fill="#EAF6FF" opacity="'+(.3+rnd(i+3)*.6)+'"/>';
+ // far layer
+ let x=0,i=0; s+='<g fill="#0C1F38">'; while(x<W){const w=22+rnd(i+300)*26,h=90+rnd(i+400)*120;s+='<rect x="'+x+'" y="'+(base-h-20)+'" width="'+w+'" height="'+(h+20)+'"/>';x+=w+2;i++;} s+='</g>';
+ // districts: 3 groups with windows
+ const D=opts.districts; let bx=0;
+ D.forEach((d,di)=>{
+  const dw=W/D.length; let xx=bx+4, k=0;
+  if(d.cur) s+='<path class="beam" d="M'+(bx+dw/2-6)+' '+(base-170)+' L'+(bx+dw/2-46)+' 0 L'+(bx+dw/2+46)+' 0 L'+(bx+dw/2+6)+' '+(base-170)+'z" fill="url(#beamG)"/>';
+  while(xx<bx+dw-14){
+   const w=24+rnd(di*50+k)*16, h=80+rnd(di*70+k)*110; const top=base-h;
+   s+='<rect x="'+xx+'" y="'+top+'" width="'+w+'" height="'+h+'" fill="#13294A" stroke="'+(d.cur?"rgba(56,232,255,.35)":"rgba(160,220,255,.08)")+'"/>';
+   for(let wy=top+8;wy<base-8;wy+=11)for(let wx=xx+5;wx<xx+w-6;wx+=9){
+     const r=rnd(wx*3.1+wy*7.7+di);
+     const cls=r<d.l3?"l3":r<d.l2?"l2 flick":r<d.l1?"l1":"";
+     s+='<rect class="win '+cls+'" x="'+wx+'" y="'+wy+'" width="5" height="6" rx="1"'+(cls.indexOf("flick")>-1?' style="animation-delay:'+(-r*8).toFixed(1)+'s"':'')+'/>';}
+   xx+=w+4;k++;}
+  if(d.sign) s+='<text x="'+(bx+dw/2)+'" y="'+(base-196)+'" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="11" fill="#FF4FD8" filter="url(#bglow)">'+d.sign+'</text>';
+  bx+=dw;});
+ // water + road
+ s+='<rect x="0" y="'+base+'" width="300" height="'+(H-base)+'" fill="#081A2E"/>';
+ s+='<path d="M0 '+(base+10)+' H300" stroke="#1D3150" stroke-width="10"/><path class="car" d="M0 '+(base+7)+' H300" stroke="#FFB547" stroke-width="2" stroke-linecap="round"/><path class="car r" d="M0 '+(base+13)+' H300" stroke="#FF4F6A" stroke-width="2" stroke-linecap="round"/>';
+ for(let j=0;j<16;j++)s+='<rect x="'+(rnd(j+500)*290)+'" y="'+(base+24+rnd(j+600)*60)+'" width="'+(8+rnd(j+700)*20)+'" height="1.5" fill="#FFB547" opacity="'+(.15+rnd(j)*.3)+'"/>';
+ s+='<defs><linearGradient id="beamG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#38E8FF" stop-opacity=".55"/><stop offset="1" stop-color="#38E8FF" stop-opacity="0"/></linearGradient></defs>';
+ return s+'</svg>';}
+
+function buildBHome(){
+ const el=$("B-home");
+ el.innerHTML='<div class="city">'+citySVG({base:430,districts:[{l1:.0,l2:.0,l3:0},{l1:.55,l2:.35,l3:.06,cur:1,sign:"OFFICE"},{l1:.0,l2:0,l3:0}]})+'</div>'+
+ '<div class="top"><span class="logo">WORD<i>play</i></span><span style="display:flex;gap:6px"><span class="pill">🔥 <b>4</b></span><span class="pill">'+STAR+'<b>63</b></span></span></div>'+
+ '<span class="tag" style="right:12px;top:200px">החיים בחוץ · חשוך</span><span class="tag cur" style="left:50%;transform:translateX(-50%);top:160px">במשרד · 14 חלונות דולקים</span><span class="tag" style="left:12px;top:220px">משא ומתן · חשוך</span>'+
+ '<div style="position:absolute;left:50%;top:356px;width:58px;height:66px;transform:translateX(-50%);z-index:3">'+margoB()+'</div>'+
+ '<div class="info"><span class="t">השלב הבא</span><b>הפרויקט מתעכב</b><div class="meter"><span><i style="background:#FFE3A6;box-shadow:0 0 6px #FFB547"></i>יציבות 2</span><span><i style="background:#FFB547"></i>נשלפו 9</span><span><i style="background:#8A6A3A"></i>נראו 3</span></div></div>'+
+ '<button class="cta"><span>יוצאים לעיר</span><small>· 6 דק\' · 3 חזרות</small></button>';
+}
+
+function buildBEx(){
+ const el=$("B-ex");
+ const hs=[24,32,18,36,28,40,22,30,34,26];
+ el.innerHTML='<div class="city" style="opacity:.35">'+citySVG({moon:false,base:560,districts:[{l1:.1,l2:.05,l3:0},{l1:.2,l2:.1,l3:0}]})+'</div>'+
+ '<div class="sky-strip" id="skyB">'+hs.map((h,i)=>'<i class="'+(i<4?"d":i===4?"c":"")+'" style="--h:'+h+'px"></i>').join("")+'</div>'+
+ '<div class="qpanel"><span class="kind">TRIVIA · טריוויה</span><span class="w en-d">'+Q.en+'</span><span class="st">'+Q.stress+'</span><span class="q">מה זה אומר?</span></div>'+
+ '<div class="bot" id="botB">'+margoB()+'</div><div class="toast" id="toB"></div><div class="trail" id="trB"></div>'+
+ '<div class="opts">'+Q.opts.map((o,i)=>'<button class="opt" data-ok="'+o[1]+'" data-k="'+"ABCD"[i]+'" style="--c:'+["#FF4FD8","#38E8FF","#FFB547","#7CFFB2"][i]+'">'+o[0]+'</button>').join("")+'</div>'+
+ '<button class="reset" id="rsB" style="background:rgba(160,220,255,.15);color:#EAF6FF;top:auto;bottom:4px;left:50%;transform:translateX(-50%)">שוב</button>';
+ const m=el.querySelector(".margoB");
+ el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+  if(el.dataset.done)return; el.dataset.done=1;
+  const ok=b.dataset.ok==="1";
+  el.querySelectorAll(".opt").forEach(x=>{if(x.dataset.ok==="1")x.classList.add("good");else if(x!==b)x.classList.add("dim");});
+  m.classList.add(ok?"cheer":"oops");
+  const to=$("toB");to.textContent=ok?"חלון נדלק!":"התשובה הנכונה בענבר";to.style.color=ok?"#FFB547":"#FF4FD8";to.classList.add("on");
+  if(ok){const sc=el.getBoundingClientRect(),br=b.getBoundingClientRect(),cur=el.querySelector(".sky-strip i.c").getBoundingClientRect();
+   const x1=br.left+br.width/2-sc.left,y1=br.top-sc.top,x2=cur.left+cur.width/2-sc.left,y2=cur.bottom-sc.top;
+   const tr=$("trB");tr.style.left=x1+"px";tr.style.top=y1+"px";tr.style.width=Math.hypot(x2-x1,y2-y1)+"px";tr.style.transform="rotate("+Math.atan2(y2-y1,x2-x1)+"rad)";tr.classList.add("go");
+   setTimeout(()=>{const c=el.querySelector(".sky-strip i.c");c.className="d";},420);}
+  else b.classList.add("bad");
+ });
+ $("rsB").onclick=()=>buildBEx();
+}
+
+function buildBEnd(){
+ const el=$("B-end");
+ el.innerHTML='<div class="city" id="cityBE">'+citySVG({moon:false,base:470,districts:[{l1:.1,l2:.02,l3:0},{l1:.6,l2:.45,l3:.08,cur:1,sign:"OFFICE · 1"},{l1:.08,l2:0,l3:0}]})+'</div>'+
+ '<div class="end-h"><small>STAGE CLEAR · שלב 1</small><b>יום ראשון בעבודה</b><span class="count" id="cntB">0</span><span style="font-size:14px;color:#BFD9EA">חלונות דולקים בשכונת המשרד</span></div>'+
+ '<div style="position:absolute;right:22px;top:330px;width:60px;height:68px;z-index:4">'+margoB().replace('class="margoB"','class="margoB cheer"')+'</div>'+
+ '<div class="stats"><div><b>5/6</b><span>חדשות נקלטו</span><small>נמדד</small></div><div><b>+23</b><span>כוכבים</span><small>תשובות + משימה</small></div><div><b>4</b><span>רצף ימים</span><small>נמדד</small></div></div>'+
+ '<button class="cta"><span>לשלב הבא</span><small>· הפרויקט מתעכב</small></button>'+
+ '<button class="reset" id="rsBE" style="background:rgba(160,220,255,.15);color:#EAF6FF">שוב</button>';
+ let n=0;const t=setInterval(()=>{n++;const c=$("cntB");if(c)c.textContent=n;if(n>=14)clearInterval(t);},70);
+ $("rsBE").onclick=()=>buildBEnd();
+}
+
+buildAHome();buildAEx();buildAEnd();buildBHome();buildBEx();buildBEnd();
+})();
+</script>
