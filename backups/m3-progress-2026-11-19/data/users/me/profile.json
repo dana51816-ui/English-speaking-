@@ -1,0 +1,48 @@
+{
+  "ach": {
+    "allgames": 1795116736962,
+    "combo10": 1795116736962,
+    "first": 1795115233533,
+    "stage": 1795115424568,
+    "ten": 1795116736962
+  },
+  "clock": 0,
+  "created": 1795115151553,
+  "days": {
+    "2026-11-19": 20
+  },
+  "quests": {
+    "bonus": false,
+    "day": "2026-11-19",
+    "list": [
+      {
+        "done": true,
+        "id": "session",
+        "prog": 1
+      },
+      {
+        "done": true,
+        "id": "streak5",
+        "prog": 5
+      },
+      {
+        "done": false,
+        "id": "listen4",
+        "prog": 1
+      }
+    ]
+  },
+  "sessions": 4,
+  "settings": {
+    "auto": false,
+    "sound": true
+  },
+  "stars": 37,
+  "upd": 1795118132967,
+  "wardrobe": {
+    "hat": "beret",
+    "hatColor": "#F2B33D",
+    "owned": [],
+    "scarf": "#C8323C"
+  }
+}

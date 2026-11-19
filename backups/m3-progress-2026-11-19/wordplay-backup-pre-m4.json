@@ -1,0 +1,523 @@
+{
+ "app": "wordplay",
+ "v": 1,
+ "exportedAt": "2026-11-19T00:00:00Z",
+ "source": "main artifact db before M4",
+ "data": {
+  "v": 1,
+  "items": {
+   "fragile": {
+    "due": 1795197332965,
+    "ease": 2.3,
+    "first": 1795118132965,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795118132965,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "match": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ],
+     "scene": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795118132965
+   },
+   "granted": {
+    "due": 1795197332965,
+    "ease": 2.3,
+    "first": 1795118132965,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795118132965,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795118132965
+   },
+   "hang": {
+    "due": 1795197332965,
+    "ease": 2.3,
+    "first": 1795118132965,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795118132965,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "reverse": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795118132965
+   },
+   "thrive": {
+    "due": 1795197332965,
+    "ease": 2.3,
+    "first": 1795118132965,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795118132965,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ],
+     "pick": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795118132965
+   },
+   "behindschedule": {
+    "due": 1795195936962,
+    "ease": 2.3,
+    "first": 1795116736962,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795116736962,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795116736962
+   },
+   "bottleneck": {
+    "due": 1795194433533,
+    "ease": 2.3,
+    "first": 1795115233533,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115233533,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "listen": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115233533
+   },
+   "drawback": {
+    "due": 1795197332965,
+    "ease": 2.3,
+    "first": 1795118132965,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795118132965,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "match": [
+      1,
+      1
+     ],
+     "pick": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795118132965
+   },
+   "feasible": {
+    "due": 1795195936962,
+    "ease": 2.3,
+    "first": 1795116736962,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795116736962,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "reverse": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795116736962
+   },
+   "followup": {
+    "due": 1795194433533,
+    "ease": 2.3,
+    "first": 1795115233533,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115233533,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115233533
+   },
+   "headsup": {
+    "due": 1795195936962,
+    "ease": 2.3,
+    "first": 1795116736962,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795116736962,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ],
+     "pick": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795116736962
+   },
+   "hesitant": {
+    "due": 1795194624568,
+    "ease": 2.3,
+    "first": 1795115424568,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115424568,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115424568
+   },
+   "leverage": {
+    "due": 1795194433533,
+    "ease": 2.3,
+    "first": 1795115233533,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115233533,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "match": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115233533
+   },
+   "overwhelmed": {
+    "due": 1795194433533,
+    "ease": 2.3,
+    "first": 1795115233533,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115233533,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115233533
+   },
+   "procrastinate": {
+    "due": 1795194433533,
+    "ease": 2.3,
+    "first": 1795115233533,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115233533,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "recall": [
+      1,
+      1
+     ],
+     "scene": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115233533
+   },
+   "reluctant": {
+    "due": 1795194624568,
+    "ease": 2.3,
+    "first": 1795115424568,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115424568,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "scene": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115424568
+   },
+   "samepage": {
+    "due": 1795195936962,
+    "ease": 2.3,
+    "first": 1795116736962,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795116736962,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ],
+     "pick": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795116736962
+   },
+   "streamline": {
+    "due": 1795195936962,
+    "ease": 2.3,
+    "first": 1795116736962,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795116736962,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "listen": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795116736962
+   },
+   "touchbase": {
+    "due": 1795194433533,
+    "ease": 2.3,
+    "first": 1795115233533,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795115233533,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "match": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795115233533
+   },
+   "turndown": {
+    "due": 1795197332965,
+    "ease": 2.3,
+    "first": 1795118132965,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795118132965,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "gap": [
+      1,
+      1
+     ],
+     "listen": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795118132965
+   },
+   "wrapup": {
+    "due": 1795195936962,
+    "ease": 2.3,
+    "first": 1795116736962,
+    "ivl": 1,
+    "lapses": 0,
+    "last": 1795116736962,
+    "reps": 1,
+    "s": "review",
+    "seen": 0,
+    "tr": {
+     "listen": [
+      1,
+      1
+     ],
+     "match": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ]
+    },
+    "upd": 1795116736962
+   }
+  },
+  "profile": {
+   "ach": {
+    "allgames": 1795116736962,
+    "combo10": 1795116736962,
+    "first": 1795115233533,
+    "stage": 1795115424568,
+    "ten": 1795116736962
+   },
+   "clock": 0,
+   "created": 1795115151553,
+   "days": {
+    "2026-11-19": 20
+   },
+   "quests": {
+    "bonus": false,
+    "day": "2026-11-19",
+    "list": [
+     {
+      "done": true,
+      "id": "session",
+      "prog": 1
+     },
+     {
+      "done": true,
+      "id": "streak5",
+      "prog": 5
+     },
+     {
+      "done": false,
+      "id": "listen4",
+      "prog": 1
+     }
+    ]
+   },
+   "sessions": 4,
+   "settings": {
+    "auto": false,
+    "sound": true
+   },
+   "stars": 37,
+   "upd": 1795118132967,
+   "wardrobe": {
+    "hat": "beret",
+    "hatColor": "#F2B33D",
+    "owned": [],
+    "scarf": "#C8323C"
+   }
+  }
+ }
+}

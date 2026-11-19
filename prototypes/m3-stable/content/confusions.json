@@ -1,0 +1,185 @@
+{
+ "schema": 1,
+ "pairs": [
+  {
+   "a": "reluctant",
+   "b": "hesitant",
+   "a_note": "כבר יודע שלא רוצה, ועושה בחוסר חשק.",
+   "b_note": "עוד לא החליט, מהסס."
+  },
+  {
+   "a": "followup",
+   "b": "touchbase",
+   "a_note": "חוזרים אחרי משהו שכבר קרה: פגישה, מייל, שיחה.",
+   "b_note": "עדכון קצר וכללי, גם בלי סיבה מיוחדת."
+  },
+  {
+   "a": "procrastinate",
+   "b": "putoff",
+   "a_note": "הרגל של דחייה, בדרך כלל בלי לציין מה.",
+   "b_note": "דוחים משהו מסוים: put off the dentist."
+  },
+  {
+   "a": "figureout",
+   "b": "comeupwith",
+   "a_note": "להבין או לפתור משהו שכבר קיים.",
+   "b_note": "להמציא משהו חדש."
+  },
+  {
+   "a": "wrapup",
+   "b": "followup",
+   "a_note": "לסיים עכשיו, לסגור את הנושא.",
+   "b_note": "לחזור לזה אחר כך."
+  },
+  {
+   "a": "hangout",
+   "b": "touchbase",
+   "a_note": "לבלות יחד, בשביל הכיף.",
+   "b_note": "עדכון קצר, בעיקר בעבודה."
+  },
+  {
+   "a": "overwhelmed",
+   "b": "procrastinate",
+   "a_note": "הרגשה: יותר מדי עליי.",
+   "b_note": "פעולה: לדחות את מה שצריך לעשות."
+  },
+  {
+   "a": "longshot",
+   "b": "headsup",
+   "a_note": "סיכוי קלוש.",
+   "b_note": "התראה מראש."
+  },
+  {
+   "a": "followthrough",
+   "b": "followup",
+   "a_note": "לבצע עד הסוף את מה שהבטחת.",
+   "b_note": "לחזור למישהו אחרי פגישה או מייל."
+  },
+  {
+   "a": "fallthrough",
+   "b": "followthrough",
+   "a_note": "תוכנית שהתבטלה (על דברים).",
+   "b_note": "לעמוד במילה (על אנשים)."
+  },
+  {
+   "a": "chillout",
+   "b": "freakout",
+   "a_note": "להירגע.",
+   "b_note": "להילחץ, להתחרפן."
+  },
+  {
+   "a": "makeup",
+   "b": "breakup",
+   "a_note": "להשלים אחרי ריב.",
+   "b_note": "להיפרד."
+  },
+  {
+   "a": "checkin",
+   "b": "checkout",
+   "a_note": "להגיע ולהירשם.",
+   "b_note": "לעזוב ולסגור חשבון."
+  },
+  {
+   "a": "getalong",
+   "b": "getover",
+   "a_note": "להסתדר טוב עם מישהו.",
+   "b_note": "להתגבר על משהו קשה."
+  },
+  {
+   "a": "nightowl",
+   "b": "couchpotato",
+   "a_note": "פעיל בלילה.",
+   "b_note": "מבלה הרבה מול הטלוויזיה."
+  },
+  {
+   "a": "bargain",
+   "b": "ripoff",
+   "a_note": "מציאה, זול ושווה.",
+   "b_note": "עקיצה, יקר מדי."
+  },
+  {
+   "a": "nervous",
+   "b": "frustrated",
+   "a_note": "לחוץ, מתוח לפני משהו.",
+   "b_note": "מתוסכל אחרי שמשהו לא מצליח."
+  },
+  {
+   "a": "relieved",
+   "b": "thrilled",
+   "a_note": "הוקל לי, דאגה נגמרה.",
+   "b_note": "נרגש ושמח מאוד."
+  },
+  {
+   "a": "swamped",
+   "b": "overwhelmed",
+   "a_note": "עמוס בעבודה (מצב).",
+   "b_note": "מוצף רגשית, יותר מדי עליי (תחושה)."
+  },
+  {
+   "a": "saveup",
+   "b": "cutbackon",
+   "a_note": "לחסוך כסף למטרה.",
+   "b_note": "לצמצם משהו שמוציאים עליו."
+  },
+  {
+   "a": "profit",
+   "b": "expense",
+   "a_note": "רווח, מה שנשאר.",
+   "b_note": "הוצאה, מה שמשלמים."
+  },
+  {
+   "a": "sleepin",
+   "b": "nightowl",
+   "a_note": "לישון עד מאוחר בבוקר.",
+   "b_note": "מי שפעיל בשעות הלילה."
+  },
+  {
+   "a": "comedownwith",
+   "b": "comeupwith",
+   "a_note": "לחלות במשהו קל.",
+   "b_note": "להמציא, להעלות רעיון."
+  },
+  {
+   "a": "checkup",
+   "b": "checkoutn",
+   "a_note": "בדיקה אצל רופא.",
+   "b_note": "קופה בחנות."
+  },
+  {
+   "a": "pickup",
+   "b": "hangup",
+   "a_note": "לענות לשיחה.",
+   "b_note": "לנתק שיחה."
+  },
+  {
+   "a": "holdon",
+   "b": "hangup",
+   "a_note": "לחכות רגע על הקו.",
+   "b_note": "לסיים את השיחה."
+  },
+  {
+   "a": "wellrested",
+   "b": "sleepdeprived",
+   "a_note": "ישנת מספיק.",
+   "b_note": "חסרה לך שינה."
+  },
+  {
+   "a": "circleback",
+   "b": "getbackto",
+   "a_note": "לחזור לנושא אחר כך, בפגישה.",
+   "b_note": "לחזור למישהו עם תשובה."
+  },
+  {
+   "a": "stressedout",
+   "b": "unwind",
+   "a_note": "לחוצה מאוד.",
+   "b_note": "להשתחרר מהלחץ."
+  },
+  {
+   "a": "warmup",
+   "b": "workout",
+   "a_note": "חימום לפני האימון.",
+   "b_note": "האימון עצמו."
+  }
+ ]
+}

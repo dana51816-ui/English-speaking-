@@ -45,11 +45,11 @@
     opts = opts || {};
     stopOrb();
     stageEl.style.setProperty("--type", TYPE[type].color);
-    stageEl.className = "stage t-" + type + " enter";
+    stageEl.className = "stage t-" + type;
     const kind = cur && cur.id && res[cur.id] ? (res[cur.id].kind === "new" ? "חדשה" : "חזרה") : "";
     const ch = cur && cur.id ? WP.Content.chapters().find(c => c.id === WP.Content.chapterOf[cur.id]) : null;
     const app = document.getElementById("app"); if (app && ch) app.style.setProperty("--world", ch.color);
-    stageEl.innerHTML = '<div class="stage-head"><span class="badge">' + U.ICON[type === "pick" ? "intro" : type === "reverse" ? "recall" : type] + TYPE[type].label + '</span><span class="head-r">' + (kind ? '<span class="chip-s">' + kind + '</span>' : '') + '</span></div>' +
+    stageEl.innerHTML = '<div class="stage-head"><span class="badge">' + U.ICON[type === "pick" ? "intro" : type === "reverse" ? "recall" : type] + TYPE[type].label + '</span><span class="head-r">' + (ch ? '<span class="world-chip">' + U.ICON[ch.icon] + U.esc(ch.title) + '</span>' : '') + (kind ? '<span class="chip-s">' + kind + '</span>' : '') + '</span></div>' +
       '<div class="stage-in swap' + (opts.center === false ? "" : " center") + '">' + html + '</div><div class="stamp-layer" id="stamp"></div>';
     actEl.innerHTML = act || "";
     const bar = document.getElementById("sfill"); if (bar) bar.style.width = Math.min(100, Math.round(pos / Math.max(1, Q.length) * 100)) + "%";
@@ -188,7 +188,7 @@
     const c = $("#orb"); if (!c) return;
     const ctx = c.getContext("2d"); const t0 = performance.now();
     const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const cols = ["246,195,91", "255,242,220", "127,184,174", "224,121,94"];
+    const cols = ["255,122,89", "255,210,122", "143,124,255", "63,193,201"];
     const draw = () => {
       if (!c.isConnected) return;
       const t = (performance.now() - t0) / 1000, wrap = c.parentNode, live = wrap && wrap.classList.contains("playing") ? 1 : 0.22;
@@ -228,23 +228,19 @@
     }
     if (ok && !partial) {
       combo++; best = Math.max(best, combo); U.face("h"); U.hop(); stamp(["בול!", "נכון!", "יש!", "מעולה!"][Math.floor(Math.random() * 4)], "ok");
-      stats.ok[cur.type] = (stats.ok[cur.type] || 0) + 1; stats.stars++; addStar();
+      stats.ok[cur.type] = (stats.ok[cur.type] || 0) + 1; stats.stars++;
       if (cur.kind === "review") stats.reviewGood++;
-      U.peek(combo >= 6 ? "wow" : "cheer"); if (combo !== 3 && combo !== 6 && combo !== 9) U.quip("ok1", "h", false, pos);
+      if (!anyOk || combo % 3 === 0) U.peek(combo >= 6 ? "wow" : "cheer");
       anyOk = true;
     }
-    else if (!ok) { U.peek("oops"); U.quip("miss1", "s", false, pos); combo = 0; stamp("לא הפעם", "bad"); }
+    else if (!ok) { if (combo > 0 || prev !== cur.type) U.peek("oops"); combo = 0; U.face("s"); stamp("לא הפעם", "bad"); }
     else stamp("כמעט", "mid");
     setCombo();
     if (combo === 3) { U.tone("combo"); U.quip("combo3", "h", false, pos); } else if (combo === 6) { U.tone("combo"); U.quip("combo6", "h", true, pos); } else if (combo === 9) { U.tone("combo"); U.quip("combo9", "w", true, pos); }
     armContinue();
     if (U.prefs().auto && ok && !partial) autoT = setTimeout(next, 1300);
   }
-  const meter = () => document.getElementById("sstars") || document.getElementById("strack");
-  function addStar() {
-    const p = document.getElementById("sstars"); if (!p) return;
-    setTimeout(() => { const b = p.querySelector("b"); if (b) b.textContent = (+p.dataset.base || 0) + stats.stars; p.classList.remove("bump"); void p.offsetWidth; p.classList.add("bump"); }, 650);
-  }
+  const meter = () => document.getElementById("strack");
 
   function pick(i) {
     if (answered || locked()) return; answered = true;
@@ -253,7 +249,7 @@
     btns.forEach((b, j) => { b.disabled = true; if (cur.opts[j].ok) b.classList.add("ok"); else if (j === i) b.classList.add("bad"); else b.classList.add("dim"); });
     const btn = btns[i];
     const rw = $("#rw"); if (rw) rw.innerHTML = '<span class="w">' + U.esc(it.en) + '</span>';
-    if (o.ok) { U.tone("ok"); U.burst(btn); U.fly(btn, meter(), "+1 ★"); $("#fb").innerHTML = U.fb(true, "נכון", cur.type === "pick" ? null : it, cur.type === "listen" ? marked(E(), 16) : ""); }
+    if (o.ok) { U.tone("ok"); U.burst(btn); U.fly(btn, meter(), it.en); $("#fb").innerHTML = U.fb(true, "נכון", cur.type === "pick" ? null : it, cur.type === "listen" ? marked(E(), 16) : ""); }
     else {
       U.tone("bad"); const c = WP.Content.confusion(o.item.id, it.id);
       $("#fb").innerHTML = U.fb(false, c ? "בלבול קלאסי. ההבדל:" : "התשובה:", c ? null : it, c ? U.diff(c) : '');
@@ -270,7 +266,7 @@
     slot.textContent = t; slot.classList.add("filled", ok ? "ok" : "bad", "land");
     const ticket = $(".ticket"); if (ticket) ticket.classList.add(ok ? "won" : "lost");
     U.tone(ok ? "ok" : "bad");
-    if (ok) { U.burst(slot); U.fly(slot, meter(), "+1 ★"); $("#fb").innerHTML = U.fb(true, "בול", it); }
+    if (ok) { U.burst(slot); U.fly(slot, meter(), e.ans); $("#fb").innerHTML = U.fb(true, "בול", it); }
     else {
       $("#fb").innerHTML = U.fb(false, "המילה הנכונה:", it, '<div class="diff">' + U.esc(cur.why[t] || "") + '</div>');
       setTimeout(() => { slot.textContent = e.ans; slot.classList.remove("bad"); slot.classList.add("ok"); }, 700);
@@ -291,7 +287,7 @@
     if (answered !== "reveal" || locked()) return; answered = true;
     const ok = v === "yes", partial = v === "almost" || (ok && cur.hinted);
     U.tone(v === "yes" ? "ok" : v === "almost" ? "flip" : "bad");
-    if (ok && !cur.hinted) U.fly($(".face.back .word"), meter(), "+1 ★");
+    if (ok && !cur.hinted) U.fly($(".face.back .word"), meter(), item(cur.id).en);
     const msg = v === "yes" ? (cur.hinted ? "יפה. עם רמז זה נספר כחצי, והיא תחזור." : "נרשם כשליפה.") : v === "almost" ? "כמעט זה התחלה טובה. היא תחזור עוד מעט." : "עכשיו ראית אותה. היא תחזור עוד מעט.";
     actEl.innerHTML = U.fb(v === "yes" ? true : null, msg) + contBtn();
     settle(ok || v === "almost", partial || v === "almost");
@@ -313,7 +309,7 @@
     if (cur.found >= sc.need) {
       answered = true; const ok = cur.misses === 0;
       $("#fb").innerHTML = U.fb(ok ? true : null, ok ? "ראית בדיוק." : "מצאת. עכשיו את יודעת גם מה זה לא.", it);
-      U.fly(btn, meter(), "+1 ★");
+      U.fly(btn, meter(), it.en);
       actEl.innerHTML = contBtn(); settle(true, !ok);
     }
   }
@@ -382,13 +378,7 @@
     });
   };
 
-  let leaving = false;
-  function next() {
-    if (leaving) return; clearTimeout(autoT); U.hush();
-    if (document.body.classList.contains("calm") || !stageEl) { pos++; render(); return; }
-    leaving = true; stageEl.classList.remove("enter"); stageEl.classList.add("leave"); actEl.classList.add("leave");
-    setTimeout(() => { leaving = false; actEl.classList.remove("leave"); pos++; render(); }, 170);
-  }
+  function next() { clearTimeout(autoT); U.hush(); pos++; render(); }
   R.act = function (a, b) {
     const it = cur && cur.id ? item(cur.id) : null;
     if (a === "next") { if (!b.disabled) next(); }

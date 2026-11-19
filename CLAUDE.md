@@ -11,7 +11,7 @@
 
 ## שלב נוכחי ותהליך
 
-פיתוח: תוכנית M0-M5 מאושרת (סבב 7 ביומן). הקוד ב-`app/`, התוכן ב-`app/content/`, בדיקת תוכן: `node tools/validate-content.js`.
+פיתוח: M4 פורסם בקישור הראשי. M5 בתכנון (ממתין לאישור). הקוד ב-`app/`, התוכן ב-`app/content/`, בדיקת תוכן: `node tools/validate-content.js`, בדיקה מקצה לקצה: `tools/e2e-m4.js`. גיבויים: `prototypes/` (קוד) ו-`backups/` (נתוני התקדמות).
 
 סדר השלבים: Discovery ← PRD ← Creative Direction ← Technical Architecture ← Development.
 

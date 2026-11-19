@@ -45,7 +45,7 @@
   U.burst = function (el, n) {
     if (!el || !el.getBoundingClientRect) return;
     const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    const cols = ["#F6C35B", "#FFF2DC", "#E8B44C", "#E0795E", "#7FB8AE", "#FFE3A6"];
+    const cols = ["#FFD27A", "#1FA978", "#FF7A59", "#8F7CFF", "#3FC1C9", "#E85D9C"];
     for (let i = 0; i < (n || 16); i++) {
       const p = document.createElement("i"); p.className = "burst"; p.style.left = cx + "px"; p.style.top = cy + "px"; p.style.background = cols[i % cols.length];
       if (i % 3 === 0) p.style.borderRadius = "50%";
@@ -66,50 +66,30 @@
     an.onfinish = () => { c.remove(); if (onDone) onDone(); };
   };
 
-  /* ---------- host: Margo (M4 rig) ----------
-     A bust rig: head, hair, hat, coat and a scarf tail that sways. Faces: n neutral, h happy, w wow, s oops, k wink. */
+  /* ---------- host: Margo ---------- */
+  const FACE = '<g class="f-n"><circle cx="26" cy="31" r="1.9" fill="#22172F"/><circle cx="38" cy="31" r="1.9" fill="#22172F"/><path d="M27 38q5 3 10-1" stroke="#7A2E2E" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>' +
+    '<g class="f-h"><path d="M23.5 31.5q2.5-3 5 0M35.5 31.5q2.5-3 5 0" stroke="#22172F" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M26 37q6 6 12 0z" fill="#7A2E2E"/><circle cx="23" cy="36" r="2.2" fill="#E89A8A" opacity=".7"/><circle cx="41" cy="36" r="2.2" fill="#E89A8A" opacity=".7"/></g>' +
+    '<g class="f-w"><circle cx="26" cy="31" r="2.3" fill="#22172F"/><circle cx="38" cy="31" r="2.3" fill="#22172F"/><path d="M22.5 25.5l6 1.2M35.5 26.7l6-1.2" stroke="#22172F" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="32" cy="39" rx="2.2" ry="2.8" fill="#7A2E2E"/></g>' +
+    '<g class="f-s"><path d="M23.5 31h5M35.5 31h5" stroke="#22172F" stroke-width="1.8" stroke-linecap="round"/><path d="M27 38.5q5-2 10 0" stroke="#7A2E2E" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>';
   U.wardrobe = () => Object.assign({ hat: "beret", hatColor: "#F2B33D", scarf: "#C8323C" }, (WP.Store.data && WP.Store.data.profile.wardrobe) || {});
   function hatSVG(w) {
     const c = w.hatColor;
-    if (w.hat === "tophat") return '<ellipse cx="100" cy="46" rx="56" ry="9" fill="' + c + '"/><rect x="66" y="-4" width="68" height="50" rx="5" fill="' + c + '"/><rect x="66" y="32" width="68" height="9" fill="#C65A40"/><rect x="72" y="-2" width="10" height="34" rx="4" fill="#fff" opacity=".12"/>';
-    if (w.hat === "crown") return '<path d="M58 50 L62 8 L81 30 L100 0 L119 30 L138 8 L142 50Z" fill="' + c + '" stroke="#B07F2A" stroke-width="2.5" stroke-linejoin="round"/><circle cx="100" cy="36" r="5" fill="#C65A40"/><circle cx="76" cy="40" r="3.5" fill="#1F5C66"/><circle cx="124" cy="40" r="3.5" fill="#1F5C66"/>';
-    if (w.hat === "cap") return '<path d="M56 54 Q58 16 100 14 Q142 16 144 54Z" fill="' + c + '"/><path d="M100 50 L170 46 Q168 60 140 60 L100 58Z" fill="' + c + '"/><path d="M100 50 L170 46 Q168 60 140 60 L100 58Z" fill="#000" opacity=".18"/><circle cx="100" cy="15" r="4" fill="#000" opacity=".2"/>';
-    return '<path d="M44 52 Q52 12 106 12 Q158 14 158 42 Q130 35 100 39 Q70 43 44 52Z" fill="' + c + '"/><path d="M44 52 Q70 43 100 39 Q130 35 158 42 L158 47 Q130 41 100 45 Q70 49 45 57Z" fill="#000" opacity=".22"/><path d="M62 30 Q80 18 104 18" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".25"/><rect x="108" y="3" width="7" height="12" rx="3.5" fill="' + c + '"/>';
+    if (w.hat === "tophat") return '<rect x="17" y="12" width="30" height="4" rx="2" fill="' + c + '"/><rect x="22" y="-4" width="20" height="17" rx="2" fill="' + c + '"/><rect x="22" y="9" width="20" height="3" fill="#C8323C" opacity=".85"/>';
+    if (w.hat === "crown") return '<path d="M18 16l2-12 6 7 6-9 6 9 6-7 2 12z" fill="' + c + '" stroke="#B98A2B" stroke-width="1"/><circle cx="32" cy="10" r="1.8" fill="#E85D9C"/><circle cx="24" cy="12" r="1.4" fill="#3FC1C9"/><circle cx="40" cy="12" r="1.4" fill="#3FC1C9"/>';
+    if (w.hat === "cap") return '<path d="M17 18c0-9 6-12 15-12s15 3 15 12z" fill="' + c + '"/><path d="M40 17h14c0 2-2 3-4 3H40z" fill="' + c + '"/>';
+    return '<ellipse cx="31" cy="13" rx="17" ry="6" fill="' + c + '" transform="rotate(-8 31 13)"/><circle cx="30" cy="7.5" r="2.4" fill="' + c + '"/>';
   }
-  const EYES = (cx) => '<path d="M' + (cx - 9) + ' 89 Q' + cx + ' 81 ' + (cx + 9) + ' 89 Q' + cx + ' 95 ' + (cx - 9) + ' 89Z" fill="#fff"/><circle cx="' + cx + '" cy="89" r="4.7" fill="#2A1A2E"/><circle cx="' + (cx + 1.6) + '" cy="87.3" r="1.6" fill="#fff"/>';
-  const FACE =
-    '<g class="f-n"><path d="M75 76 Q85 70 95 75M105 75 Q115 70 125 76" stroke="#3B1D38" stroke-width="3.6" fill="none" stroke-linecap="round"/><g class="blink">' + EYES(86) + EYES(114) + '</g>' +
-      '<path d="M76 88 Q86 79 96 88M104 88 Q114 79 124 88" stroke="#2A1A2E" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M90 113 Q101 120 111 112" stroke="#B8324F" stroke-width="3.4" fill="none" stroke-linecap="round"/></g>' +
-    '<g class="f-h"><path d="M75 71 Q85 64 95 70M105 70 Q115 64 125 71" stroke="#3B1D38" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M77 90 Q86 81 95 90M105 90 Q114 81 123 90" stroke="#2A1A2E" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
-      '<path d="M85 109 Q100 129 115 109 Q100 114 85 109Z" fill="#7E1E36"/><path d="M88 110 Q100 113 112 110 L111 113 Q100 116 89 113Z" fill="#fff"/></g>' +
-    '<g class="f-w"><path d="M74 69 Q85 61 95 67M105 67 Q115 61 126 69" stroke="#3B1D38" stroke-width="3.6" fill="none" stroke-linecap="round"/>' + EYES(86) + EYES(114) + '<ellipse cx="100" cy="115" rx="6" ry="7.5" fill="#7E1E36"/></g>' +
-    '<g class="f-s"><path d="M76 74 Q84 72 94 77M106 70 Q116 66 125 71" stroke="#3B1D38" stroke-width="3.6" fill="none" stroke-linecap="round"/>' + EYES(85).replace(/r="4.7"/, 'r="4.2"') + EYES(113).replace(/r="4.7"/, 'r="4.2"') +
-      '<path d="M91 116 Q96 111 101 116 Q106 121 110 115" stroke="#B8324F" stroke-width="3.4" fill="none" stroke-linecap="round"/></g>' +
-    '<g class="f-k"><path d="M75 74 Q85 68 95 73M105 70 Q115 64 125 70" stroke="#3B1D38" stroke-width="3.6" fill="none" stroke-linecap="round"/>' + EYES(86) + '<path d="M105 89 Q114 84 123 89" stroke="#2A1A2E" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
-      '<path d="M90 112 Q103 122 113 109" stroke="#B8324F" stroke-width="3.6" fill="none" stroke-linecap="round"/></g>';
-  function bust(w, cls) {
-    return '<svg class="margo m4 ' + (cls || "") + '" data-face="n" viewBox="0 -8 200 268" aria-hidden="true">' +
-      '<defs><linearGradient id="mgC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A7C82"/><stop offset="1" stop-color="#163F49"/></linearGradient>' +
-      '<linearGradient id="mgS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C6A2"/><stop offset="1" stop-color="#E9A882"/></linearGradient>' +
-      '<linearGradient id="mgH" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5E2F57"/><stop offset="1" stop-color="#2B1530"/></linearGradient></defs>' +
-      '<g class="bodyg"><path d="M30 262 Q32 176 66 152 L100 160 L134 152 Q168 176 170 262Z" fill="url(#mgC)"/>' +
-      '<path d="M66 152 L100 216 L80 160Z" fill="#0F333B"/><path d="M134 152 L100 216 L120 160Z" fill="#0F333B"/><path d="M86 150 L100 202 L114 150Z" fill="#F4E9D8"/>' +
-      '<circle cx="100" cy="228" r="3.6" fill="#E8B44C"/><circle cx="100" cy="246" r="3.6" fill="#E8B44C"/>' +
-      '<path d="M89 118 L111 118 L114 150 L86 150Z" fill="#DF9C7A"/>' +
-      '<path d="M62 140 Q100 164 138 140 L142 158 Q100 184 58 158Z" fill="' + w.scarf + '"/><path d="M62 140 Q100 164 138 140 L139 147 Q100 170 61 147Z" fill="#fff" opacity=".18"/>' +
-      '<g class="tail"><path d="M108 164 Q123 206 106 244 L123 246 Q140 206 125 164Z" fill="' + w.scarf + '"/><path d="M112 188 L130 190M110 210 L129 212M108 230 L125 232" stroke="#000" stroke-width="3" opacity=".18"/></g>' +
-      '<circle cx="118" cy="164" r="10.5" fill="' + w.scarf + '"/><circle cx="118" cy="164" r="10.5" fill="#000" opacity=".12"/></g>' +
-      '<g class="headg"><path d="M54 74 Q50 28 100 24 Q150 28 146 74 L150 126 Q131 139 116 125 L100 119 L84 125 Q69 139 50 126Z" fill="url(#mgH)"/>' +
-      '<ellipse cx="100" cy="86" rx="37" ry="42.5" fill="url(#mgS)"/><path d="M64 96 Q62 122 86 128 Q68 126 63 106Z" fill="#D58E6E" opacity=".5"/>' +
-      '<circle cx="137.5" cy="105" r="5.6" fill="none" stroke="#E8B44C" stroke-width="2.8"/>' +
-      '<path d="M59 81 Q61 40 100 38 Q139 40 141 81 Q130 61 112 63 Q100 52 86 63 Q71 59 59 81Z" fill="url(#mgH)"/>' +
-      '<path d="M78 50 Q95 43 114 47" stroke="#93508A" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".75"/>' +
-      hatSVG(w) + FACE +
-      '<path d="M100 92 Q97 102 101 104" stroke="#C97F5E" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
-      '<ellipse cx="76" cy="104" rx="7.5" ry="5" fill="#F07A6E" opacity=".25"/><ellipse cx="124" cy="104" rx="7.5" ry="5" fill="#F07A6E" opacity=".25"/></g></svg>';
-  }
-  U.avatar = (cls) => bust(U.wardrobe(), cls);
-  U.figure = () => bust(U.wardrobe(), "full");
+  const headSVG = w => '<path d="M16 33c-1-15 6-21 16-21s17 6 16 21h-4v-8c-6-3-18-3-24 0v8z" fill="#22172F"/><circle cx="32" cy="31" r="15" fill="#F2C9A5"/><path d="M17 28c0-11 6-16 15-16s15 5 15 16c-4-5-9-7-15-7s-11 2-15 7z" fill="#22172F"/>' + hatSVG(w) + FACE + '<circle cx="38" cy="31" r="5" fill="none" stroke="#F2B33D" stroke-width="1.4"/><path d="M43 33q3 6 1 12" stroke="#F2B33D" stroke-width="1" fill="none"/>';
+  U.avatar = () => { const w = U.wardrobe(); return '<svg class="margo" data-face="n" viewBox="0 -6 64 70" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#2F6F73"/><path d="M14 64c2-12 9-18 18-18s16 6 18 18z" fill="' + w.scarf + '"/>' + headSVG(w) + '</svg>'; };
+  U.figure = () => { const w = U.wardrobe(); return ('<svg class="margo margo-full" data-face="h" viewBox="0 0 140 220" aria-hidden="true">' +
+    '<ellipse cx="70" cy="214" rx="44" ry="6" fill="rgba(0,0,0,.35)"/>' +
+    '<path d="M58 196l-4 16h12l2-16zM80 196l2 16h12l-4-16z" fill="#22172F"/>' +
+    '<path class="arm-l" d="M44 104c-10 14-14 30-10 44l8-2c-2-12 2-26 10-36z" fill="#2F6F73"/>' +
+    '<path d="M38 200c-2-40 6-80 32-96 26 16 34 56 32 96z" fill="#2F6F73"/><path d="M70 104v96" stroke="#235457" stroke-width="2"/>' +
+    '<path d="M52 108c8 8 28 8 36 0l3 8c-10 10-32 10-42 0z" fill="#C8323C"/><path d="M80 112l14 48-9 3-12-46z" fill="#C8323C"/><path d="M85 160l9-2 1 6-9 2z" fill="#9E2330"/>' +
+    '<circle cx="64" cy="150" r="2.4" fill="#F2B33D"/><circle cx="64" cy="166" r="2.4" fill="#F2B33D"/><circle cx="64" cy="182" r="2.4" fill="#F2B33D"/>' +
+    '<g class="arm-r"><path d="M94 110c12 4 20 -4 26 -18l-7-4c-5 10-10 15-20 14z" fill="#2F6F73"/><circle cx="118" cy="88" r="6" fill="#F2C9A5"/><path d="M114 78l20-12 4 22-20-2z" fill="#F2B33D"/><path d="M134 66l4 22" stroke="#B98A2B" stroke-width="2"/><ellipse cx="136" cy="77" rx="3" ry="11" fill="#E9A92A"/></g>' +
+    '<g transform="translate(38 44)">' + headSVG(w) + '</g></svg>').replace(/#C8323C/g, w.scarf); };
   U.face = function (f) { document.querySelectorAll(".margo").forEach(m => m.setAttribute("data-face", f)); };
   U.hop = function () { document.querySelectorAll(".host").forEach(h => { h.classList.remove("hop"); void h.offsetWidth; h.classList.add("hop"); }); };
 
@@ -121,8 +101,6 @@
     combo9: ["תשע. אני מתחילה לחשוש לגבי התפקיד שלי."],
     match: ["הפסקת התאמות. מהר, אבל בלי לנחש.", "זוגות. כל מילה מוצאת את שלה."],
     scene: ["סצנה. תסתכלי טוב, אף אחד פה לא מסתיר כלום.", "תאורה, מצלמה, מילה."],
-    ok1: ["כן. זה נשאר.", "בדיוק ככה.", "יפה. המוח שלך עושה חזרות בלי לבקש רשות.", "נקי."],
-    miss1: ["לא נורא. היא תחזור עוד מעט, והפעם זה יעבוד.", "טעות עכשיו היא זיכרון מחר.", "קרוב. תסתכלי על התשובה רגע."],
     confuse: ["את השתיים האלה כולם מבלבלים. אפילו אני. פעם אחת.", "זה בדיוק הבלבול ששווה ללמוד עכשיו."],
     tap: ["אני מגיבה רק כשיש סיבה. זו לא סיבה, אבל שלום.", "טעויות הן חזרות שמגיעות מוקדם.", "מילה קשה חוזרת יותר. מילה קלה פחות. ככה זה עובד."]
   };
@@ -141,10 +119,11 @@
   /* Margo rises from the edge of the stage to react, then leaves. Never blocks taps. */
   let peekT = null;
   U.peek = function (kind) {
-    const m = document.querySelector(".lean"); if (!m) return;
-    U.face(kind === "oops" ? "s" : kind === "wow" ? "k" : "h");
-    m.classList.remove("jump", "droop"); void m.offsetWidth; m.classList.add(kind === "oops" ? "droop" : "jump");
-    clearTimeout(peekT); peekT = setTimeout(() => { m.classList.remove("jump", "droop"); U.face("n"); }, 1500);
+    const el = document.getElementById("peeker"); if (!el) return;
+    el.className = "peeker " + kind; el.innerHTML = '<div class="pk-fx"></div>' + U.avatar();
+    el.querySelector(".margo").setAttribute("data-face", kind === "oops" ? "s" : kind === "wow" ? "w" : "h");
+    void el.offsetWidth; el.classList.add("on");
+    clearTimeout(peekT); peekT = setTimeout(() => el.classList.remove("on"), 1150);
   };
 
   /* A small silhouette per world, drawn from the chapter icon. */
@@ -203,9 +182,6 @@
     coin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9a3 3 0 0 0-3-1.5c-2 0-3 1-3 2.2 0 3 6 1.6 6 4.6 0 1.2-1 2.2-3 2.2A3.3 3.3 0 0 1 9 15M12 6v2M12 16v2"/></svg>',
     star: '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2 6.1 20.5l1.3-6.6-4.9-4.6 6.6-.8z" fill="currentColor"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M9 20h6M12 14v6"/></svg>',
-    flame: '<svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#E0795E"/><path d="M12 12c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1.5 1-2.5 1.5-3 .2 1 .8 1.5 1.5 1.5 0-1.5-.5-2.5 0-3.5z" fill="#F6C35B"/></svg>',
-    map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>',
-    chest: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10h18v9H3zM3 10a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5"/><path d="M10 13h4v3h-4z"/></svg>',
     lock: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'
   };
 
