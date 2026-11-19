@@ -1,0 +1,760 @@
+<title>WORDPLAY Stream V2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Fredoka:wght@500;600;700&family=Rubik:wght@400;500;700&display=swap">
+<style>
+/* Layout: one continuous stage; each exercise type arranges the same three zones (cue, play area, thumb zone) differently. Single deliberate dark theatre look. */
+:root{
+  color-scheme: dark;
+  --bg:#1B1230; --bg2:#2B1B48; --curtain:#3A1530;
+  --paper:#FFF7EA; --paper2:#F3E6CF; --ink:#22172F; --muted:#6E5F7C; --soft:#B9A9C9;
+  --listen:#FF7A59; --gap:#F2B33D; --recall:#8F7CFF; --intro:#3FC1C9; --match:#E85D9C; --scene:#4FB06B;
+  --ok:#1FA978; --okbg:#DDF6EC; --okink:#0E5A3E; --bad:#E5485A; --badbg:#FDE6E8; --badink:#7D1F2B; --gold:#FFD27A;
+  --f-he:"Fredoka","Rubik",system-ui,sans-serif; --f-body:"Rubik",system-ui,sans-serif; --f-en:"Fraunces",Georgia,serif;
+}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--paper);font-family:var(--f-body);-webkit-tap-highlight-color:transparent;overflow:hidden;touch-action:manipulation}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:
+  radial-gradient(70% 38% at 50% 0%, rgba(255,210,122,.20), transparent 70%),
+  linear-gradient(90deg, var(--curtain) 0, transparent 9%, transparent 91%, var(--curtain) 100%),
+  linear-gradient(180deg, var(--bg2), var(--bg) 60%)}
+#app{position:relative;height:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;box-sizing:border-box;
+  padding-left:max(14px, env(safe-area-inset-left, 0px));padding-right:max(14px, env(safe-area-inset-right, 0px));padding-block:8px 12px;gap:10px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.en{font-family:var(--f-en);direction:ltr;unicode-bidi:isolate}
+.he{direction:rtl;unicode-bidi:isolate}
+
+/* top bar */
+.top{position:relative;display:flex;align-items:center;gap:8px;min-height:46px}
+.host{width:42px;height:42px;flex:none;border-radius:50%}
+.host svg{width:42px;height:42px;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35))}
+.host.bob svg{animation:bob .5s ease-out}
+@keyframes bob{40%{transform:translateY(-5px) rotate(-6deg)}}
+.quip{position:absolute;top:2px;right:50px;left:auto;max-width:min(260px, calc(100% - 60px));background:var(--paper);color:var(--ink);font-family:var(--f-he);font-weight:600;font-size:14px;line-height:1.35;padding:7px 11px;border-radius:14px 4px 14px 14px;box-shadow:0 10px 24px rgba(0,0,0,.35);z-index:20;opacity:0;transform:translateX(6px);transition:opacity .2s,transform .2s;pointer-events:none}
+.quip.on{opacity:1;transform:none}
+.track{position:relative;flex:1;height:10px;border-radius:9px;background:rgba(255,247,234,.14);overflow:visible}
+.fill{height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--gold),var(--listen));transition:width .35s ease}
+.track.pulse .fill{animation:tpulse .45s ease-out}
+@keyframes tpulse{50%{filter:brightness(1.5);transform:scaleY(1.5)}}
+.combo{font-family:var(--f-he);font-weight:700;font-size:13px;color:var(--gold);white-space:nowrap;min-width:0}
+.combo.up{animation:cup .4s ease-out}
+@keyframes cup{40%{transform:scale(1.35)}}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,247,234,.08);color:var(--paper);flex:none}
+.icon-btn[aria-pressed="false"]{opacity:.5}
+.pace{height:40px;padding:0 9px;border-radius:12px;background:rgba(255,247,234,.08);font-family:var(--f-he);font-weight:600;font-size:12.5px;flex:none}
+.pace b{color:var(--gold)}
+
+/* stage */
+.stage-wrap{flex:1;min-height:0;display:flex}
+.stage{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);border-radius:24px;
+  background-image:radial-gradient(rgba(120,80,40,.07) 1px, transparent 1.2px);background-size:6px 6px;
+  box-shadow:0 2px 0 rgba(255,255,255,.6) inset, 0 18px 40px rgba(0,0,0,.45);overflow:hidden}
+.stage::before{content:"";position:absolute;inset:0 0 auto;height:6px;background:var(--type,var(--gold));z-index:2}
+.stage-in{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:12px;padding:18px 18px 16px}
+.stage-in.center{justify-content:center}
+.swap{animation:swap .18s ease-out}
+@keyframes swap{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--f-he);font-weight:700;font-size:12px;padding:3px 9px;border-radius:999px;background:var(--type);color:#fff}
+.tag.light{background:var(--paper2);color:var(--muted)}
+.prompt{font-family:var(--f-he);font-weight:700;font-size:19px;line-height:1.3;margin:0;text-wrap:balance}
+.sub{font-size:13.5px;color:var(--muted);line-height:1.45;margin:0}
+.word{font-family:var(--f-en);font-weight:800;font-size:42px;line-height:1.02;letter-spacing:-.5px;margin:0;direction:ltr;text-align:left}
+.stress{font-family:var(--f-en);font-size:15px;color:var(--muted);direction:ltr;text-align:left}
+.stress b{color:var(--listen);font-weight:800}
+.mean{font-family:var(--f-he);font-weight:700;font-size:21px;line-height:1.3;margin:0}
+.sent{font-family:var(--f-en);font-size:19px;line-height:1.5;direction:ltr;text-align:left;margin:0}
+.sent mark{background:none;color:inherit;font-weight:800;border-bottom:3px solid var(--type);padding:0 1px}
+.ltr-row{display:flex;align-items:center;justify-content:space-between;gap:12px;direction:ltr}
+.audio{display:flex;gap:8px;direction:ltr;flex:none}
+.play{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:none}
+.play.slow{background:var(--paper2);color:var(--ink);font-family:var(--f-en);font-weight:800;font-size:13px}
+.pic{width:92px;height:92px;border-radius:24px;background:var(--paper2);display:flex;align-items:center;justify-content:center;flex:none}
+.pic svg{width:70px;height:70px}
+
+/* listen */
+.wave-card{display:flex;align-items:center;gap:14px;background:var(--ink);border-radius:20px;padding:14px 14px;direction:ltr}
+.wave-play{width:60px;height:60px;border-radius:50%;background:var(--listen);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 0 0 0 rgba(255,122,89,.5)}
+.wave-card.playing .wave-play{animation:ring 1.1s ease-out infinite}
+@keyframes ring{to{box-shadow:0 0 0 14px rgba(255,122,89,0)}}
+.wave{flex:1;height:56px;display:flex;align-items:center;gap:3px}
+.wave i{flex:1;border-radius:3px;background:rgba(255,247,234,.28);height:calc(var(--h) * 1%);transition:background .2s}
+.wave-card.playing .wave i{background:var(--listen);animation:wv .55s ease-in-out infinite alternate;animation-delay:calc(var(--d) * 1s)}
+@keyframes wv{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+.wave-slow{width:40px;height:40px;border-radius:12px;background:rgba(255,247,234,.12);color:var(--paper);font-family:var(--f-en);font-weight:800;font-size:12.5px;flex:none}
+.reveal-word{min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;direction:ltr}
+.reveal-word .q{font-family:var(--f-en);font-weight:800;font-size:30px;letter-spacing:8px;color:var(--soft)}
+.reveal-word .w{font-family:var(--f-en);font-weight:800;font-size:32px;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+
+/* gap */
+.gap-sent{font-family:var(--f-en);font-size:23px;line-height:1.7;direction:ltr;text-align:left;margin:0}
+.slot{display:inline-block;vertical-align:baseline;min-width:3.6em;padding:0 8px;margin:0 2px;border-radius:10px;border:2.5px dashed var(--soft);color:transparent;line-height:1.35;transition:background .15s,border-color .15s}
+.slot.hover{border-color:var(--gap);background:rgba(242,179,61,.15)}
+.slot.filled{border-style:solid;color:var(--ink);font-weight:800}
+.slot.ok{border-color:var(--ok);background:var(--okbg);color:var(--okink)}
+.slot.bad{border-color:var(--bad);background:var(--badbg);color:var(--badink);text-decoration:line-through}
+.slot.land{animation:land .3s cubic-bezier(.3,1.6,.5,1)}
+@keyframes land{0%{transform:scale(1.25)}100%{transform:none}}
+.tray{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;direction:ltr}
+.tile{min-height:54px;padding:8px 16px;border-radius:16px;background:var(--paper);color:var(--ink);font-family:var(--f-en);font-weight:800;font-size:18px;box-shadow:0 4px 0 #C9B9A0;touch-action:none}
+.tile.ghost{opacity:.25}
+.tile.drag{position:fixed;z-index:50;pointer-events:none;box-shadow:0 14px 30px rgba(0,0,0,.4);transform:rotate(-3deg) scale(1.05)}
+.tray-hint{text-align:center;color:var(--soft);font-family:var(--f-he);font-size:13px;margin:0}
+
+/* recall flip */
+.flip{flex:1;min-height:300px;perspective:1200px;display:flex}
+.flip-in{position:relative;flex:1;min-height:300px;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.3,.8,.3,1)}
+.flip.done .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;padding:18px;display:flex;flex-direction:column;justify-content:center;gap:12px;box-sizing:border-box;overflow:auto}
+.face.front{background:linear-gradient(160deg,#EFEAFF,#E2DAFF);border:2px solid #CFC4FF}
+.face.back{background:var(--paper);border:2px solid #CFC4FF;transform:rotateY(180deg)}
+.blank-line{display:inline-block;min-width:4.2em;border-bottom:3px dashed var(--recall)}
+.hint{font-family:var(--f-he);font-weight:600;font-size:14px;color:#5A47D6}
+
+/* match */
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
+.mcol{display:flex;flex-direction:column;gap:10px}
+.mt{min-height:64px;border-radius:16px;background:#fff;color:var(--ink);padding:8px 10px;box-shadow:0 4px 0 #D8C9AF;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .12s,background .15s,opacity .25s;touch-action:none}
+.mt.en-t{font-family:var(--f-en);font-weight:800;font-size:17px;direction:ltr}
+.mt.he-t{font-family:var(--f-he);font-weight:600;font-size:14.5px;line-height:1.25}
+.mt.snd{background:var(--ink);color:var(--gold);gap:6px}
+.mt.sel{background:#FFE6F1;box-shadow:0 0 0 3px var(--match), 0 4px 0 #D8C9AF;transform:translateY(-2px)}
+.mt.done{background:var(--okbg);color:var(--okink);box-shadow:none;opacity:.75;pointer-events:none;animation:pop .3s}
+.mt.snd.done{background:var(--okbg);color:var(--okink)}
+.mt.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.match-svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.pairs{display:flex;flex-wrap:wrap;gap:6px;direction:ltr}
+.pairchip{font-family:var(--f-en);font-weight:700;font-size:13.5px;padding:4px 10px;border-radius:999px;background:var(--okbg);color:var(--okink);animation:pop .3s}
+
+/* scene */
+.scene{position:relative;width:100%;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.25);background:#2a2030}
+.scene img{display:block;width:100%;height:auto}
+.hs{position:absolute;border-radius:14px;background:transparent;transition:box-shadow .2s, background .2s}
+.hs:active{background:rgba(255,255,255,.12)}
+.hs.ok{box-shadow:0 0 0 3px var(--ok), 0 0 24px 4px rgba(31,169,120,.6);background:rgba(31,169,120,.12)}
+.hs.no{box-shadow:0 0 0 3px var(--bad);background:rgba(229,72,90,.12)}
+.cap{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(27,18,48,.88);color:var(--paper);border-radius:14px;padding:8px 11px;font-size:14px;line-height:1.4;backdrop-filter:blur(6px);animation:swap .2s}
+.cap > .en{display:block;font-size:16px;font-style:italic}
+.cap bdi.en{display:inline;font-weight:700}
+.found{display:flex;gap:6px;justify-content:center}
+.found i{width:14px;height:14px;border-radius:50%;border:2px solid var(--scene);box-sizing:border-box}
+.found i.on{background:var(--scene)}
+
+/* feedback */
+.fb{border-radius:16px;padding:10px 12px;font-size:14.5px;line-height:1.45;display:flex;gap:10px;align-items:flex-start;animation:fbin .22s ease-out}
+@keyframes fbin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fb.ok{background:var(--okbg);color:var(--okink)}
+.fb.bad{background:var(--badbg);color:var(--badink)}
+.fb.info{background:var(--paper2);color:var(--ink)}
+.fb .mark{flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.fb.ok .mark{background:var(--ok)}.fb.bad .mark{background:var(--bad)}.fb.info .mark{background:var(--recall)}
+.fb .body{flex:1;min-width:0}
+.fb .head{font-family:var(--f-he);font-weight:700}
+.fb .w{display:block;font-family:var(--f-en);font-weight:800;font-size:17px;direction:ltr;text-align:right}
+.diff{margin-top:6px;padding-top:6px;border-top:1px dashed currentColor;font-size:14px}
+.diff .row{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.diff .en{font-weight:800}
+.burst{position:fixed;z-index:60;pointer-events:none;width:8px;height:8px;border-radius:2px}
+.flychip{position:fixed;z-index:60;pointer-events:none;font-family:var(--f-en);font-weight:800;font-size:15px;padding:4px 10px;border-radius:999px;background:var(--gold);color:var(--ink)}
+
+/* actions */
+.actions{display:flex;flex-direction:column;gap:9px;min-height:0}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{min-height:54px;border-radius:16px;background:var(--paper);color:var(--ink);padding:9px 14px;font-family:var(--f-he);font-weight:600;font-size:16px;line-height:1.25;box-shadow:0 4px 0 #C9B9A0;transition:transform .08s, background .15s, opacity .2s;text-align:right;display:flex;align-items:center;gap:10px}
+.opt .n{flex:none;width:24px;height:24px;border-radius:8px;background:var(--paper2);color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;font-family:var(--f-body)}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #C9B9A0}
+.opt.ok{background:var(--ok);color:#fff;box-shadow:0 4px 0 #147A55}
+.opt.bad{background:var(--bad);color:#fff;box-shadow:0 4px 0 #9E2635}
+.opt.ok .n,.opt.bad .n{background:rgba(255,255,255,.25);color:#fff}
+.opt.dim{opacity:.4}
+.opt[disabled]{cursor:default}
+.primary{min-height:58px;border-radius:18px;background:var(--gold);color:var(--ink);font-family:var(--f-he);font-weight:700;font-size:20px;box-shadow:0 5px 0 #B98A2B;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .2s}
+.primary:active{transform:translateY(3px);box-shadow:0 2px 0 #B98A2B}
+.primary[disabled]{opacity:.8}
+.ghost{min-height:52px;border-radius:16px;background:rgba(255,247,234,.1);color:var(--paper);font-family:var(--f-he);font-weight:600;font-size:16px}
+.pair2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:10px}
+.rate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.rate .opt{justify-content:center;text-align:center}
+.honest{font-size:12px;color:var(--soft);text-align:center;margin:0}
+.kbd{opacity:.5;font-size:12px;font-family:var(--f-body)}
+
+/* start + end */
+.hero-title{font-family:var(--f-en);font-weight:800;font-size:46px;letter-spacing:-1px;line-height:1;direction:ltr;text-align:left;margin:0}
+.hero-title i{color:var(--listen);font-weight:600}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.legend div{background:var(--paper2);border-radius:14px;padding:10px;text-align:center}
+.legend b{display:block;font-family:var(--f-he);font-size:24px;line-height:1.1}
+.legend span{font-size:12.5px;color:var(--muted)}
+.how{display:flex;flex-wrap:wrap;gap:6px}
+.how span{border-radius:999px;padding:5px 11px;font-family:var(--f-he);font-weight:600;font-size:13px;color:#fff}
+.lineup{display:flex;flex-wrap:wrap;gap:6px;direction:ltr}
+.chip{font-family:var(--f-en);font-weight:600;font-size:14px;padding:4px 10px;border-radius:999px;background:var(--paper2);color:var(--ink)}
+.chip.new{background:#E1F6F7;color:#0F6A70}.chip.shaky{background:#FFF0D6;color:#8A5A00}.chip.lost{background:var(--badbg);color:var(--badink)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app">
+  <header class="top">
+    <button id="hostBtn" class="host" aria-label="מרגו, המנחה">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="31" fill="#2F6F73"/>
+        <path d="M14 64c2-12 9-18 18-18s16 6 18 18z" fill="#C8323C"/>
+        <circle cx="32" cy="31" r="15" fill="#F2C9A5"/>
+        <path d="M16 33c-1-15 6-21 16-21s17 6 16 21h-4v-8c-6-3-18-3-24 0v8z" fill="#22172F"/>
+        <ellipse cx="31" cy="13" rx="17" ry="6" fill="#F2B33D" transform="rotate(-8 31 13)"/>
+        <g id="eyesN"><circle cx="26" cy="31" r="1.9" fill="#22172F"/><circle cx="38" cy="31" r="1.9" fill="#22172F"/></g>
+        <g id="eyesH" style="display:none"><path d="M23.5 31.5q2.5-3 5 0M35.5 31.5q2.5-3 5 0" stroke="#22172F" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+        <g id="brow" style="display:none"><path d="M23 26l6 1.5M35 27.5l6-1.5" stroke="#22172F" stroke-width="1.6" stroke-linecap="round"/></g>
+        <circle cx="38" cy="31" r="5" fill="none" stroke="#F2B33D" stroke-width="1.4"/>
+        <path id="mouthN" d="M27 38q5 3 10-1" stroke="#7A2E2E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path id="mouthH" d="M26 37q6 6 12 0z" fill="#7A2E2E" style="display:none"/>
+        <path id="mouthO" d="M30 38a2 2.4 0 1 0 4 0a2 2.4 0 1 0-4 0" fill="#7A2E2E" style="display:none"/>
+      </svg>
+    </button>
+    <div id="quip" class="quip" role="status" aria-live="polite"></div>
+    <div id="track" class="track" aria-hidden="true"><div id="fill" class="fill"></div></div>
+    <span id="combo" class="combo" aria-live="polite"></span>
+    <button id="paceBtn" class="pace" aria-label="קצב מעבר בין פריטים">קצב <b id="paceLbl">ידני</b></button>
+    <button id="sndBtn" class="icon-btn" aria-pressed="true" aria-label="צלילים">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7"/></svg>
+    </button>
+  </header>
+  <main class="stage-wrap"><section id="stage" class="stage" aria-live="polite"><div class="stage-in"></div></section></main>
+  <footer id="actions" class="actions"></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- content (same 12 items as V1) ---------- */
+const WORDS = [
+  {id:"reluctant", en:"reluctant", kind:"adj.", stress:"re·<b>LUC</b>·tant", he:"לא רוצה, עושה בחוסר חשק", s:"She didn't trust the numbers, so she was {reluctant} to sign.", gap:{"eager":"eager = להוט, רוצה מאוד. אבל היא לא סומכת על המספרים.","grateful":"grateful = אסירת תודה. לא מתאים לחוסר אמון."}, status:"review", hint:["r","מילה אחת"], scene:"party"},
+  {id:"followup", en:"follow up", kind:"phrasal verb", stress:"fol·low <b>UP</b>", he:"לחזור למישהו בהמשך, לעקוב", s:"Thanks for the meeting. I'll {follow up} with an email tomorrow.", gap:{"give up":"give up = לוותר. לא מה שעושים אחרי פגישה טובה.","show up":"show up = להופיע, להגיע. לא עושים את זה במייל."}, status:"review", hint:["f","שתי מילים"]},
+  {id:"fragile", en:"fragile", kind:"adj.", stress:"<b>FRA</b>·gile", he:"שביר, נשבר בקלות", s:"Careful with that box. The glasses inside are {fragile}.", gap:{"sturdy":"sturdy = יציב וחזק, ההפך מ-fragile. אז לא היה צריך להיזהר.","cheap":"cheap = זול. המחיר לא קשור לזהירות."}, status:"review", hint:["f","מילה אחת"], pic:"glass", scene:"shop"},
+  {id:"overwhelmed", en:"overwhelmed", kind:"adj.", stress:"o·ver·<b>WHELMED</b>", he:"מוצף, המום, יותר מדי עליי", s:"After a week away, I came back to 300 emails and felt {overwhelmed}.", gap:{"relieved":"relieved = הקלה. לא מה שמרגישים מול 300 מיילים.","flattered":"flattered = מוחמא. 300 מיילים זה לא מחמאה."}, status:"review", hint:["o","מילה אחת"]},
+  {id:"thrive", en:"thrive", kind:"verb", stress:"<b>THRIVE</b> · th as in think", he:"לשגשג, לפרוח, להצליח", s:"Some people struggle under pressure, but she really {thrives}.", gap:{"collapses":"collapses = קורסת. ה-but מרמז שהיא דווקא מצליחה.","complains":"complains = מתלוננת. ה-but מרמז על ההפך מקושי."}, status:"review", hint:["th","מילה אחת"], pic:"sprout"},
+  {id:"hesitant", en:"hesitant", kind:"adj.", stress:"<b>HES</b>·i·tant", he:"מהסס, עוד לא החליט", s:"He seemed {hesitant}, as if he wasn't sure what to say.", gap:{"confident":"confident = בטוח בעצמו. אבל הוא לא יודע מה לומר.","furious":"furious = זועם. לא מסתדר עם חוסר ביטחון."}, status:"review", hint:["h","מילה אחת"]},
+  {id:"leverage", en:"leverage", kind:"verb", stress:"<b>LEV</b>·er·age", he:"למנף, לנצל משאב כדי להשיג יותר", s:"We can {leverage} our existing clients to reach new markets.", gap:{"neglect":"neglect = להזניח. ההפך ממה שעושים עם לקוחות כדי לגדול.","postpone":"postpone = לדחות. לא עוזר להגיע לשווקים חדשים."}, status:"new", hint:["l","מילה אחת"], pic:"lever"},
+  {id:"hang", en:"get the hang of", kind:"idiom", stress:"get the <b>HANG</b> of", he:"להתחיל להסתדר עם משהו, לתפוס את העניין", s:"The new app is confusing at first, but you'll {get the hang of} it.", gap:{"get rid of":"get rid of = להיפטר מ-. ה-but מבטיח שזה ישתפר, לא שתמחקי אותה.","get out of":"get out of = להתחמק מ-, לצאת מ-."}, status:"new", hint:["get","ארבע מילים"]},
+  {id:"procrastinate", en:"procrastinate", kind:"verb", stress:"pro·<b>CRAS</b>·ti·nate", he:"לדחות שוב ושוב את מה שצריך לעשות", s:"Stop {procrastinating} and start working on the report!", gap:{"negotiating":"negotiating = לנהל משא ומתן. לא מה שעוצרים כדי להתחיל לעבוד.","apologizing":"apologizing = להתנצל. לא קשור להתחיל לעבוד."}, status:"new", hint:["p","מילה אחת"], pic:"clock", scene:"desk"},
+  {id:"granted", en:"take for granted", kind:"idiom", stress:"take for <b>GRAN</b>·ted", he:"לקחת כמובן מאליו, לא להעריך", s:"We often {take our health for granted} until we get sick.", gap:{"take our health seriously":"take seriously = להתייחס ברצינות. ה-until we get sick מרמז שעד אז לא מעריכים.","take our health into account":"take into account = להביא בחשבון. פחות מתאים לרגש של אי-הערכה."}, status:"new", hint:["take","...for..."]},
+  {id:"bottleneck", en:"bottleneck", kind:"noun", stress:"<b>BOT</b>·tle·neck", he:"צוואר בקבוק, מה שמאט את כל התהליך", s:"Everything waits for the manager's approval. It's our biggest {bottleneck}.", gap:{"milestone":"milestone = אבן דרך, הישג בדרך. כאן משהו תקוע.","shortcut":"shortcut = קיצור דרך. כאן משהו מאט, לא מקצר."}, status:"new", hint:["b","מילה אחת"], pic:"bottle"},
+  {id:"touchbase", en:"touch base", kind:"idiom", stress:"touch <b>BASE</b>", he:"להתעדכן בקצרה, ליצור קשר", s:"I'm swamped today, but let's {touch base} on Monday.", gap:{"break the ice":"break the ice = לשבור את הקרח, בהיכרות ראשונה. לא קביעת עדכון.","call it a day":"call it a day = לסיים להיום. לא קובעים את זה ליום שני."}, status:"new", hint:["t","שתי מילים"]}
+];
+WORDS.forEach(w => { const m = w.s.match(/^(.*)\{(.+)\}(.*)$/); w.pre = m[1]; w.ans = m[2]; w.post = m[3]; w.plain = w.pre + w.ans + w.post; });
+const byId = Object.fromEntries(WORDS.map(w => [w.id, w]));
+const byHe = Object.fromEntries(WORDS.map(w => [w.he, w]));
+
+/* precise explanations for words people actually mix up */
+const CONFUSE = {
+  "reluctant|hesitant": ["hesitant","עוד לא החליט, מהסס.","reluctant","כבר יודע שלא רוצה, ועושה בחוסר חשק."],
+  "followup|touchbase": ["follow up","חוזרים אחרי משהו שכבר קרה: פגישה, מייל, שיחה.","touch base","עדכון קצר וכללי, גם בלי סיבה מיוחדת."],
+  "overwhelmed|procrastinate": ["overwhelmed","הרגשה: יותר מדי עליי.","procrastinate","פעולה: לדחות את מה שצריך לעשות."],
+  "leverage|thrive": ["leverage","פעולה: לנצל משאב כדי להשיג יותר.","thrive","מצב: לשגשג ולהצליח."]
+};
+function confusion(a, b){ return CONFUSE[a + "|" + b] || CONFUSE[b + "|" + a] || null; }
+
+const PICS = {
+  lever:'<svg viewBox="0 0 64 64"><path d="M26 50l6-12 6 12z" fill="#F2B33D"/><path d="M6 44l52-18" stroke="#22172F" stroke-width="4" stroke-linecap="round"/><rect x="40" y="10" width="18" height="16" rx="2" fill="#E5485A" transform="rotate(-19 49 18)"/><circle cx="10" cy="38" r="5" fill="#3FC1C9"/></svg>',
+  glass:'<svg viewBox="0 0 64 64"><path d="M20 8h24c0 16-4 24-12 24S20 24 20 8z" fill="#D9F0F2" stroke="#22172F" stroke-width="2.5"/><path d="M32 32v16M22 52h20" stroke="#22172F" stroke-width="2.5" stroke-linecap="round"/><path d="M30 10l-3 7 5 3-3 8" fill="none" stroke="#E5485A" stroke-width="2"/></svg>',
+  sprout:'<svg viewBox="0 0 64 64"><path d="M32 56V30" stroke="#1FA978" stroke-width="4" stroke-linecap="round"/><path d="M32 34c-14 0-18-10-18-16 10 0 18 6 18 16zM32 30c0-12 8-18 18-18 0 8-6 18-18 18z" fill="#1FA978"/><path d="M12 58h40" stroke="#8C6B4A" stroke-width="4" stroke-linecap="round"/><circle cx="52" cy="10" r="5" fill="#F2B33D"/></svg>',
+  clock:'<svg viewBox="0 0 64 64"><circle cx="30" cy="34" r="20" fill="#fff" stroke="#22172F" stroke-width="3"/><path d="M30 22v12l8 5" stroke="#22172F" stroke-width="3" stroke-linecap="round" fill="none"/><text x="46" y="16" font-family="Fraunces,serif" font-weight="800" font-size="13" fill="#8F7CFF">z</text><text x="53" y="9" font-family="Fraunces,serif" font-weight="800" font-size="10" fill="#8F7CFF">z</text></svg>',
+  bottle:'<svg viewBox="0 0 64 64"><path d="M26 6h12v12l8 10v28H18V28l8-10z" fill="#D9F0F2" stroke="#22172F" stroke-width="2.5" stroke-linejoin="round"/><g fill="#FF7A59"><circle cx="24" cy="48" r="3"/><circle cx="32" cy="48" r="3"/><circle cx="40" cy="48" r="3"/><circle cx="28" cy="40" r="3"/><circle cx="36" cy="40" r="3"/><circle cx="32" cy="32" r="3"/><circle cx="32" cy="22" r="2.6"/></g></svg>'
+};
+
+/* scenes from existing illustrations; hotspots in % of the cropped image */
+const SCENES = {
+  party: {src:"scene-party.jpg", ratio:"720 / 533", word:"reluctant", need:1,
+    prompt:'מי כאן <bdi class="en">reluctant</bdi>?', sub:"געי בדמות. כל אחת תגיד משהו.",
+    spots:[
+      {x:10.3,y:14.6,w:27.2,h:77.4, ok:false, en:"A party? Let's GO! I love parties!", he:"<bdi class=\"en\">eager</bdi> = להוט. ההפך הגמור."},
+      {x:38.3,y:14.6,w:21.2,h:77.4, ok:true,  en:"Fine... I'll go in. If I must.", he:"לא רוצה, אבל נכנסת בכל זאת."},
+      {x:60.4,y:16,w:21.3,h:76,    ok:false, en:"*yawn* ...is it over yet?", he:"<bdi class=\"en\">bored</bdi> = משועמם. הוא לא מתנגד, פשוט משעמם לו."}
+    ]},
+  desk: {src:"scene-desk.jpg", ratio:"720 / 664", word:"procrastinate", need:1,
+    prompt:'הוא כל הזמן <bdi class="en">procrastinates</bdi>. על מה?', sub:"געי בדבר שהוא דוחה שוב ושוב.",
+    spots:[
+      {x:16.5,y:6.9,w:20.4,h:69, ok:true, en:"The report. Due yesterday.", he:"בדיוק. הערימה מחכה, והוא דוחה."},
+      {x:51.9,y:41,w:12,h:15, ok:false, en:"Just one more video...", he:"זה מה שהוא עושה <b>במקום</b>. הדבר שהוא דוחה נמצא ליד."},
+      {x:76.6,y:3.9,w:16,h:17, ok:false, en:"It's very late.", he:"רמז טוב, אבל השעון הוא לא המשימה."},
+      {x:70,y:79,w:22,h:16, ok:false, en:"Zzz.", he:"החתול לא דוחה כלום. הוא פשוט ישן."}
+    ]},
+  shop: {src:"scene-shop.jpg", ratio:"720 / 611", word:"fragile", need:2,
+    prompt:'געי בשני דברים שהם <bdi class="en">fragile</bdi>', sub:"מר פּוֹטֶר מבקש. החתול כבר בדרך.",
+    spots:[
+      {x:14.4,y:6.2,w:11.5,h:20, ok:true, en:"glass vase", he:"זכוכית דקה. שביר."},
+      {x:29,y:19,w:12.3,h:11, ok:true, en:"teacup", he:"פורצלן דק. שביר."},
+      {x:42.4,y:12.2,w:10.2,h:17.5, ok:true, en:"glass ornament", he:"קישוט זכוכית. שביר."},
+      {x:53.2,y:14,w:8.1,h:16, ok:true, en:"wine glass", he:"גביע דק. שביר."},
+      {x:62.8,y:10,w:10.6,h:20, ok:true, en:"glass dome", he:"כיפת זכוכית. שביר."},
+      {x:17.4,y:48.5,w:19.5,h:14, ok:false, en:"anvil", he:"סדן ברזל. <bdi class=\"en\">sturdy</bdi>: יציב, ההפך מ-fragile."},
+      {x:51.3,y:47.3,w:28,h:15.5, ok:false, en:"wooden crate", he:"ארגז עץ. <bdi class=\"en\">sturdy</bdi>."},
+      {x:20,y:80.5,w:15.3,h:13, ok:false, en:"stone", he:"אבן. אי אפשר לשבור אותה בטעות."},
+      {x:42.2,y:74.7,w:17,h:19, ok:false, en:"iron kettle", he:"קומקום ברזל. <bdi class=\"en\">sturdy</bdi>."},
+      {x:63.8,y:83.5,w:17,h:10.5, ok:false, en:"brick", he:"לבנה. <bdi class=\"en\">sturdy</bdi>."}
+    ]}
+};
+
+const TYPE = {
+  intro:{label:"מילה חדשה", color:"var(--intro)"}, listen:{label:"שמיעה", color:"var(--listen)"},
+  gap:{label:"השלמת משפט", color:"var(--gap)"}, recall:{label:"שליפה שקטה", color:"var(--recall)"},
+  match:{label:"התאמה", color:"var(--match)"}, scene:{label:"סצנה", color:"var(--scene)"}
+};
+
+/* ---------- prefs (this device only) ---------- */
+const store = { get(k,d){ try{ const v = localStorage.getItem("wp2:"+k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set(k,v){ try{ localStorage.setItem("wp2:"+k, JSON.stringify(v)); }catch(e){} } };
+let sound = store.get("sound", true), auto = store.get("auto", false);
+
+/* ---------- audio ---------- */
+let voice = null;
+function pickVoice(){ try{ const vs = speechSynthesis.getVoices().filter(v => /^en(-|_)(US|GB)/i.test(v.lang)); const pref = ["Samantha","Ava","Allison","Google US English","Microsoft Aria","Microsoft Jenny","Karen","Daniel"]; voice = pref.map(p => vs.find(v => v.name.indexOf(p) !== -1)).find(Boolean) || vs[0] || null; }catch(e){} }
+try{ speechSynthesis.onvoiceschanged = pickVoice; pickVoice(); }catch(e){}
+function say(parts, rate){
+  try{
+    if(!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const list = Array.isArray(parts) ? parts : [parts];
+    setPlaying(true);
+    list.forEach((t,i) => { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; if(voice) u.voice = voice; u.rate = rate || .92; if(i === list.length-1){ u.onend = () => setPlaying(false); u.onerror = () => setPlaying(false); } speechSynthesis.speak(u); });
+    clearTimeout(say.t); say.t = setTimeout(() => setPlaying(false), 7000);
+  }catch(e){}
+}
+function setPlaying(on){ const c = document.querySelector(".wave-card"); if(c) c.classList.toggle("playing", on); }
+let ac = null;
+function tone(kind){
+  if(!sound) return;
+  try{
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const t = ac.currentTime;
+    const S = {ok:[[784,0],[1175,.07]], bad:[[233,0],[196,.1]], flip:[[660,0],[880,.05]], pair:[[988,0],[1319,.06]], combo:[[784,0],[988,.06],[1319,.12]], land:[[523,0]], end:[[523,0],[784,.08],[1047,.16],[1568,.26]]}[kind] || [[600,0]];
+    S.forEach(([f,d]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = kind==="bad" ? "triangle" : "sine"; o.frequency.value = f; g.gain.setValueAtTime(.0001, t+d); g.gain.exponentialRampToValueAtTime(kind==="bad"?.1:.15, t+d+.015); g.gain.exponentialRampToValueAtTime(.0001, t+d+.3); o.connect(g); g.connect(ac.destination); o.start(t+d); o.stop(t+d+.33); });
+  }catch(e){}
+}
+
+/* ---------- Margo: rare, varied, never blocking ---------- */
+const quipEl = document.getElementById("quip"), hostBtn = document.getElementById("hostBtn");
+const LINES = {
+  start:["12 מילים, 4 דקות. אני אחראית על הדרמה, את על המילים.","מוכנה? אני כבר באיפור."],
+  firstNew:["מילה חדשה עולה לבמה. תני לה רגע להשתחוות.","מילה חדשה. שימי לב להטעמה, היא הכוכבת פה."],
+  combo3:["שלוש ברצף. מישהו פה עשה שיעורי בית.","שלוש מתוך שלוש. אני כמעט מתרגשת.","רצף. אל תסתכלי עליי, תמשיכי."],
+  combo6:["שש ברצף. אני מזמינה לך תפקיד ראשי.","את גונבת לי את ההצגה. בכיף."],
+  combo9:["תשע. אני מתחילה לחשוש לגבי התפקיד שלי."],
+  match:["הפסקת התאמות. מהר, אבל בלי לנחש.","זוגות. כמו בהצגה טובה, כל אחד מוצא את שלו."],
+  scene:["סצנה. תסתכלי טוב, אף אחד פה לא מסתיר כלום.","תאורה, מצלמה, מילה."],
+  confuse:["את השתיים האלה כולם מבלבלים. אפילו אני. פעם אחת.","זה בדיוק הבלבול ששווה ללמוד עכשיו."],
+  tap:["אני מגיבה רק כשיש סיבה. זו לא סיבה, אבל שלום.","טעויות הן חזרות שמגיעות מוקדם.","מילה קשה חוזרת יותר. מילה קלה פחות. ככה זה עובד."]
+};
+const usedLines = {};
+let lastQuipAt = -99, quipT = null;
+function line(kind){ const pool = LINES[kind]; usedLines[kind] = usedLines[kind] || []; let opts = pool.filter(l => usedLines[kind].indexOf(l) === -1); if(!opts.length){ usedLines[kind] = []; opts = pool; } const l = opts[Math.floor(Math.random()*opts.length)]; usedLines[kind].push(l); return l; }
+function face(f){ const s = (id,on) => { const el = document.getElementById(id); if(el) el.style.display = on ? "" : "none"; }; s("eyesN", f!=="happy"); s("eyesH", f==="happy"); s("brow", f==="wow"); s("mouthN", f==="neutral"); s("mouthH", f==="happy"); s("mouthO", f==="wow"); }
+function quip(kind, f, force){
+  if(!force && pos - lastQuipAt < 4) return;
+  lastQuipAt = pos;
+  face(f || "happy"); hostBtn.classList.remove("bob"); void hostBtn.offsetWidth; hostBtn.classList.add("bob");
+  quipEl.textContent = line(kind); quipEl.classList.add("on");
+  clearTimeout(quipT); quipT = setTimeout(() => { quipEl.classList.remove("on"); face("neutral"); }, 2600);
+}
+
+/* ---------- scheduler ---------- */
+let Q = [], pos = 0, prevType = null, S = {}, cur = null, answered = false, combo = 0, bestCombo = 0, startedAt = 0, autoT = null;
+let sinceMatch = 0, matches = 0, seen = [], sawFirstNew = false, lockUntil = 0;
+const shuffle = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+function build(){
+  S = {}; WORDS.forEach(w => S[w.id] = {reps:0, firstOk:null, learned:false, known:false, lastType:null, sceneDone:false, slips:0});
+  const R = shuffle(WORDS.filter(w => w.status==="review")), N = shuffle(WORDS.filter(w => w.status==="new"));
+  Q = []; for(let i=0;i<6;i++){ Q.push({kind:"review", id:R[i].id}); Q.push({kind:"intro", id:N[i].id}); }
+  pos = 0; prevType = null; combo = 0; bestCombo = 0; sinceMatch = 0; matches = 0; seen = []; sawFirstNew = false; lastQuipAt = -99;
+}
+function insert(task, gap){ Q.splice(Math.min(Q.length, pos + 1 + gap), 0, task); }
+function chooseType(task){
+  if(task.kind==="intro" || task.kind==="match") return task.kind;
+  const w = byId[task.id], st = S[task.id];
+  if(w.scene && !st.sceneDone && prevType !== "scene") return "scene";
+  let pref = task.kind==="review" ? shuffle(["listen","gap","recall"]) : task.stage===1 ? shuffle(["listen","gap"]) : ["recall","gap","listen"];
+  pref = pref.filter(t => t !== prevType && t !== st.lastType).concat(pref);
+  return pref[0];
+}
+
+/* ---------- helpers ---------- */
+const stage = document.getElementById("stage"), actions = document.getElementById("actions"), fill = document.getElementById("fill"), track = document.getElementById("track"), comboEl = document.getElementById("combo");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $ = s => stage.querySelector(s);
+function paint(type, html, act, center){
+  stage.style.setProperty("--type", type ? TYPE[type].color : "var(--gold)");
+  stage.innerHTML = '<div class="stage-in swap' + (center ? " center" : "") + '">' + html + '</div>';
+  actions.innerHTML = act || "";
+  fill.style.width = (Q.length ? Math.min(100, Math.round(pos / Q.length * 100)) : 0) + "%";
+  comboEl.textContent = combo >= 3 ? "רצף " + combo : "";
+  lockUntil = performance.now() + 260;
+}
+const locked = () => performance.now() < lockUntil;
+const tags = (type, w) => '<div class="tags"><span class="tag">' + TYPE[type].label + '</span>' + (w ? '<span class="tag light">' + (w.status==="new" ? "חדשה" : "חזרה") + '</span>' : '') + '</div>';
+const playBtns = () => '<div class="audio"><button class="play" data-act="sayword" aria-label="השמעת המילה"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button><button class="play slow" data-act="sayslow" aria-label="השמעה איטית">0.6×</button></div>';
+const marked = (w, size) => '<p class="sent"' + (size ? ' style="font-size:' + size + 'px"' : '') + '>' + esc(w.pre) + '<mark>' + esc(w.ans) + '</mark>' + esc(w.post) + '</p>';
+const contBtn = (label) => '<button class="primary" data-act="next" disabled>' + (label || "המשך") + ' <span class="kbd">↵</span></button>';
+function armContinue(){ const b = actions.querySelector('[data-act="next"]'); if(b) setTimeout(() => { b.disabled = false; }, 280); }
+const CHECK = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const CROSS = '<svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>';
+function fbHTML(ok, head, w, extra){
+  return '<div class="fb ' + (ok===true?"ok":ok===false?"bad":"info") + '"><span class="mark">' + (ok===false?CROSS:CHECK) + '</span><div class="body"><div class="head">' + head + '</div>' +
+    (w ? '<span class="w">' + esc(w.en) + '</span><div>' + esc(w.he) + '</div>' : '') + (extra || '') + '</div></div>';
+}
+function diffHTML(c){ return '<div class="diff"><div class="row"><bdi class="en">' + esc(c[0]) + '</bdi><span>' + esc(c[1]) + '</span></div><div class="row"><bdi class="en">' + esc(c[2]) + '</bdi><span>' + esc(c[3]) + '</span></div></div>'; }
+function burst(el){
+  if(!el) return; const r = el.getBoundingClientRect(); const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  const cols = ["#FFD27A","#1FA978","#FF7A59","#8F7CFF","#3FC1C9"];
+  for(let i=0;i<14;i++){
+    const p = document.createElement("i"); p.className = "burst"; p.style.left = cx + "px"; p.style.top = cy + "px"; p.style.background = cols[i % cols.length];
+    document.body.appendChild(p);
+    const a = Math.random() * Math.PI * 2, d = 40 + Math.random() * 60;
+    const an = p.animate([{transform:"translate(-50%,-50%) scale(1)",opacity:1},{transform:"translate(calc(-50% + " + Math.cos(a)*d + "px), calc(-50% + " + Math.sin(a)*d + "px)) rotate(" + (Math.random()*360) + "deg) scale(.6)",opacity:0}], {duration:520, easing:"cubic-bezier(.2,.8,.3,1)"});
+    an.onfinish = () => p.remove();
+  }
+}
+function flyToTrack(el, text){
+  if(!el) return; const r = el.getBoundingClientRect(), t = track.getBoundingClientRect();
+  const c = document.createElement("span"); c.className = "flychip"; c.textContent = text; c.style.left = (r.left + r.width/2) + "px"; c.style.top = (r.top + r.height/2) + "px";
+  document.body.appendChild(c);
+  const tx = t.left + t.width * Math.max(.05, pos / Math.max(1, Q.length)) - (r.left + r.width/2), ty = t.top + 5 - (r.top + r.height/2);
+  const an = c.animate([{transform:"translate(-50%,-50%) scale(1)",opacity:1},{transform:"translate(calc(-50% + " + tx + "px), calc(-50% + " + ty + "px)) scale(.4)",opacity:.2}], {duration:560, easing:"cubic-bezier(.5,0,.3,1)"});
+  an.onfinish = () => { c.remove(); track.classList.remove("pulse"); void track.offsetWidth; track.classList.add("pulse"); };
+}
+
+/* ---------- render ---------- */
+function renderStart(){
+  const chips = WORDS.map(w => '<span class="chip' + (w.status==="new" ? " new" : "") + '">' + esc(w.en) + '</span>').join("");
+  paint(null,
+    '<h1 class="hero-title">Word<i>play</i></h1>' +
+    '<p class="mean">סבב של 12 מילים, כ-4 דקות.</p>' +
+    '<div class="legend"><div><b>6</b><span>חדשות</span></div><div><b>6</b><span>חזרות</span></div><div><b>5</b><span>סוגי משחק</span></div></div>' +
+    '<div class="how"><span style="background:var(--listen)">שמיעה</span><span style="background:var(--gap)">השלמת משפט</span><span style="background:var(--recall)">שליפה שקטה</span><span style="background:var(--match)">התאמה</span><span style="background:var(--scene)">סצנה</span></div>' +
+    '<p class="sub">אין צורך לדבר או להקליד. כדאי עם קול. עוצרים מתי שרוצים.</p><div class="lineup">' + chips + '</div>',
+    '<button class="primary" data-act="start">התחילי</button>', true);
+  face("neutral");
+}
+
+function renderTask(){
+  clearTimeout(autoT);
+  if(pos >= Q.length) return renderEnd();
+  if(sinceMatch >= 8 && matches < 2 && seen.length >= 4 && Q[pos].kind !== "match"){ Q.splice(pos, 0, {kind:"match"}); }
+  cur = Q[pos]; answered = false;
+  const type = chooseType(cur); cur.type = type;
+  if(type === "match") return renderMatch();
+  const w = byId[cur.id];
+  if(seen.indexOf(w.id) === -1 && type !== "intro") seen.push(w.id);
+  ({intro:renderIntro, listen:renderListen, gap:renderGap, recall:renderRecall, scene:renderScene})[type](w);
+}
+
+function renderIntro(w){
+  if(seen.indexOf(w.id) === -1) seen.push(w.id);
+  paint("intro",
+    tags("intro", w) +
+    '<div class="ltr-row" style="align-items:flex-start"><p class="word" style="min-width:0' + (w.en.length > 9 ? ';font-size:34px' : '') + '">' + esc(w.en) + '</p>' + (w.pic ? '<div class="pic" aria-hidden="true">' + PICS[w.pic] + '</div>' : '') + '</div>' +
+    '<div class="ltr-row"><div class="stress">' + w.stress + ' · ' + esc(w.kind) + '</div>' + playBtns() + '</div>' +
+    '<p class="mean">' + esc(w.he) + '</p>' + marked(w),
+    '<div class="pair2"><button class="ghost" data-act="known">כבר מכירה</button><button class="primary" data-act="introdone">הבנתי <span class="kbd">↵</span></button></div>', true);
+  say([w.en, w.plain]);
+  if(!sawFirstNew){ sawFirstNew = true; quip("firstNew", "wow", true); }
+}
+
+function renderListen(w){
+  const others = shuffle(WORDS.filter(x => x.id !== w.id));
+  const near = others.filter(x => confusion(x.id, w.id));
+  const pickO = near.concat(others.filter(x => near.indexOf(x) === -1)).slice(0,3);
+  cur.opts = shuffle([{w:w, ok:true}].concat(pickO.map(x => ({w:x, ok:false}))));
+  const bars = Array.from({length:26}, (_,i) => '<i style="--h:' + (30 + Math.round(Math.abs(Math.sin(i*1.7))*70)) + ';--d:' + ((i%6)*.07).toFixed(2) + '"></i>').join("");
+  paint("listen",
+    tags("listen", w) +
+    '<p class="prompt">הקשיבי. מה פירוש המילה?</p>' +
+    '<div class="wave-card"><button class="wave-play" data-act="listenplay" aria-label="השמעה שוב"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></button><div class="wave" aria-hidden="true">' + bars + '</div><button class="wave-slow" data-act="listenslow" aria-label="השמעה איטית">0.6×</button></div>' +
+    '<div class="reveal-word" id="rw"><span class="q">? ? ?</span></div><div id="fb"></div>',
+    '<div class="opts">' + cur.opts.map((o,i) => '<button class="opt" data-act="pick" data-i="' + i + '"><span class="n">' + (i+1) + '</span><span>' + esc(o.w.he) + '</span></button>').join("") + '</div>', true);
+  say([w.en, w.plain], .9);
+}
+
+function renderGap(w){
+  cur.opts = shuffle([w.ans].concat(Object.keys(w.gap)));
+  paint("gap",
+    tags("gap", w) +
+    '<p class="prompt">איזו מילה משלימה את המשפט?</p>' +
+    '<p class="gap-sent">' + esc(w.pre) + '<span class="slot" id="slot">' + esc(w.ans) + '</span>' + esc(w.post) + '</p>' +
+    '<div id="fb"></div>',
+    '<p class="tray-hint">גררי אריח אל החסר, או געי בו</p><div class="tray" id="tray">' + cur.opts.map((t,i) => '<button class="tile" data-i="' + i + '">' + esc(t) + '</button>').join("") + '</div>', true);
+  const slot = $("#slot"); slot.style.minWidth = Math.max(3.6, w.ans.length * .52) + "em";
+}
+
+function renderRecall(w){
+  paint("recall",
+    tags("recall", w) +
+    '<div class="flip" id="flip"><div class="flip-in">' +
+      '<div class="face front"><p class="sub" style="color:#4B3FA8">איך אומרים באנגלית:</p><p class="mean" style="font-size:25px">' + esc(w.he) + '</p>' +
+      '<p class="sent" style="font-size:17px">' + esc(w.pre) + '<span class="blank-line">&nbsp;</span>' + esc(w.post) + '</p><div id="hint"></div>' +
+      '<p class="sub">אמרי את המילה בראש. בלי להקליד ובלי לדבר.</p></div>' +
+      '<div class="face back"><div class="ltr-row"><p class="word" style="min-width:0' + (w.en.length > 9 ? ';font-size:32px' : '') + '">' + esc(w.en) + '</p>' + playBtns() + '</div><div class="stress">' + w.stress + '</div><p class="mean" style="font-size:18px">' + esc(w.he) + '</p>' + marked(w, 17) + '</div>' +
+    '</div></div>',
+    '<div class="pair2"><button class="ghost" data-act="hint">רמז</button><button class="primary" data-act="reveal">הפכי</button></div>');
+}
+
+function renderScene(w){
+  const sc = SCENES[w.scene]; cur.sc = sc; cur.found = 0; cur.misses = 0; cur.tapped = {};
+  paint("scene",
+    tags("scene", w) +
+    '<p class="prompt">' + sc.prompt + '</p><p class="sub" style="margin-top:-6px">' + sc.sub + '</p>' +
+    '<div class="scene" id="scene" style="aspect-ratio:' + sc.ratio + '"><img src="' + sc.src + '" alt="">' +
+      sc.spots.map((s,i) => '<button class="hs" data-act="spot" data-i="' + i + '" aria-label="' + esc(s.en) + '" style="left:' + s.x + '%;top:' + s.y + '%;width:' + s.w + '%;height:' + s.h + '%"></button>').join("") +
+      '<div id="cap"></div></div>' +
+    (sc.need > 1 ? '<div class="found" id="found">' + Array.from({length:sc.need}, () => '<i></i>').join("") + '</div>' : '') +
+    '<div id="fb"></div>', '', true);
+  if(!cur.quipped){ cur.quipped = true; quip("scene", "wow"); }
+}
+
+function renderMatch(){
+  matches++; sinceMatch = 0;
+  const pool = shuffle(seen.slice()).slice(0, 4).map(id => byId[id]);
+  const audio = matches === 2;
+  cur.pairs = pool; cur.audio = audio; cur.done = 0; cur.miss = {}; cur.sel = null;
+  const left = shuffle(pool), right = shuffle(pool);
+  paint("match",
+    tags("match") +
+    '<p class="prompt">' + (audio ? "חברי כל צליל למשמעות שלו" : "חברי כל מילה למשמעות שלה") + '</p>' +
+    '<p class="sub" style="margin-top:-6px">' + (audio ? "געי ברמקול כדי לשמוע, ואז במשמעות." : "געי במילה ואז במשמעות, או גררי ביניהן.") + '</p>' +
+    '<div class="match" id="match"><svg class="match-svg" id="msvg"></svg>' +
+      '<div class="mcol">' + right.map(w => '<button class="mt he-t" data-side="he" data-id="' + w.id + '">' + esc(w.he) + '</button>').join("") + '</div>' +
+      '<div class="mcol">' + left.map(w => audio
+        ? '<button class="mt snd" data-side="en" data-id="' + w.id + '" aria-label="השמעת מילה"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button>'
+        : '<button class="mt en-t" data-side="en" data-id="' + w.id + '">' + esc(w.en) + '</button>').join("") + '</div>' +
+    '</div><div id="fb"></div>', '', true);
+  quip("match", "happy");
+}
+
+/* ---------- outcomes ---------- */
+function settle(ok, opts){
+  opts = opts || {};
+  const st = cur.id ? S[cur.id] : null;
+  prevType = cur.type; sinceMatch++;
+  if(st){
+    st.reps++; st.lastType = cur.type; if(cur.type==="scene") st.sceneDone = true;
+    if(st.firstOk === null) st.firstOk = !!ok;
+    if(cur.kind==="review"){ if(ok) st.learned = true; else { st.slips++; if(st.reps < 4) insert({kind:"check", id:cur.id, stage:2}, 2); } }
+    else if(cur.kind==="check"){
+      if(cur.stage===1){ if(ok) insert({kind:"check", id:cur.id, stage:2}, 3); else { st.slips++; if(st.reps < 4) insert({kind:"check", id:cur.id, stage:1}, 2); } }
+      else { if(ok) st.learned = true; else { st.slips++; if(st.reps < 5) insert({kind:"check", id:cur.id, stage:2}, 3); } }
+    }
+  }
+  if(ok){ combo++; bestCombo = Math.max(bestCombo, combo); } else combo = 0;
+  comboEl.textContent = combo >= 3 ? "רצף " + combo : "";
+  if(combo >= 3){ comboEl.classList.remove("up"); void comboEl.offsetWidth; comboEl.classList.add("up"); }
+  if(combo === 3){ tone("combo"); quip("combo3", "happy"); } else if(combo === 6){ tone("combo"); quip("combo6", "happy", true); } else if(combo === 9){ tone("combo"); quip("combo9", "wow", true); }
+  armContinue();
+  if(auto && ok && !opts.partial){ autoT = setTimeout(next, 1300); }
+}
+
+function pick(i){
+  if(answered || locked()) return; answered = true;
+  const w = byId[cur.id], o = cur.opts[i];
+  actions.querySelectorAll(".opt").forEach((b,j) => { b.disabled = true; if(cur.opts[j].ok) b.classList.add("ok"); else if(j===i) b.classList.add("bad"); else b.classList.add("dim"); });
+  const btn = actions.querySelectorAll(".opt")[i];
+  $("#rw").innerHTML = '<span class="w">' + esc(w.en) + '</span>';
+  if(o.ok){ tone("ok"); burst(btn); flyToTrack(btn, w.en); $("#fb").innerHTML = fbHTML(true, "נכון", null, marked(w, 16)); }
+  else {
+    tone("bad"); const c = confusion(o.w.id, w.id);
+    $("#fb").innerHTML = fbHTML(false, c ? "בלבול קלאסי. ההבדל:" : "התשובה:", c ? null : w, c ? diffHTML(c) : '');
+    if(c) quip("confuse", "wow");
+  }
+  actions.insertAdjacentHTML("beforeend", contBtn());
+  say(w.plain, .95);
+  settle(o.ok);
+}
+
+function placeTile(i){
+  if(answered || locked()) return; answered = true;
+  const w = byId[cur.id], t = cur.opts[i], ok = t === w.ans, slot = $("#slot");
+  actions.querySelectorAll(".tile").forEach((b,j) => { b.disabled = true; if(j===i) b.classList.add("ghost"); });
+  slot.textContent = t; slot.classList.add("filled", ok ? "ok" : "bad", "land");
+  tone(ok ? "ok" : "bad");
+  if(ok){ burst(slot); flyToTrack(slot, w.ans); $("#fb").innerHTML = fbHTML(true, "בול", w); }
+  else {
+    $("#fb").innerHTML = fbHTML(false, "המילה הנכונה:", w, '<div class="diff">' + esc(w.gap[t] || "") + '</div>');
+    setTimeout(() => { slot.textContent = w.ans; slot.classList.remove("bad"); slot.classList.add("ok"); }, 700);
+  }
+  actions.querySelector(".tray-hint").remove();
+  actions.insertAdjacentHTML("beforeend", contBtn());
+  say(w.plain, .95);
+  settle(ok);
+}
+
+function reveal(){
+  if(answered || locked()) return;
+  const w = byId[cur.id]; tone("flip"); $("#flip").classList.add("done");
+  say([w.en, w.plain]);
+  actions.innerHTML = '<p class="honest">ידעת לפני שהפכת? (דיווח עצמי)</p><div class="rate"><button class="opt" data-act="self" data-v="no">לא ידעתי</button><button class="opt" data-act="self" data-v="almost">כמעט</button><button class="opt" data-act="self" data-v="yes">ידעתי</button></div>';
+  answered = "reveal"; lockUntil = performance.now() + 450;
+}
+function selfRate(v){
+  if(answered !== "reveal" || locked()) return; answered = true;
+  const ok = v === "yes" && !cur.hinted;
+  tone(v==="yes" ? "ok" : v==="almost" ? "flip" : "bad");
+  if(ok) flyToTrack($(".face.back .word"), byId[cur.id].en);
+  const msg = v==="yes" ? (cur.hinted ? "יפה. עם רמז זה נספר כחצי, והיא תחזור." : "נרשם כשליפה.") : v==="almost" ? "כמעט זה התחלה טובה. היא תחזור עוד מעט." : "עכשיו ראית אותה. היא תחזור עוד מעט.";
+  actions.innerHTML = fbHTML(v==="yes" ? true : null, msg) + contBtn();
+  settle(ok, {partial: v!=="yes" || cur.hinted});
+}
+function hint(){
+  if(answered || locked()) return;
+  const w = byId[cur.id]; cur.hinted = true;
+  $("#hint").innerHTML = '<span class="hint">רמז: מתחילה ב-<bdi class="en">' + esc(w.hint[0]) + '</bdi> · ' + esc(w.hint[1]) + '</span>';
+}
+function spot(i){
+  if(answered === true || locked()) return;
+  const sc = cur.sc, s = sc.spots[i], btn = stage.querySelectorAll(".hs")[i], w = byId[cur.id];
+  if(cur.tapped[i]) return; cur.tapped[i] = true;
+  btn.classList.add(s.ok ? "ok" : "no");
+  $("#cap").innerHTML = '<div class="cap"><span class="en">' + esc(s.en) + '</span>' + s.he + '</div>';
+  say(s.en, .95);
+  if(s.ok){ cur.found++; tone("pair"); burst(btn); const f = stage.querySelectorAll("#found i")[cur.found-1]; if(f) f.classList.add("on"); }
+  else { cur.misses++; tone("bad"); }
+  if(cur.found >= sc.need){
+    answered = true;
+    const ok = cur.misses === 0;
+    $("#fb").innerHTML = fbHTML(ok ? true : null, ok ? "ראית בדיוק." : "מצאת. עכשיו את יודעת גם מה זה לא.", w);
+    flyToTrack(btn, w.en);
+    actions.innerHTML = contBtn();
+    settle(ok);
+  }
+}
+
+/* match: tap-tap or drag */
+let drag = null;
+function matchTry(a, b){
+  if(!a || !b || a === b || a.dataset.side === b.dataset.side) return false;
+  const ok = a.dataset.id === b.dataset.id;
+  if(ok){
+    const w = byId[a.dataset.id]; tone("pair"); burst(b);
+    [a,b].forEach(el => el.classList.add("done")); cur.done++;
+    if(cur.audio){ a.closest(".match") && [a,b].forEach(el => { if(el.dataset.side === "en") el.innerHTML = '<span class="en">' + esc(w.en) + '</span>'; }); }
+    if(cur.audio) say(w.en, .9);
+    if(cur.done === cur.pairs.length) finishMatch();
+  } else {
+    tone("bad"); [a,b].forEach(el => { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); });
+    const id = a.dataset.side === "en" ? a.dataset.id : b.dataset.id; cur.miss[id] = true;
+  }
+  return true;
+}
+function finishMatch(){
+  answered = true;
+  const missed = Object.keys(cur.miss);
+  missed.forEach(id => insert({kind:"check", id:id, stage:2}, 2 + Math.floor(Math.random()*3)));
+  const ok = missed.length === 0;
+  $("#fb").innerHTML = fbHTML(ok ? true : null, ok ? "4 מתוך 4, בלי טעויות." : "כל הזוגות במקום. " + missed.length + (missed.length === 1 ? " מילה תחזור" : " מילים יחזרו") + " לחיזוק.");
+  actions.innerHTML = contBtn();
+  cur.id = null; settle(ok);
+}
+function clearSel(){ stage.querySelectorAll(".mt.sel").forEach(e => e.classList.remove("sel")); cur.sel = null; }
+function line2(a, x, y){
+  const svg = $("#msvg"); if(!svg) return; const box = $("#match").getBoundingClientRect(), r = a.getBoundingClientRect();
+  svg.innerHTML = '<line x1="' + (r.left + r.width/2 - box.left) + '" y1="' + (r.top + r.height/2 - box.top) + '" x2="' + (x - box.left) + '" y2="' + (y - box.top) + '" stroke="#E85D9C" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 8"/>';
+}
+stage.addEventListener("pointerdown", e => {
+  const mt = e.target.closest(".mt"); if(!mt || !cur || cur.type !== "match" || answered || locked()) return;
+  drag = {el:mt, x:e.clientX, y:e.clientY, moved:false};
+});
+window.addEventListener("pointermove", e => {
+  if(!drag) return;
+  if(!drag.moved && Math.hypot(e.clientX-drag.x, e.clientY-drag.y) > 10){ drag.moved = true; clearSel(); drag.el.classList.add("sel"); }
+  if(drag.moved) line2(drag.el, e.clientX, e.clientY);
+});
+window.addEventListener("pointerup", e => {
+  if(!drag) return; const d = drag; drag = null; const svg = $("#msvg"); if(svg) svg.innerHTML = "";
+  if(d.moved){ const t = document.elementFromPoint(e.clientX, e.clientY); const target = t && t.closest(".mt"); d.el.classList.remove("sel"); if(target) matchTry(d.el, target); return; }
+  const el = d.el;
+  if(el.dataset.side === "en" && cur.audio) say(byId[el.dataset.id].en, .9);
+  if(cur.sel && cur.sel !== el && cur.sel.dataset.side !== el.dataset.side){ const a = cur.sel; clearSel(); matchTry(a, el); }
+  else { clearSel(); el.classList.add("sel"); cur.sel = el; }
+});
+
+/* gap: drag a tile into the slot, or tap it */
+let tdrag = null;
+actions.addEventListener("pointerdown", e => {
+  const t = e.target.closest(".tile"); if(!t || answered || locked()) return;
+  tdrag = {el:t, x:e.clientX, y:e.clientY, moved:false, ghost:null};
+});
+window.addEventListener("pointermove", e => {
+  if(!tdrag) return;
+  if(!tdrag.moved && Math.hypot(e.clientX-tdrag.x, e.clientY-tdrag.y) > 10){
+    tdrag.moved = true; const g = tdrag.el.cloneNode(true); g.classList.add("drag"); document.body.appendChild(g); tdrag.ghost = g; tdrag.el.classList.add("ghost");
+  }
+  if(tdrag.moved){
+    tdrag.ghost.style.left = (e.clientX - tdrag.ghost.offsetWidth/2) + "px"; tdrag.ghost.style.top = (e.clientY - tdrag.ghost.offsetHeight/2) + "px";
+    const slot = $("#slot"); if(slot){ const r = slot.getBoundingClientRect(); slot.classList.toggle("hover", e.clientX > r.left-20 && e.clientX < r.right+20 && e.clientY > r.top-24 && e.clientY < r.bottom+24); }
+  }
+});
+window.addEventListener("pointerup", e => {
+  if(!tdrag) return; const d = tdrag; tdrag = null;
+  if(d.moved){
+    d.ghost.remove(); d.el.classList.remove("ghost");
+    const slot = $("#slot"); const over = slot && slot.classList.contains("hover"); if(slot) slot.classList.remove("hover");
+    if(over) placeTile(+d.el.dataset.i);
+    return;
+  }
+  placeTile(+d.el.dataset.i);
+});
+
+function introDone(){ S[cur.id].lastType = "intro"; prevType = "intro"; insert({kind:"check", id:cur.id, stage:1}, 1); next(); }
+function known(){ S[cur.id].known = true; S[cur.id].lastType = "intro"; prevType = "intro"; insert({kind:"check", id:cur.id, stage:2}, 2); next(); }
+function next(){ clearTimeout(autoT); try{ speechSynthesis.cancel(); }catch(e){} pos++; renderTask(); }
+
+function renderEnd(){
+  const nw = WORDS.filter(w=>w.status==="new"), rv = WORDS.filter(w=>w.status==="review");
+  const learned = nw.filter(w => S[w.id].learned), shaky = nw.filter(w => !S[w.id].learned);
+  const kept = rv.filter(w => S[w.id].firstOk), slipped = rv.filter(w => !S[w.id].firstOk);
+  const mins = Math.max(1, Math.round((performance.now() - startedAt) / 60000));
+  fill.style.width = "100%"; tone("end"); face("happy");
+  quipEl.textContent = "קידה. ההצגה הבאה מחר."; quipEl.classList.add("on"); clearTimeout(quipT); quipT = setTimeout(() => quipEl.classList.remove("on"), 2600);
+  const chips = (arr, cls) => arr.map(w => '<span class="chip ' + cls + '">' + esc(w.en) + '</span>').join("");
+  paint(null,
+    '<h2 class="hero-title" style="font-size:40px">Bravo<i>!</i></h2>' +
+    '<p class="mean">' + pos + ' פריטים ב-' + mins + ' דק\'. רצף שיא: ' + bestCombo + '.</p>' +
+    '<div class="legend"><div><b>' + learned.length + '/6</b><span>חדשות נקלטו</span></div><div><b>' + kept.length + '/6</b><span>חזרות נשמרו</span></div><div><b>' + (shaky.length + slipped.length) + '</b><span>לחיזוק מחר</span></div></div>' +
+    (learned.length ? '<div><p class="sub" style="margin-bottom:6px">נקלטו היום</p><div class="lineup">' + chips(learned,"new") + '</div></div>' : '') +
+    ((shaky.length + slipped.length) ? '<div><p class="sub" style="margin-bottom:6px">יחזרו ראשונות בסבב הבא</p><div class="lineup">' + chips(shaky,"shaky") + chips(slipped,"lost") + '</div></div>' : '') +
+    (kept.length ? '<div><p class="sub" style="margin-bottom:6px">חזרות שעברו בהצלחה</p><div class="lineup">' + chips(kept,"") + '</div></div>' : '') +
+    '<p class="sub" style="font-size:12px">"נקלטה" = הצלחת בשליפה מאוחרת בתוך הסבב. שליפה שקטה נספרת לפי הדיווח שלך. זה עדיין לא זיכרון לטווח ארוך.</p>',
+    '<button class="primary" data-act="again">עוד סבב</button>');
+}
+
+/* ---------- input ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if(!b) return;
+  const a = b.dataset.act, w = cur && cur.id ? byId[cur.id] : null;
+  if(a==="start" || a==="again"){ build(); startedAt = performance.now(); tone("flip"); quip("start", "happy", true); renderTask(); }
+  else if(a==="next"){ if(!b.disabled) next(); }
+  else if(a==="introdone"){ if(!locked()) introDone(); }
+  else if(a==="known"){ if(!locked()) known(); }
+  else if(a==="pick") pick(+b.dataset.i);
+  else if(a==="reveal") reveal();
+  else if(a==="self") selfRate(b.dataset.v);
+  else if(a==="hint") hint();
+  else if(a==="spot") spot(+b.dataset.i);
+  else if(a==="sayword" && w) say(w.en, .85);
+  else if(a==="sayslow" && w) say(w.en, .5);
+  else if(a==="listenplay" && w) say([w.en, w.plain], .9);
+  else if(a==="listenslow" && w) say([w.en, w.plain], .62);
+});
+document.addEventListener("keydown", e => {
+  const k = e.key;
+  if(k==="Enter"){ const p = actions.querySelector('[data-act="next"]:not([disabled]),[data-act="start"],[data-act="again"],[data-act="introdone"],[data-act="reveal"]'); if(p){ e.preventDefault(); p.click(); } }
+  else if(/^[1-4]$/.test(k)){ const o = actions.querySelectorAll('.opt[data-act="pick"]'); const t = o[+k-1]; if(t && !t.disabled){ e.preventDefault(); t.click(); } }
+});
+const paceLbl = document.getElementById("paceLbl"), sndBtn = document.getElementById("sndBtn");
+function syncPrefs(){ paceLbl.textContent = auto ? "אוטומטי" : "ידני"; sndBtn.setAttribute("aria-pressed", String(sound)); }
+document.getElementById("paceBtn").addEventListener("click", () => { auto = !auto; store.set("auto", auto); syncPrefs(); });
+sndBtn.addEventListener("click", () => { sound = !sound; store.set("sound", sound); syncPrefs(); });
+hostBtn.addEventListener("click", () => quip("tap", "happy", true));
+syncPrefs(); renderStart();
+})();
+</script>
