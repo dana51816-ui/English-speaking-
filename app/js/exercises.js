@@ -38,9 +38,12 @@
       ] }
   };
 
+  /* A random example sentence, so the same word appears in different situations. */
+  X.example = item => item.examples[Math.floor(Math.random() * item.examples.length)];
+
   /* Which templates can run for an item. */
   X.capable = function (item) {
-    const t = ["listen", "recall"];
+    const t = ["listen", "recall", "pick", "reverse"];
     if (item.distractors && item.distractors.length >= 2 && item.examples && item.examples.length) t.push("gap");
     if (item.scene && X.SCENES[item.scene]) t.push("scene");
     return t;
@@ -51,7 +54,7 @@
     const item = WP.Content.byId[task.id];
     const can = X.capable(item);
     if (can.indexOf("scene") !== -1 && !task.sceneUsed && prevType !== "scene" && !(st && st.tr && st.tr.scene && st.tr.scene[0] > 0)) return "scene";
-    let pref = task.kind === "check" && task.stage === 1 ? ["listen", "gap"] : task.kind === "check" ? ["recall", "gap", "listen"] : ["listen", "gap", "recall"];
+    let pref = task.kind === "check" && task.stage === 1 ? ["listen", "gap", "pick"] : task.kind === "check" ? ["recall", "gap", "reverse", "listen"] : ["listen", "gap", "recall", "pick", "reverse"];
     pref = pref.filter(t => can.indexOf(t) !== -1);
     if (task.kind === "review" && st && st.tr) {
       const score = t => { const r = st.tr[t]; return r ? r[0] / r[1] : 0.5; };
@@ -69,6 +72,18 @@
     const picks = near.slice(0, 1).concat(same, rest).slice(0, 3);
     return { opts: shuffle([{ item: item, ok: true }].concat(picks.map(x => ({ item: x, ok: false })))) };
   };
+
+  /* Distractor items for word choices: confusable first, then same type, then same domain. */
+  X.near = function (item, n) {
+    const C = WP.Content, others = shuffle(C.items.filter(x => x.id !== item.id));
+    const conf = others.filter(x => C.confusion(x.id, item.id));
+    const type = others.filter(x => conf.indexOf(x) === -1 && x.type === item.type && x.pos === item.pos);
+    const dom = others.filter(x => conf.indexOf(x) === -1 && type.indexOf(x) === -1 && x.domains.some(d => item.domains.indexOf(d) !== -1));
+    const out = []; [conf.slice(0, 1), type, dom, others].forEach(list => list.forEach(x => { if (out.length < n && out.indexOf(x) === -1) out.push(x); }));
+    return out;
+  };
+  X.pick = item => ({ opts: shuffle([{ item: item, ok: true }].concat(X.near(item, 3).map(x => ({ item: x, ok: false })))) });
+  X.reverse = item => ({ opts: shuffle([{ item: item, ok: true }].concat(X.near(item, 3).map(x => ({ item: x, ok: false })))) });
 
   X.gap = function (item) {
     const why = {}; item.distractors.forEach(d => { why[d.t] = d.why; });

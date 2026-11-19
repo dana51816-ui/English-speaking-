@@ -16,13 +16,14 @@
 
   C.load = async function () {
     const get = async f => { const r = await fetch("content/" + f, { cache: "no-cache" }); if (!r.ok) throw new Error(f + " " + r.status); return r.json(); };
-    const [items, course, conf] = await Promise.all([get("items.json"), get("course.json"), get("confusions.json")]);
-    C.items = items.items.map(prepItem);
+    const [course, conf] = await Promise.all([get("course.json"), get("confusions.json")]);
+    const files = await Promise.all((course.itemFiles || ["items.json"]).map(get));
+    C.items = files.flatMap(f => f.items).map(prepItem);
     C.byId = Object.fromEntries(C.items.map(i => [i.id, i]));
     C.course = course;
     C.stages = [];
     course.worlds.forEach(w => w.chapters.forEach(ch => ch.stages.forEach((s, i) => {
-      const st = Object.assign({}, s, { chapter: ch.id, chapterTitle: ch.title, color: ch.color, index: C.stages.length, inChapter: i });
+      const st = Object.assign({}, s, { chapter: ch.id, chapterTitle: ch.title, color: ch.color, icon: ch.icon, index: C.stages.length, inChapter: i });
       C.stages.push(st);
       s.items.forEach(id => { C.stageOf[id] = st.id; C.chapterOf[id] = ch.id; });
     })));

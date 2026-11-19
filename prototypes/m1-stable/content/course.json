@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "worlds": [
+    {"id":"s1","title":"עונה 1","chapters":[
+      {"id":"c1","title":"במשרד","subtitle":"פגישות, מיילים ולוחות זמנים","color":"#FF7A59","stages":[
+        {"id":"c1s1","title":"יום ראשון בעבודה","items":["leverage","followup","touchbase","bottleneck","procrastinate","overwhelmed","hesitant","reluctant"]},
+        {"id":"c1s2","title":"הפרויקט מתעכב","items":["behindschedule","samepage","wrapup","headsup","streamline","feasible","drawback","turndown"]}
+      ]},
+      {"id":"c2","title":"החיים בחוץ","subtitle":"חברים, בית, סדרות וסופ\"ש","color":"#3FC1C9","stages":[
+        {"id":"c2s1","title":"סופ\"ש בעיר","items":["fragile","thrive","hang","granted","runoutof","figureout","comeupwith","putoff"]},
+        {"id":"c2s2","title":"ערב סדרות","items":["awkward","hangout","worthit","longshot","nobigdeal","bingewatch","grababite","cozy"]}
+      ]},
+      {"id":"c3","title":"משא ומתן","subtitle":"בקרוב","color":"#8F7CFF","soon":true,"stages":[]},
+      {"id":"c4","title":"סלנג של סדרות","subtitle":"בקרוב","color":"#F2B33D","soon":true,"stages":[]}
+    ]}
+  ]
+}

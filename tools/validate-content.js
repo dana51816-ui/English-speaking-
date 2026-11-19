@@ -5,10 +5,12 @@ const fs = require("fs");
 const path = require("path");
 const dir = path.join(__dirname, "..", "app", "content");
 const read = f => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
-const items = read("items.json").items, course = read("course.json"), conf = read("confusions.json").pairs;
+const course = read("course.json"), conf = read("confusions.json").pairs;
+const items = (course.itemFiles || ["items.json"]).flatMap(f => read(f).items);
 const TYPES = ["word", "phrasal", "idiom", "collocation", "slang"];
 const LEVELS = ["A2", "B1", "B2", "C1", "C2"];
 const DOMAINS = ["daily", "business", "talk", "shows"];
+const ICONS = ["briefcase", "house", "handshake", "clapper", "plane", "heart", "coin"];
 const SCENES = ["party", "desk", "shop"];
 const PICS = ["lever", "glass", "sprout", "clock", "bottle"];
 const errs = [], warns = [];
@@ -40,6 +42,7 @@ for (const it of items) {
   }
   const ds = it.distractors || [];
   if (ds.length < 2) E(id, "needs 2 distractors");
+  if (ds.some(d => (it.examples || []).some(ex => (ex.s || "").toLowerCase().includes("{" + (d.t || "").toLowerCase() + "}")))) E(id, "distractor equals an answer");
   const tgt = ((it.examples || [{}])[0].s || "").match(/\{([^}]+)\}/);
   for (const d of ds) {
     if (!d.t || !d.why) E(id, "distractor needs t and why");
@@ -55,6 +58,7 @@ for (const w of course.worlds) for (const c of w.chapters) for (const s of c.sta
   inStages.set(i, s.id);
 }
 for (const i of ids) if (!inStages.has(i)) W(i, "not placed in any stage");
+for (const w of course.worlds) for (const c of w.chapters) if (c.icon && !ICONS.includes(c.icon)) E(c.id, "unknown icon " + c.icon);
 for (const p of conf) { if (!ids.has(p.a) || !ids.has(p.b)) E("confusions", p.a + "|" + p.b + " references a missing item"); if (!p.a_note || !p.b_note) E("confusions", p.a + "|" + p.b + " needs both notes"); }
 
 console.log("items: " + items.length + ", stages: " + [...new Set(inStages.values())].length + ", confusion pairs: " + conf.length);
