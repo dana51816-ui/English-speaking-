@@ -24,6 +24,44 @@
   ];
   const ACHMAP = Object.fromEntries(ACH.map(a => [a.id, a]));
 
+  /* Daily missions: three per day, chosen by date, each rewards stars. Stars come only from correct answers and missions. */
+  const QUESTS = [
+    { id: "session", t: "לסיים סבב אחד", n: 1, f: s => 1 },
+    { id: "streak5", t: "רצף של 5 תשובות נכונות", n: 5, f: s => s.best },
+    { id: "listen4", t: "4 תשובות נכונות בשמיעה", n: 4, f: s => s.stats.ok.listen || 0 },
+    { id: "new4", t: "להכיר 4 מילים חדשות", n: 4, f: s => s.stats.newSeen },
+    { id: "review6", t: "6 חזרות מוצלחות", n: 6, f: s => s.stats.reviewGood },
+    { id: "match", t: "התאמה בלי אף טעות", n: 1, f: s => s.stats.matchPerfect },
+    { id: "gap4", t: "4 משפטים מושלמים", n: 4, f: s => s.stats.ok.gap || 0 },
+    { id: "recall3", t: "3 שליפות שקטות מוצלחות", n: 3, f: s => s.stats.ok.recall || 0 },
+    { id: "trivia4", t: "4 תשובות טריוויה נכונות", n: 4, f: s => (s.stats.ok.pick || 0) + (s.stats.ok.reverse || 0) }
+  ];
+  const QMAP = Object.fromEntries(QUESTS.map(q => [q.id, q]));
+  function todayQuests() {
+    const day = St.dayKey(St.now());
+    let q = St.data.profile.quests;
+    if (!q || q.day !== day) {
+      let h = 0; for (const ch of day) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+      const pool = QUESTS.slice(1), pick = [];
+      while (pick.length < 2) { h = (h * 1103515245 + 12345) >>> 0; const c = pool[h % pool.length]; if (pick.indexOf(c) === -1) pick.push(c); }
+      q = { day: day, list: [QUESTS[0]].concat(pick).map(x => ({ id: x.id, prog: 0, done: false })), bonus: false };
+      St.touchProfile(p => p.quests = q);
+    }
+    return q;
+  }
+  const WARDROBE = [
+    { id: "beret-gold", t: "ברט זהב", hat: "beret", hatColor: "#F2B33D", cost: 0 },
+    { id: "beret-red", t: "ברט אדום", hat: "beret", hatColor: "#E5485A", cost: 30 },
+    { id: "beret-teal", t: "ברט טורקיז", hat: "beret", hatColor: "#2EC4B6", cost: 30 },
+    { id: "cap-violet", t: "כובע מצחייה", hat: "cap", hatColor: "#8F7CFF", cost: 50 },
+    { id: "tophat", t: "צילינדר", hat: "tophat", hatColor: "#22172F", cost: 80 },
+    { id: "crown", t: "כתר", hat: "crown", hatColor: "#FFD27A", cost: 150 },
+    { id: "scarf-red", t: "צעיף אדום", scarf: "#C8323C", cost: 0 },
+    { id: "scarf-pink", t: "צעיף ורוד", scarf: "#E85D9C", cost: 25 },
+    { id: "scarf-mint", t: "צעיף מנטה", scarf: "#3DDC97", cost: 25 },
+    { id: "scarf-blue", t: "צעיף כחול", scarf: "#5B8CFF", cost: 40 }
+  ];
+
   A.boot = async function () {
     St.loadLocal();
     try { await WP.Content.load(); }
@@ -60,7 +98,10 @@
     return { pct, isOpen, done: pct >= 100, strong: lv.filter(l => l >= 3).length };
   }
   function mapHTML(items, open, cur) {
-    const stages = WP.Content.stages, chapters = WP.Content.chapters();
+    return WP.Content.course.worlds.map(w => '<div class="season" style="--sc:' + (w.color || "#FFD27A") + '"><div class="season-h"><b>' + U.esc(w.title) + '</b><span>' + U.esc(w.subtitle || "") + '</span></div>' + worldHTML(w, items, open, cur) + '</div>').join("");
+  }
+  function worldHTML(w, items, open, cur) {
+    const stages = WP.Content.stages, chapters = w.chapters;
     const pos = ["p-r", "p-c", "p-l"];
     return chapters.map(ch => {
       const sts = stages.filter(s => s.chapter === ch.id);
@@ -78,8 +119,8 @@
       return '<section class="district' + (chOpen ? "" : " dim") + '" style="--c:' + ch.color + '">' +
         '<div class="banner"><span class="medal-c">' + U.ICON[ch.icon || "star"] + '</span><div><b>' + U.esc(ch.title) + '</b><span>' + U.esc(ch.subtitle) + '</span></div><span class="cnt">' + got + '/' + total + '</span></div>' +
         '<div class="path"><svg class="trail" viewBox="0 0 300 330" preserveAspectRatio="none" aria-hidden="true"><path d="M240 40 C 240 110, 150 80, 150 165 S 60 220, 60 290" /></svg>' + nodes + '</div>' +
-        (chOpen ? '' : '<p class="lock-note">' + U.ICON.lock + ' נפתח כשתתקדמי בפרק הקודם</p>') +
-        '</section>';
+        (chOpen ? '' : '<p class="lock-note">' + U.ICON.lock + ' נפתח כשתתקדמי בשלב הראשון של הפרק הקודם</p>') +
+        U.skyline(ch.icon) + '</section>';
     }).join("");
   }
   function showHome() {
@@ -89,10 +130,11 @@
     const cur = stages.filter(s => open.indexOf(s.id) !== -1 && stageState(s, items, open).pct < 100)[0] || stages.filter(s => open.indexOf(s.id) !== -1).slice(-1)[0];
     const week = [...Array(7)].map((_, i) => St.data.profile.days[St.dayKey(now - (6 - i) * 86400000)] ? 1 : 0);
     const ach = St.data.profile.ach || {};
-    const earned = ACH.filter(a => ach[a.id]).length;
+        const earned = ACH.filter(a => ach[a.id]).length;
+    const qs = todayQuests(), weak = S.weak(items, 10);
     root().innerHTML =
       '<div class="home">' +
-      '<header class="hbar"><div class="logo en">WORD<i>play</i></div><div class="hbar-r"><button id="sync" class="sync local" data-act="settings"><b></b><span>במכשיר</span></button><button class="icon-btn" data-act="settings" aria-label="הגדרות וגיבוי">' + U.ICON.gear + '</button></div></header>' +
+            '<header class="hbar"><div class="logo en">WORD<i>play</i></div><div class="hbar-r"><span class="stars" title="כוכבים">' + U.ICON.star + '<b>' + (St.data.profile.stars || 0) + '</b></span><button class="icon-btn" data-act="bank" aria-label="בנק המילים">' + U.ICON.book + '</button><button class="icon-btn" data-act="wardrobe" aria-label="חדר ההלבשה של מרגו">' + U.ICON.shirt + '</button><button id="sync" class="sync local" data-act="settings"><b></b><span>במכשיר</span></button><button class="icon-btn" data-act="settings" aria-label="הגדרות וגיבוי">' + U.ICON.gear + '</button></div></header>' +
       '<section class="hero">' +
       '<div class="lights" aria-hidden="true">' + Array.from({ length: 9 }, (_, i) => '<i style="--i:' + i + '"></i>').join("") + '</div>' +
       '<div class="curtain l"></div><div class="curtain r"></div><div class="spot"></div>' +
@@ -105,12 +147,16 @@
       '<div class="plan"><div><b>' + plan.reviews.length + '</b><span>חזרות</span></div><div><b>' + plan.fresh.length + '</b><span>חדשות</span></div><div><b>' + plan.minutes + '</b><span>דקות בערך</span></div></div>' +
       '<button class="go" data-act="go"' + (plan.reviews.length + plan.fresh.length ? '' : ' disabled') + '><span>' + (St.data.profile.sessions ? "המשך" : "להתחיל") + '</span><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
       (cur ? '<p class="note">השלב הנוכחי: <b>' + U.esc(cur.chapterTitle) + ' · ' + U.esc(cur.title) + '</b></p>' : '') +
+      (weak.length >= 3 ? '<button class="weak-btn" data-act="weak">' + U.ICON.bolt + ' חיזוק מילים חלשות <b>' + weak.length + '</b></button>' : '') +
       '</section>' +
+      '<section class="quests"><div class="sec-t">' + U.ICON.bolt + ' המשימות של היום <span>' + qs.list.filter(x => x.done).length + '/3</span></div>' +
+      qs.list.map(x => { const d = QMAP[x.id]; return '<div class="quest' + (x.done ? " done" : "") + '"><span class="qi">' + (x.done ? U.ICON.check : U.ICON.bolt) + '</span><div class="qt"><b>' + U.esc(d.t) + '</b><span class="qbar"><i style="width:' + Math.min(100, Math.round(x.prog / d.n * 100)) + '%"></i></span></div><span class="qr">+10 ' + U.ICON.star + '</span></div>'; }).join("") +
+      '<p class="honest-s" style="color:var(--soft)">כוכבים נצברים רק על תשובות נכונות ומשימות. הם לא מודדים זיכרון, הם פותחים בגדים למרגו.</p></section>' +
       '<section class="shelf"><div class="sec-t">' + U.ICON.trophy + ' מדף הפרסים <span>' + earned + '/' + ACH.length + '</span></div><div class="medals">' +
       ACH.map(a => '<div class="medal-i' + (ach[a.id] ? " got" : "") + '"><span class="m">' + (ach[a.id] ? U.ICON.star : U.ICON.lock) + '</span><b>' + U.esc(a.t) + '</b><small>' + U.esc(a.d) + '</small></div>').join("") +
       '</div></section>' +
-      '<section class="journey"><div class="sec-t">המסע · עונה 1</div>' + mapHTML(items, open, cur) +
-      '<div class="soon-card">' + U.ICON.star + '<div><b>עונה 2 בדרך</b><span>פרקים חדשים נוספים כשמסיימים את העונה.</span></div></div></section>' +
+            '<section class="journey"><div class="sec-t">המסע</div>' + mapHTML(items, open, cur) +
+            '<div class="soon-card">' + U.ICON.star + '<div><b>עונה 3 בדרך</b><span>פרקים חדשים מתווספים לאורך הדרך.</span></div></div></section>' +
       '</div>';
     syncBadge();
   }
@@ -131,8 +177,8 @@
   }
 
   /* ---------- session ---------- */
-  function startSession(extra) {
-    const plan = S.plan(St.data.items, St.now(), { extraNew: extra });
+  function startSession(extra, weak) {
+    const plan = S.plan(St.data.items, St.now(), { extraNew: extra, weak: weak });
     if (!plan.reviews.length && !plan.fresh.length) { showHome(); return; }
     before = { counts: S.counts(St.data.items), open: S.unlocked(St.data.items).length };
     screen = "session";
@@ -140,7 +186,7 @@
       '<header class="top"><button class="host" data-act="host" aria-label="מרגו">' + U.avatar() + '</button><div id="quip" class="quip" role="status" aria-live="polite"></div>' +
       '<div id="strack" class="track"><div id="sfill" class="fill"></div><i class="ms" style="--at:25%"></i><i class="ms" style="--at:50%"></i><i class="ms" style="--at:75%"></i></div><span id="combo" class="combo" aria-live="polite"></span>' +
       '<button class="icon-btn" data-act="home" aria-label="חזרה לבית">' + U.ICON.home + '</button></header>' +
-      '<main class="stage-wrap"><section id="stage" class="stage" aria-live="polite"></section></main><footer id="actions" class="actions"></footer>';
+      '<main class="stage-wrap"><section id="stage" class="stage" aria-live="polite"></section><div id="peeker" class="peeker" aria-hidden="true"></div></main><footer id="actions" class="actions"></footer>';
     WP.Session.start(plan, finish);
   }
 
@@ -158,8 +204,13 @@
     const unlockedStage = openNow.length > before.open;
     const chapterDone = WP.Content.chapters().some(ch => { const ids = WP.Content.stages.filter(s => s.chapter === ch.id).flatMap(s => s.items); return ids.length && ids.every(id => S.level(items[id]) >= 2); });
     const types = new Set(); Object.values(items).forEach(st => Object.keys(st.tr || {}).forEach(t => types.add(t)));
-    const got = [];
+    const got = [], qs = todayQuests(), qDone = [];
+    qs.list.forEach(x => { if (x.done) return; const d = QMAP[x.id]; x.prog = Math.min(d.n, Math.max(x.prog, d.f(sum))); if (x.prog >= d.n) { x.done = true; qDone.push(d); } });
+    let starsGain = sum.stats.stars + 5 + qDone.length * 10;
+    const bonus = !qs.bonus && qs.list.every(x => x.done); if (bonus) { qs.bonus = true; starsGain += 15; }
+    sum.starsGain = starsGain; sum.qDone = qDone; sum.bonus = bonus;
     St.touchProfile(p => {
+      p.quests = qs; p.stars = (p.stars || 0) + starsGain;
       p.sessions = (p.sessions || 0) + 1;
       const k = St.dayKey(now); p.days[k] = (p.days[k] || 0) + Object.keys(sum.res).length;
       const award = id => { if (!p.ach[id]) { p.ach[id] = now; got.push(id); } };
@@ -198,6 +249,7 @@
       '<main class="stage-wrap"><section class="stage end"><div class="confetti" aria-hidden="true">' + Array.from({ length: 14 }, (_, i) => '<i style="--i:' + i + '"></i>').join("") + '</div><div class="stage-in">' +
       '<div class="end-hero"><h2 class="hero-title">Bravo<i>!</i></h2><p class="sub">' + sum.steps + ' פריטים · ' + Math.max(1, Math.round(sum.ms / 60000)) + ' דק\' · רצף שיא ' + sum.best + '</p></div>' +
       '<div class="legend"><div><b>' + learned.length + '/' + nw.length + '</b><span>חדשות נקלטו</span></div><div><b>' + kept.length + '/' + rv.length + '</b><span>חזרות נשמרו</span></div><div><b>' + after.understood + '</b><span>סה"כ בזיכרון</span></div></div>' +
+      '<div class="gain"><span class="gstar">' + U.ICON.star + '</span><b id="gcount">+0</b><span>כוכבים</span>' + (sum.qDone.length ? '<em>' + sum.qDone.map(q => U.esc(q.t)).join(" · ") + (sum.bonus ? ' · בונוס כל המשימות!' : '') + '</em>' : '') + '</div>' +
       (newStage ? '<div class="unlock">' + U.ICON.star + '<div><b>נפתח: ' + U.esc(newStage.chapterTitle) + ' · ' + U.esc(newStage.title) + '</b><span>המילים החלשות ימשיכו להופיע בחזרות.</span></div></div>' : '') +
       (got.length ? '<div class="achs">' + got.map(id => '<div class="ach"><span class="medal">' + U.ICON.star + '</span><div><b>' + ACHMAP[id].t + '</b><span>' + ACHMAP[id].d + '</span></div></div>').join("") + '</div>' : '') +
       (learned.length ? '<div><p class="sub lbl">נקלטו היום</p><div class="lineup">' + chips(learned, "new") + '</div></div>' : '') +
@@ -207,7 +259,54 @@
       '</div></section></main>' +
       '<footer class="actions"><div class="pair2"><button class="ghost" data-act="home">למסע</button><button class="primary" data-act="more"' + (nextPlan.reviews.length + nextPlan.fresh.length ? '' : ' disabled') + '>' + (nextPlan.fresh.length ? 'עוד סבב · ' + nextPlan.fresh.length + ' חדשות' : 'עוד סבב') + '</button></div></footer>';
     U.face("h");
-    setTimeout(() => U.quip(got.length ? "קידה. ויש גם מדליה." : "קידה. ההצגה הבאה מחר.", "h", true), 200);
+    const gc = document.getElementById("gcount"); let n = 0; const step = Math.max(1, Math.round(sum.starsGain / 20));
+    const tick = setInterval(() => { n = Math.min(sum.starsGain, n + step); if (gc) gc.textContent = "+" + n; if (n >= sum.starsGain) clearInterval(tick); }, 40);
+    setTimeout(() => U.quip(got.length ? "קידה. ויש גם מדליה." : sum.qDone.length ? "משימה הושלמה. אני מתחילה לחשוב על כובע חדש." : "קידה. ההצגה הבאה מחר.", "h", true), 200);
+  }
+
+  /* ---------- word bank ---------- */
+  let bankFilter = "all";
+  function showBank() {
+    screen = "bank";
+    const items = St.data.items, all = WP.Content.items;
+    const L = id => S.level(items[id]);
+    const groups = { all: all.filter(i => L(i.id) >= 1), weak: S.weak(items, 999).map(id => WP.Content.byId[id]), learning: all.filter(i => L(i.id) === 1 || L(i.id) === 2), solid: all.filter(i => L(i.id) >= 3) };
+    const list = groups[bankFilter] || groups.all;
+    const chip = (k, t) => '<button class="fchip' + (bankFilter === k ? " on" : "") + '" data-act="bankf" data-f="' + k + '">' + t + ' <b>' + groups[k].length + '</b></button>';
+    root().innerHTML = '<div class="home">' +
+      '<header class="hbar"><button class="icon-btn" data-act="home" aria-label="חזרה">' + U.ICON.home + '</button><div class="logo">בנק המילים</div><span class="stars">' + U.ICON.book + '<b>' + groups.all.length + '/' + all.length + '</b></span></header>' +
+      '<div class="fchips">' + chip("all", "הכול") + chip("weak", "חלשות") + chip("learning", "בלמידה") + chip("solid", "יציבות") + '</div>' +
+      (list.length ? '<div class="bank">' + list.map(it => '<div class="bw"><button class="play" data-act="bsay" data-id="' + it.id + '" aria-label="השמעה">' + U.ICON.play + '</button><div class="bt"><span class="en">' + U.esc(it.en) + '</span><span class="he">' + U.esc(it.he) + '</span></div><span class="lvl">' + [1, 2, 3, 4].map(k => '<i class="' + (L(it.id) >= k ? "on" : "") + '"></i>').join("") + '</span></div>').join("") + '</div>'
+        : '<div class="soon-card">' + U.ICON.book + '<div><b>עוד אין כאן מילים</b><span>מילים נכנסות לבנק ברגע שפוגשים אותן בסבב.</span></div></div>') +
+      (groups.weak.length >= 3 ? '<button class="weak-btn" data-act="weak">' + U.ICON.bolt + ' לתרגל את החלשות עכשיו</button>' : '') +
+      '<p class="honest-s" style="color:var(--soft)">הנקודות: נראתה · נשלפה · יציבה 3+ ימים · יציבה 21+ ימים. לפי מה שנמדד באפליקציה.</p></div>';
+  }
+
+  /* ---------- wardrobe ---------- */
+  function showWardrobe(note) {
+    const p = St.data.profile, w = U.wardrobe(), owned = (p.wardrobe && p.wardrobe.owned) || [];
+    const isOn = x => x.hat ? (w.hat === x.hat && w.hatColor === x.hatColor) : w.scarf === x.scarf;
+    const has = x => x.cost === 0 || owned.indexOf(x.id) !== -1;
+    closeSheet();
+    const sheet = document.createElement("div"); sheet.className = "sheet-wrap"; sheet.id = "sheet";
+    sheet.innerHTML = '<div class="sheet" role="dialog" aria-label="חדר ההלבשה">' +
+      '<div class="sheet-h"><b>חדר ההלבשה של מרגו</b><button class="icon-btn dark" data-act="closesheet" aria-label="סגירה">✕</button></div>' +
+      '<div class="wr-top"><div class="wr-fig">' + U.figure() + '</div><div><span class="stars dark">' + U.ICON.star + '<b>' + (p.stars || 0) + '</b></span><p class="peek-sub">' + (note || "כוכבים מתשובות נכונות ומשימות יומיות.") + '</p></div></div>' +
+      '<div class="wr-grid">' + WARDROBE.map(x => '<button class="wr' + (isOn(x) ? " on" : "") + (has(x) ? "" : " locked") + '" data-act="wear" data-id="' + x.id + '"><span class="sw" style="background:' + (x.hatColor || x.scarf) + '"></span><b>' + x.t + '</b><small>' + (isOn(x) ? "עליה עכשיו" : has(x) ? "ללבוש" : x.cost + " כוכבים") + '</small></button>').join("") + '</div></div>';
+    document.body.appendChild(sheet);
+  }
+  function wear(id) {
+    const x = WARDROBE.find(w => w.id === id); if (!x) return;
+    const p = St.data.profile, owned = (p.wardrobe && p.wardrobe.owned) || [];
+    const buying = x.cost > 0 && owned.indexOf(x.id) === -1;
+    if (buying) {
+      if ((p.stars || 0) < x.cost) { showWardrobe("חסרים עוד " + (x.cost - (p.stars || 0)) + " כוכבים."); return; }
+      St.touchProfile(pp => { pp.stars -= x.cost; pp.wardrobe = Object.assign({ owned: [] }, pp.wardrobe); pp.wardrobe.owned = owned.concat([x.id]); });
+      U.tone("unlock");
+    } else U.tone("pair");
+    St.touchProfile(pp => { pp.wardrobe = Object.assign({ owned: [] }, pp.wardrobe); if (x.hat) { pp.wardrobe.hat = x.hat; pp.wardrobe.hatColor = x.hatColor; } else pp.wardrobe.scarf = x.scarf; });
+    if (screen === "home") showHome();
+    showWardrobe(buying ? "נפתח: " + x.t + "!" : "");
   }
 
   /* ---------- settings ---------- */
@@ -255,7 +354,13 @@
     else if (a === "more") startSession(true);
     else if (a === "home") showHome();
     else if (a === "settings") showSettings();
-    else if (a === "peek") showPeek(b.dataset.stage);
+        else if (a === "peek") showPeek(b.dataset.stage);
+    else if (a === "weak") { U.tone("tap"); startSession(false, true); }
+    else if (a === "bank") showBank();
+    else if (a === "bankf") { bankFilter = b.dataset.f; showBank(); }
+    else if (a === "bsay") U.say([WP.Content.byId[b.dataset.id].en, WP.Content.byId[b.dataset.id].plain], .9);
+    else if (a === "wardrobe") showWardrobe();
+    else if (a === "wear") wear(b.dataset.id);
     else if (a === "closesheet") closeSheet();
     else if (a === "export") doExport();
     else if (a === "copybk") { const t = document.getElementById("bk"); t.select(); (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).then(() => msg("הועתק."), () => {}); }

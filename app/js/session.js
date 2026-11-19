@@ -16,7 +16,7 @@
     '<svg viewBox="0 0 20 20"><path d="M10 2l8.5 15h-17z" fill="currentColor"/></svg>',
     '<svg viewBox="0 0 20 20"><rect x="2.5" y="2.5" width="15" height="15" rx="3" fill="currentColor"/></svg>'
   ];
-  let Q, pos, prev, cur, answered, combo, best, sinceMatch, matches, seen, res, lockUntil, autoT, onEnd, stageEl, actEl, firstNewShown, startedAt, orb;
+  let Q, pos, prev, cur, answered, combo, best, sinceMatch, matches, seen, res, lockUntil, autoT, onEnd, stageEl, actEl, firstNewShown, startedAt, orb, stats, anyOk;
   const $ = s => stageEl.querySelector(s);
   const item = id => WP.Content.byId[id];
   const st = id => WP.Store.data.items[id];
@@ -24,7 +24,8 @@
 
   R.start = function (plan, done) {
     onEnd = done; stageEl = document.getElementById("stage"); actEl = document.getElementById("actions");
-    Q = []; pos = 0; prev = null; combo = 0; best = 0; sinceMatch = 0; matches = 0; seen = []; res = {}; firstNewShown = false; startedAt = Date.now();
+    Q = []; pos = 0; prev = null; combo = 0; best = 0; sinceMatch = 0; matches = 0; seen = []; res = {}; firstNewShown = false; startedAt = Date.now(); anyOk = false;
+    stats = { ok: {}, newSeen: 0, reviewGood: 0, matchPerfect: 0, stars: 0, weak: !!plan.weak };
     const rv = plan.reviews.slice(), nw = plan.fresh.slice();
     rv.forEach(id => res[id] = { kind: "review", firstOk: null, partial: false, learned: false, known: false });
     nw.forEach(id => res[id] = { kind: "new", firstOk: null, partial: false, learned: false, known: false });
@@ -37,7 +38,7 @@
     render();
   };
   R.stop = function () { clearTimeout(autoT); stopOrb(); U.hush(); };
-  R.summary = () => ({ res: res, steps: pos, best: best, ms: Date.now() - startedAt });
+  R.summary = () => ({ res: res, steps: pos, best: best, ms: Date.now() - startedAt, stats: stats });
 
   function insert(task, gap) { Q.splice(Math.min(Q.length, pos + 1 + gap), 0, task); }
   function paint(type, html, act, opts) {
@@ -46,7 +47,9 @@
     stageEl.style.setProperty("--type", TYPE[type].color);
     stageEl.className = "stage t-" + type;
     const kind = cur && cur.id && res[cur.id] ? (res[cur.id].kind === "new" ? "חדשה" : "חזרה") : "";
-    stageEl.innerHTML = '<div class="stage-head"><span class="badge">' + U.ICON[type === "pick" ? "intro" : type === "reverse" ? "recall" : type] + TYPE[type].label + '</span>' + (kind ? '<span class="chip-s">' + kind + '</span>' : '') + '</div>' +
+    const ch = cur && cur.id ? WP.Content.chapters().find(c => c.id === WP.Content.chapterOf[cur.id]) : null;
+    const app = document.getElementById("app"); if (app && ch) app.style.setProperty("--world", ch.color);
+    stageEl.innerHTML = '<div class="stage-head"><span class="badge">' + U.ICON[type === "pick" ? "intro" : type === "reverse" ? "recall" : type] + TYPE[type].label + '</span><span class="head-r">' + (ch ? '<span class="world-chip">' + U.ICON[ch.icon] + U.esc(ch.title) + '</span>' : '') + (kind ? '<span class="chip-s">' + kind + '</span>' : '') + '</span></div>' +
       '<div class="stage-in swap' + (opts.center === false ? "" : " center") + '">' + html + '</div><div class="stamp-layer" id="stamp"></div>';
     actEl.innerHTML = act || "";
     const bar = document.getElementById("sfill"); if (bar) bar.style.width = Math.min(100, Math.round(pos / Math.max(1, Q.length) * 100)) + "%";
@@ -223,8 +226,14 @@
         else { if (ok && !partial) r.learned = true; else if (r.tries < 5) insert({ kind: "check", id: cur.id, stage: 2, lastType: cur.type }, 3); }
       }
     }
-    if (ok && !partial) { combo++; best = Math.max(best, combo); U.face("h"); U.hop(); stamp(["בול!", "נכון!", "יש!", "מעולה!"][Math.floor(Math.random() * 4)], "ok"); }
-    else if (!ok) { combo = 0; U.face("s"); stamp("לא הפעם", "bad"); }
+    if (ok && !partial) {
+      combo++; best = Math.max(best, combo); U.face("h"); U.hop(); stamp(["בול!", "נכון!", "יש!", "מעולה!"][Math.floor(Math.random() * 4)], "ok");
+      stats.ok[cur.type] = (stats.ok[cur.type] || 0) + 1; stats.stars++;
+      if (cur.kind === "review") stats.reviewGood++;
+      if (!anyOk || combo % 3 === 0) U.peek(combo >= 6 ? "wow" : "cheer");
+      anyOk = true;
+    }
+    else if (!ok) { if (combo > 0 || prev !== cur.type) U.peek("oops"); combo = 0; U.face("s"); stamp("לא הפעם", "bad"); }
     else stamp("כמעט", "mid");
     setCombo();
     if (combo === 3) { U.tone("combo"); U.quip("combo3", "h", false, pos); } else if (combo === 6) { U.tone("combo"); U.quip("combo6", "h", true, pos); } else if (combo === 9) { U.tone("combo"); U.quip("combo9", "w", true, pos); }
@@ -325,7 +334,7 @@
     const missed = Object.keys(cur.miss);
     missed.forEach(id => { if (res[id]) res[id].partial = true; insert({ kind: "check", id: id, stage: 2 }, 2 + Math.floor(Math.random() * 3)); });
     cur.ex.items.forEach(w => { const s = Object.assign(WP.Sched.fresh(), st(w.id) || {}); WP.Sched.track(s, "match", !cur.miss[w.id]); s.upd = WP.Store.now(); WP.Store.putItem(w.id, s); });
-    const ok = missed.length === 0;
+    const ok = missed.length === 0; if (ok) stats.matchPerfect++;
     $("#fb").innerHTML = U.fb(ok ? true : null, ok ? "4 מתוך 4, בלי טעויות." : "כל הזוגות במקום. " + missed.length + (missed.length === 1 ? " מילה תחזור" : " מילים יחזרו") + " לחיזוק.");
     actEl.innerHTML = contBtn();
     const keep = cur.id; cur.id = null; settle(ok); cur.id = keep;
@@ -338,6 +347,8 @@
 
   R.bind = function () {
     document.addEventListener("pointerdown", e => {
+      const rb = e.target.closest(".gtile,.tile.key,.opt,.primary,.go,.mt,.ghost");
+      if (rb && !rb.disabled) { const r = rb.getBoundingClientRect(), sp = document.createElement("span"); sp.className = "ripple"; sp.style.left = (e.clientX - r.left) + "px"; sp.style.top = (e.clientY - r.top) + "px"; rb.appendChild(sp); setTimeout(() => sp.remove(), 520); }
       if (!cur || !stageEl || !document.body.contains(stageEl)) return;
       const mt = e.target.closest(".mt"); if (mt && cur.type === "match" && !answered && !locked()) { drag = { el: mt, x: e.clientX, y: e.clientY, moved: false }; return; }
       const t = e.target.closest(".tile"); if (t && !answered && !locked()) tdrag = { el: t, x: e.clientX, y: e.clientY, moved: false, ghost: null };
@@ -371,8 +382,8 @@
   R.act = function (a, b) {
     const it = cur && cur.id ? item(cur.id) : null;
     if (a === "next") { if (!b.disabled) next(); }
-    else if (a === "introdone") { if (!locked()) { prev = "intro"; insert({ kind: "check", id: cur.id, stage: 1, lastType: "intro" }, 1); next(); } }
-    else if (a === "known") { if (!locked()) { prev = "intro"; res[cur.id].known = true; insert({ kind: "check", id: cur.id, stage: 2, lastType: "intro" }, 2); next(); } }
+    else if (a === "introdone") { if (!locked()) { stats.newSeen++; prev = "intro"; insert({ kind: "check", id: cur.id, stage: 1, lastType: "intro" }, 1); next(); } }
+    else if (a === "known") { if (!locked()) { stats.newSeen++; prev = "intro"; res[cur.id].known = true; insert({ kind: "check", id: cur.id, stage: 2, lastType: "intro" }, 2); next(); } }
     else if (a === "pick") pick(+b.dataset.i);
     else if (a === "reveal") reveal();
     else if (a === "self") selfRate(b.dataset.v);

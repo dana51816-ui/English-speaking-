@@ -132,6 +132,54 @@
    "b": "nightowl",
    "a_note": "לישון עד מאוחר בבוקר.",
    "b_note": "מי שפעיל בשעות הלילה."
+  },
+  {
+   "a": "comedownwith",
+   "b": "comeupwith",
+   "a_note": "לחלות במשהו קל.",
+   "b_note": "להמציא, להעלות רעיון."
+  },
+  {
+   "a": "checkup",
+   "b": "checkoutn",
+   "a_note": "בדיקה אצל רופא.",
+   "b_note": "קופה בחנות."
+  },
+  {
+   "a": "pickup",
+   "b": "hangup",
+   "a_note": "לענות לשיחה.",
+   "b_note": "לנתק שיחה."
+  },
+  {
+   "a": "holdon",
+   "b": "hangup",
+   "a_note": "לחכות רגע על הקו.",
+   "b_note": "לסיים את השיחה."
+  },
+  {
+   "a": "wellrested",
+   "b": "sleepdeprived",
+   "a_note": "ישנת מספיק.",
+   "b_note": "חסרה לך שינה."
+  },
+  {
+   "a": "circleback",
+   "b": "getbackto",
+   "a_note": "לחזור לנושא אחר כך, בפגישה.",
+   "b_note": "לחזור למישהו עם תשובה."
+  },
+  {
+   "a": "stressedout",
+   "b": "unwind",
+   "a_note": "לחוצה מאוד.",
+   "b_note": "להשתחרר מהלחץ."
+  },
+  {
+   "a": "warmup",
+   "b": "workout",
+   "a_note": "חימום לפני האימון.",
+   "b_note": "האימון עצמו."
   }
  ]
 }

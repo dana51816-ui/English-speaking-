@@ -400,6 +400,78 @@ button:focus-visible,.sbtn:focus-visible{outline:3px solid var(--gold);outline-o
 @keyframes fall{to{transform:translateY(560px) rotate(540deg);opacity:0}}
 .mt.en-t,.mt.he-t{border:2px solid rgba(232,93,156,.18)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== M3 ===== */
+#app{--world:var(--gold)}
+#app:has(.stage-wrap){background:radial-gradient(120% 60% at 50% -10%, color-mix(in srgb, var(--world) 26%, transparent), transparent 70%), var(--bg, #1A1226)}
+.stars{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:999px;background:rgba(255,210,122,.14);color:var(--gold);font-weight:800;font-size:14px}
+.stars svg{width:16px;height:16px}
+.stars.dark{background:var(--ink);color:var(--gold)}
+.hbar-r{gap:6px}
+.hbar-r .icon-btn{width:36px;height:36px}
+.weak-btn{margin-top:10px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:16px;background:linear-gradient(135deg,#8F7CFF,#5B8CFF);color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .12s}
+.weak-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.weak-btn b{background:rgba(255,255,255,.22);border-radius:999px;padding:1px 9px}
+.quests{display:flex;flex-direction:column;gap:8px}
+.quests .sec-t span{margin-inline-start:auto;font-size:13px;opacity:.8}
+.quest{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:rgba(255,247,234,.06);border:1px solid rgba(255,247,234,.08)}
+.quest .qi{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,210,122,.15);color:var(--gold);flex:none}
+.quest.done .qi{background:#3DDC97;color:#14301f}
+.quest .qt{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.quest .qt b{font-size:14px;font-weight:700}
+.qbar{height:6px;border-radius:6px;background:rgba(255,247,234,.1);overflow:hidden}
+.qbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),#FF7A59);transition:width .6s}
+.quest.done .qbar i{background:#3DDC97}
+.qr{display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:800;color:var(--gold);white-space:nowrap}
+.qr svg{width:13px;height:13px}
+.season{position:relative;margin-top:6px}
+.season-h{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 12px;margin:4px 0 12px;border-radius:18px;background:linear-gradient(135deg, color-mix(in srgb, var(--sc) 40%, transparent), rgba(255,247,234,.04));border:1px solid color-mix(in srgb, var(--sc) 50%, transparent);text-align:center}
+.season-h b{font-size:20px;font-weight:900;letter-spacing:.5px;color:var(--sc)}
+.season-h span{font-size:13px;opacity:.85}
+.skyline{display:block;width:100%;height:46px;margin-top:8px;opacity:.9}
+.skyline{fill:color-mix(in srgb, var(--c, var(--gold)) 35%, #1A1226)}
+.skyline .win{fill:var(--gold);opacity:.7;animation:twinkle 3s infinite alternate}
+.skyline .beam{fill:var(--c, var(--gold));opacity:.25}
+@keyframes twinkle{to{opacity:.25}}
+.stage-wrap{position:relative}
+.peeker{position:fixed;left:-10px;top:38%;width:64px;height:64px;pointer-events:none;transform:translateX(-120%) rotate(-20deg);transition:transform .3s cubic-bezier(.2,1.4,.4,1);z-index:30;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+.peeker.on{transform:translateX(0) rotate(12deg)}
+.peeker svg{width:100%;height:100%}
+.pk-fx{position:absolute;top:-6px;inset-inline-end:-6px;font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,.3)}
+.peeker.oops .pk-fx{color:#FF8A8A}
+.gtile,.tile.key,.opt,.primary,.go,.mt,.ghost{position:relative;overflow:hidden}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.45);transform:scale(0);animation:rip .52s ease-out forwards}
+@keyframes rip{to{transform:scale(2.6);opacity:0}}
+.head-r{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.world-chip{display:inline-flex;align-items:center;gap:4px;max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:26px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:700;background:color-mix(in srgb, var(--world) 22%, transparent);color:var(--world);border:1px solid color-mix(in srgb, var(--world) 45%, transparent)}
+.world-chip svg{width:14px;height:14px;flex:none}
+.fchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.fchip{flex:none;height:36px;padding:0 12px;border-radius:999px;background:rgba(255,247,234,.08);color:var(--paper);font-weight:700;font-size:13.5px}
+.fchip b{opacity:.7;margin-inline-start:2px}
+.fchip.on{background:var(--gold);color:var(--ink)}
+.bank{display:flex;flex-direction:column;gap:8px}
+.bw{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:16px;background:var(--paper);color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.bw .play{width:40px;height:40px}
+.bt{flex:1;display:flex;flex-direction:column;min-width:0}
+.bt .en{direction:ltr;text-align:right;font-weight:800;font-size:16px}
+.bt .he{font-size:13px;color:var(--muted)}
+.wr-top{display:flex;align-items:center;gap:14px}
+.wr-fig{width:96px;height:110px;flex:none}
+.wr-fig svg{width:100%;height:100%}
+.wr-top>div{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.wr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wr{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:16px;background:var(--paper2);color:var(--ink);border:2px solid transparent;min-height:84px}
+.wr.on{border-color:var(--gold);background:#FFF1D0}
+.wr.locked{opacity:.75}
+.wr .sw{width:28px;height:28px;border-radius:50%;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)}
+.wr b{font-size:13.5px}
+.wr small{font-size:12px;color:var(--muted)}
+.gain{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:18px;background:linear-gradient(135deg,#FFE3A3,#FFC86B);color:#7A3E00;font-weight:800;box-shadow:0 3px 0 rgba(122,62,0,.25)}
+.gain b{font-size:28px;font-variant-numeric:tabular-nums}
+.gain em{flex-basis:100%;text-align:center;font-style:normal;font-size:13px;color:#7A3E00;opacity:.9;font-weight:600}
+.bw .lvl i.on{background:#FF7A59}
+.gstar svg{width:26px;height:26px;animation:spin 1.2s ease-out}
+@keyframes spin{from{transform:rotate(-180deg) scale(.3)}to{transform:none}}
 </style>
 
 <div id="app"><div class="fatal" style="background:transparent;color:var(--soft)">טוען...</div></div>

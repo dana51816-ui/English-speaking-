@@ -9,7 +9,7 @@
     listeners: []
   };
 
-  const blank = () => ({ v: 1, items: {}, profile: { created: Date.now(), sessions: 0, days: {}, ach: {}, settings: { sound: true, auto: false }, clock: 0, upd: 0 } });
+  const blank = () => ({ v: 1, items: {}, profile: { created: Date.now(), sessions: 0, days: {}, ach: {}, settings: { sound: true, auto: false }, clock: 0, upd: 0, stars: 0, wardrobe: { owned: [], hat: "beret", hatColor: "#F2B33D", scarf: "#C8323C" }, quests: null } });
 
   St.now = () => Date.now() + ((St.data && St.data.profile.clock) || 0);
   St.dayKey = t => { const d = new Date(t); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
@@ -43,6 +43,8 @@
     out.days = Object.assign({}, rp.days || {}, lp.days || {});
     for (const k in rp.days || {}) out.days[k] = Math.max(out.days[k] || 0, rp.days[k]);
     out.ach = Object.assign({}, rp.ach || {}, lp.ach || {});
+    out.stars = Math.max(lp.stars || 0, rp.stars || 0);
+    if ((rp.upd || 0) > (lp.upd || 0)) { out.wardrobe = rp.wardrobe || lp.wardrobe; out.quests = rp.quests || lp.quests; }
     if ((rp.upd || 0) > (lp.upd || 0)) { out.settings = rp.settings || lp.settings; out.clock = rp.clock || 0; }
     out.created = Math.min(lp.created || Date.now(), rp.created || Date.now());
     out.upd = Math.max(lp.upd || 0, rp.upd || 0);

@@ -35,22 +35,36 @@
     st.tr = st.tr || {}; const t = st.tr[type] || [0, 0]; t[1]++; if (ok) t[0]++; st.tr[type] = t; return st;
   };
 
-  /* A stage opens when the previous one is fully introduced and 60% of it was recalled at least once.
-     Weak items never block: they keep returning in reviews. */
+  /* A stage opens when the stage before it (in its chapter) is fully introduced and 60% recalled.
+     A chapter's first stage opens when the previous chapter's first stage passes the same bar,
+     so several chapters can run in parallel and weak items never block progress. */
+  S.meets = function (stage, items) {
+    const st = stage.items.map(id => items[id]);
+    return st.every(x => x && x.s !== "new") && st.filter(x => S.level(x) >= 2).length / st.length >= 0.6;
+  };
   S.unlocked = function (items) {
     const stages = WP.Content.stages, open = [];
-    for (let i = 0; i < stages.length; i++) {
-      if (i === 0) { open.push(stages[i].id); continue; }
-      const prev = stages[i - 1].items.map(id => items[id]);
-      const allSeen = prev.every(st => st && st.s !== "new");
-      const solid = prev.filter(st => S.level(st) >= 2).length / prev.length;
-      if (allSeen && solid >= 0.6) open.push(stages[i].id); else break;
-    }
+    const firstOf = {}; stages.forEach(s => { if (s.inChapter === 0) firstOf[s.chapter] = s; });
+    const chapters = WP.Content.chapters();
+    stages.forEach((s, i) => {
+      if (i === 0) { open.push(s.id); return; }
+      if (s.inChapter > 0) { if (open.indexOf(stages[i - 1].id) !== -1 && S.meets(stages[i - 1], items)) open.push(s.id); return; }
+      const ci = chapters.findIndex(c => c.id === s.chapter), prevFirst = ci > 0 ? firstOf[chapters[ci - 1].id] : null;
+      if (prevFirst && open.indexOf(prevFirst.id) !== -1 && S.meets(prevFirst, items)) open.push(s.id);
+    });
     return open;
+  };
+
+  /* Weakest seen items first: lapses, low ease, not yet recalled. */
+  S.weak = function (items, n) {
+    const score = st => (st.lapses || 0) * 2 + (st.ease < 2.1 ? 1 : 0) + (S.level(st) <= 1 ? 2 : S.level(st) === 2 ? 1 : 0);
+    return Object.keys(items).filter(id => WP.Content.byId[id] && items[id].s !== "new" && score(items[id]) > 0)
+      .sort((a, b) => score(items[b]) - score(items[a])).slice(0, n || 10);
   };
 
   S.plan = function (items, now, opts) {
     opts = opts || {};
+    if (opts.weak) { const w = S.weak(items, 10); return { reviews: w, fresh: [], dueTotal: w.length, recNew: 0, poolLeft: 0, minutes: Math.max(2, Math.round(w.length * 0.3 + 0.5)), weak: true }; }
     const all = WP.Content.items;
     const due = all.filter(it => S.isDue(items[it.id], now)).sort((a, b) => items[a.id].due - items[b.id].due);
     const maxRev = opts.maxReviews || 12;

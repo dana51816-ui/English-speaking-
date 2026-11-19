@@ -10,7 +10,7 @@ const items = (course.itemFiles || ["items.json"]).flatMap(f => read(f).items);
 const TYPES = ["word", "phrasal", "idiom", "collocation", "slang"];
 const LEVELS = ["A2", "B1", "B2", "C1", "C2"];
 const DOMAINS = ["daily", "business", "talk", "shows"];
-const ICONS = ["briefcase", "house", "handshake", "clapper", "plane", "heart", "coin"];
+const ICONS = ["briefcase", "house", "handshake", "clapper", "plane", "heart", "coin", "phone", "dumbbell"];
 const SCENES = ["party", "desk", "shop"];
 const PICS = ["lever", "glass", "sprout", "clock", "bottle"];
 const errs = [], warns = [];

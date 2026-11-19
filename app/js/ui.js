@@ -71,9 +71,17 @@
     '<g class="f-h"><path d="M23.5 31.5q2.5-3 5 0M35.5 31.5q2.5-3 5 0" stroke="#22172F" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M26 37q6 6 12 0z" fill="#7A2E2E"/><circle cx="23" cy="36" r="2.2" fill="#E89A8A" opacity=".7"/><circle cx="41" cy="36" r="2.2" fill="#E89A8A" opacity=".7"/></g>' +
     '<g class="f-w"><circle cx="26" cy="31" r="2.3" fill="#22172F"/><circle cx="38" cy="31" r="2.3" fill="#22172F"/><path d="M22.5 25.5l6 1.2M35.5 26.7l6-1.2" stroke="#22172F" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="32" cy="39" rx="2.2" ry="2.8" fill="#7A2E2E"/></g>' +
     '<g class="f-s"><path d="M23.5 31h5M35.5 31h5" stroke="#22172F" stroke-width="1.8" stroke-linecap="round"/><path d="M27 38.5q5-2 10 0" stroke="#7A2E2E" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>';
-  const HEAD = '<path d="M16 33c-1-15 6-21 16-21s17 6 16 21h-4v-8c-6-3-18-3-24 0v8z" fill="#22172F"/><circle cx="32" cy="31" r="15" fill="#F2C9A5"/><path d="M17 28c0-11 6-16 15-16s15 5 15 16c-4-5-9-7-15-7s-11 2-15 7z" fill="#22172F"/><ellipse cx="31" cy="13" rx="17" ry="6" fill="#F2B33D" transform="rotate(-8 31 13)"/><circle cx="30" cy="7.5" r="2.4" fill="#F2B33D"/>' + FACE + '<circle cx="38" cy="31" r="5" fill="none" stroke="#F2B33D" stroke-width="1.4"/><path d="M43 33q3 6 1 12" stroke="#F2B33D" stroke-width="1" fill="none"/>';
-  U.avatar = () => '<svg class="margo" data-face="n" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#2F6F73"/><path d="M14 64c2-12 9-18 18-18s16 6 18 18z" fill="#C8323C"/>' + HEAD + '</svg>';
-  U.figure = () => '<svg class="margo margo-full" data-face="h" viewBox="0 0 140 220" aria-hidden="true">' +
+  U.wardrobe = () => Object.assign({ hat: "beret", hatColor: "#F2B33D", scarf: "#C8323C" }, (WP.Store.data && WP.Store.data.profile.wardrobe) || {});
+  function hatSVG(w) {
+    const c = w.hatColor;
+    if (w.hat === "tophat") return '<rect x="17" y="12" width="30" height="4" rx="2" fill="' + c + '"/><rect x="22" y="-4" width="20" height="17" rx="2" fill="' + c + '"/><rect x="22" y="9" width="20" height="3" fill="#C8323C" opacity=".85"/>';
+    if (w.hat === "crown") return '<path d="M18 16l2-12 6 7 6-9 6 9 6-7 2 12z" fill="' + c + '" stroke="#B98A2B" stroke-width="1"/><circle cx="32" cy="10" r="1.8" fill="#E85D9C"/><circle cx="24" cy="12" r="1.4" fill="#3FC1C9"/><circle cx="40" cy="12" r="1.4" fill="#3FC1C9"/>';
+    if (w.hat === "cap") return '<path d="M17 18c0-9 6-12 15-12s15 3 15 12z" fill="' + c + '"/><path d="M40 17h14c0 2-2 3-4 3H40z" fill="' + c + '"/>';
+    return '<ellipse cx="31" cy="13" rx="17" ry="6" fill="' + c + '" transform="rotate(-8 31 13)"/><circle cx="30" cy="7.5" r="2.4" fill="' + c + '"/>';
+  }
+  const headSVG = w => '<path d="M16 33c-1-15 6-21 16-21s17 6 16 21h-4v-8c-6-3-18-3-24 0v8z" fill="#22172F"/><circle cx="32" cy="31" r="15" fill="#F2C9A5"/><path d="M17 28c0-11 6-16 15-16s15 5 15 16c-4-5-9-7-15-7s-11 2-15 7z" fill="#22172F"/>' + hatSVG(w) + FACE + '<circle cx="38" cy="31" r="5" fill="none" stroke="#F2B33D" stroke-width="1.4"/><path d="M43 33q3 6 1 12" stroke="#F2B33D" stroke-width="1" fill="none"/>';
+  U.avatar = () => { const w = U.wardrobe(); return '<svg class="margo" data-face="n" viewBox="0 -6 64 70" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#2F6F73"/><path d="M14 64c2-12 9-18 18-18s16 6 18 18z" fill="' + w.scarf + '"/>' + headSVG(w) + '</svg>'; };
+  U.figure = () => { const w = U.wardrobe(); return ('<svg class="margo margo-full" data-face="h" viewBox="0 0 140 220" aria-hidden="true">' +
     '<ellipse cx="70" cy="214" rx="44" ry="6" fill="rgba(0,0,0,.35)"/>' +
     '<path d="M58 196l-4 16h12l2-16zM80 196l2 16h12l-4-16z" fill="#22172F"/>' +
     '<path class="arm-l" d="M44 104c-10 14-14 30-10 44l8-2c-2-12 2-26 10-36z" fill="#2F6F73"/>' +
@@ -81,7 +89,7 @@
     '<path d="M52 108c8 8 28 8 36 0l3 8c-10 10-32 10-42 0z" fill="#C8323C"/><path d="M80 112l14 48-9 3-12-46z" fill="#C8323C"/><path d="M85 160l9-2 1 6-9 2z" fill="#9E2330"/>' +
     '<circle cx="64" cy="150" r="2.4" fill="#F2B33D"/><circle cx="64" cy="166" r="2.4" fill="#F2B33D"/><circle cx="64" cy="182" r="2.4" fill="#F2B33D"/>' +
     '<g class="arm-r"><path d="M94 110c12 4 20 -4 26 -18l-7-4c-5 10-10 15-20 14z" fill="#2F6F73"/><circle cx="118" cy="88" r="6" fill="#F2C9A5"/><path d="M114 78l20-12 4 22-20-2z" fill="#F2B33D"/><path d="M134 66l4 22" stroke="#B98A2B" stroke-width="2"/><ellipse cx="136" cy="77" rx="3" ry="11" fill="#E9A92A"/></g>' +
-    '<g transform="translate(38 44)">' + HEAD + '</g></svg>';
+    '<g transform="translate(38 44)">' + headSVG(w) + '</g></svg>').replace(/#C8323C/g, w.scarf); };
   U.face = function (f) { document.querySelectorAll(".margo").forEach(m => m.setAttribute("data-face", f)); };
   U.hop = function () { document.querySelectorAll(".host").forEach(h => { h.classList.remove("hop"); void h.offsetWidth; h.classList.add("hop"); }); };
 
@@ -107,6 +115,38 @@
     clearTimeout(quipT); quipT = setTimeout(() => { el.classList.remove("on"); U.face("n"); }, 2700);
   };
 
+
+  /* Margo rises from the edge of the stage to react, then leaves. Never blocks taps. */
+  let peekT = null;
+  U.peek = function (kind) {
+    const el = document.getElementById("peeker"); if (!el) return;
+    el.className = "peeker " + kind; el.innerHTML = '<div class="pk-fx"></div>' + U.avatar();
+    el.querySelector(".margo").setAttribute("data-face", kind === "oops" ? "s" : kind === "wow" ? "w" : "h");
+    void el.offsetWidth; el.classList.add("on");
+    clearTimeout(peekT); peekT = setTimeout(() => el.classList.remove("on"), 1150);
+  };
+
+  /* A small silhouette per world, drawn from the chapter icon. */
+  U.skyline = function (icon) {
+    let g = "";
+    const rnd = (i, k) => (Math.sin(i * 12.9898 + k * 78.233) * 43758.5453) % 1;
+    if (icon === "briefcase" || icon === "handshake" || icon === "phone") {
+      for (let i = 0, x = 0; x < 300; i++) { const w = 18 + Math.abs(rnd(i, 1)) * 22, h = 18 + Math.abs(rnd(i, 2)) * 40; g += '<rect x="' + x + '" y="' + (60 - h) + '" width="' + w + '" height="' + h + '" rx="2"/>'; for (let wy = 64 - h; wy < 54; wy += 9) g += '<rect class="win" x="' + (x + 5) + '" y="' + wy + '" width="4" height="4"/><rect class="win" x="' + (x + w - 9) + '" y="' + wy + '" width="4" height="4"/>'; x += w + 4; }
+    } else if (icon === "house" || icon === "heart") {
+      for (let i = 0, x = 6; x < 290; i++) { const w = 30 + Math.abs(rnd(i, 3)) * 16, h = 20 + Math.abs(rnd(i, 4)) * 14; g += '<path d="M' + x + ' 60V' + (60 - h) + 'L' + (x + w / 2) + ' ' + (44 - h) + 'L' + (x + w) + ' ' + (60 - h) + 'V60z"/><rect class="win" x="' + (x + w / 2 - 4) + '" y="' + (66 - h) + '" width="8" height="8"/>'; x += w + 8; }
+    } else if (icon === "clapper") {
+      g += '<rect x="0" y="40" width="300" height="20"/>'; for (let x = 6; x < 300; x += 22) g += '<rect class="win" x="' + x + '" y="44" width="12" height="12" rx="2"/>';
+      g += '<path class="beam" d="M60 0L20 40h80zM240 0l-40 40h80z"/>';
+    } else if (icon === "plane") {
+      g += '<path d="M0 60c30-24 60-24 90 0zM80 60c40-30 80-30 120 0zM190 60c35-22 75-22 110 0z"/><path class="win" d="M210 14l40-6-8 6 12 0-4 4-40 2z"/>';
+    } else if (icon === "coin") {
+      for (let i = 0, x = 14; x < 290; i++, x += 42) { const n = 2 + Math.floor(Math.abs(rnd(i, 5)) * 5); for (let k = 0; k < n; k++) g += '<ellipse cx="' + (x + 14) + '" cy="' + (56 - k * 7) + '" rx="14" ry="4"/>'; }
+    } else {
+      g += '<path d="M0 60C40 30 70 30 110 50S190 20 230 40 280 46 300 40V60z"/><circle class="win" cx="250" cy="16" r="9"/>';
+    }
+    return '<svg class="skyline" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true">' + g + '</svg>';
+  };
+
   /* ---------- small illustrations ---------- */
   U.PICS = {
     lever: '<svg viewBox="0 0 64 64"><path d="M26 50l6-12 6 12z" fill="#F2B33D"/><path d="M6 44l52-18" stroke="#22172F" stroke-width="4" stroke-linecap="round"/><rect x="40" y="10" width="18" height="16" rx="2" fill="#E5485A" transform="rotate(-19 49 18)"/><circle cx="10" cy="38" r="5" fill="#3FC1C9"/></svg>',
@@ -127,6 +167,12 @@
     cross: '<svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>',
     gear: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
     home: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg>',
+    dumbbell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"/></svg>',
+    book: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7M8 11h7"/></svg>',
+    shirt: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 3l-5 4 3 4 2-1v11h8V10l2 1 3-4-5-4c-1 2-2.5 3-4 3S9 5 8 3z"/></svg>',
+    bolt: '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>',
+    gem: '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 3h12l4 6-10 12L2 9z" fill="currentColor"/><path d="M2 9h20M9 3l3 6 3-6M12 9v12" stroke="rgba(0,0,0,.25)" stroke-width="1.2" fill="none"/></svg>',
     briefcase: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg>',
     house: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
     handshake: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l4-4 4 2 3-2 3 1 4-1 2 4"/><path d="M6 8l-2 6 5 5 3-2 3 2 4-4"/><path d="M10 15l2 2M12 13l2 2"/></svg>',
