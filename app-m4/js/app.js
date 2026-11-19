@@ -165,9 +165,10 @@
       '<span class="pill4" title="כוכבים">' + U.ICON.star + '<b>' + (St.data.profile.stars || 0) + '</b></span>' +
       '<button id="sync" class="sync local" data-act="settings" aria-label="הגדרות, שמירה וגיבוי"><b></b><span>במכשיר</span></button></header>' +
       '<section class="next4">' +
-      '<div class="tt"><small>' + (cur ? U.esc(cur.chapterTitle) + ' · שלב ' + (cur.inChapter + 1) : 'המסע') + '</small><b>' + (cur ? U.esc(cur.title) : 'הכול מוכן') + '</b><span class="meta">' + (meta || "אין חזרות כרגע. מחר יחכו חדשות.") + '</span>' +
+      '<div class="tt"><small>' + (cur ? 'השלב שלך · ' + U.esc(cur.chapterTitle) + ' · ' + (cur.inChapter + 1) + '/3' : 'המסע') + '</small><b>' + (cur ? U.esc(cur.title) : 'הכול מוכן') + '</b><span class="meta">' + (meta || "אין חזרות כרגע. מחר יחכו חדשות.") + '</span>' +
+      (cur ? '<span class="prog"><i><b style="width:' + Math.round(fracOf(cur, items) * 100) + '%"></b></i><span>' + cur.items.filter(id => S.level(items[id]) >= 2).length + '/' + cur.items.length + ' נשלפו · 60% פותח את הבא</span></span>' : '') +
       (weak.length >= 3 ? '<button class="weak4" data-act="weak">' + U.ICON.bolt + ' חיזוק ' + weak.length + ' מילים חלשות</button>' : '') + '</div>' +
-      '<button class="en4 play4" data-act="go"' + (can ? '' : ' disabled') + '><svg viewBox="0 0 24 24"><path d="M7 4.6v14.8a1 1 0 0 0 1.5.86l11.8-7.4a1 1 0 0 0 0-1.72L8.5 3.74A1 1 0 0 0 7 4.6z" fill="currentColor"/></svg><span>' + (St.data.profile.sessions ? "שחקי" : "מתחילים") + '</span></button></section>' +
+      '<button class="en4 play4" data-act="go"' + (can ? '' : ' disabled') + '><svg viewBox="0 0 24 24"><path d="M7 4.6v14.8a1 1 0 0 0 1.5.86l11.8-7.4a1 1 0 0 0 0-1.72L8.5 3.74A1 1 0 0 0 7 4.6z" fill="currentColor"/></svg><span>' + (St.data.profile.sessions ? "שחקי" : "מתחילים") + (can ? '<small>כ-' + plan.minutes + ' דק\'</small>' : '') + '</span></button></section>' +
       '<nav class="dock4"><button class="on" data-act="focuscur">' + '<span class="ic">' + U.ICON.map + '</span>המסע</button>' +
       '<button data-act="quests"><span class="ic">' + U.ICON.chest + '</span>משימות' + (qn < 3 ? '<em>' + qn + '/3</em>' : '<em class="ok">✓</em>') + '</button>' +
       '<button data-act="bank"><span class="ic">' + U.ICON.book + '</span>בנק</button>' +
@@ -176,7 +177,7 @@
     const host = document.getElementById("world");
     const say = '<div class="wsay">' + U.esc(greeting(plan)) + '</div>';
     if (WP.World && WP.World.available()) {
-      try { world = WP.World.home(host, { islands: isl, curIndex, margoHTML: '<div class="wm-in">' + say + U.avatar("standing") + '</div>', onPick: id => showChapter(id) }); }
+      try { world = WP.World.home(host, { islands: isl, curIndex, curStage: cur ? cur.inChapter : null, margoHTML: '<div class="wm-in">' + say + U.avatar("standing") + '</div>', onPick: id => showChapter(id) }); }
       catch (e) { world = null; flatWorld(host, isl, say); }
     } else flatWorld(host, isl, say);
     syncBadge();

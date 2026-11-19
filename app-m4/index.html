@@ -717,6 +717,53 @@ body::before{background:
 .sec{background:var(--glass);border:1px solid rgba(255,255,255,.16);box-shadow:0 4px 0 rgba(0,0,0,.35)}
 .go4{background:linear-gradient(180deg,#F39572,#D9654A);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 0 #A9452F,0 14px 22px -8px rgba(0,0,0,.6)}
 .go4[disabled]{opacity:.6}
+
+/* ===== M4 final polish ===== */
+.stage::before{content:"";position:absolute;inset:5px;border-radius:23px;border:1px solid rgba(232,180,76,.28);pointer-events:none;z-index:0}
+.stage::after{content:"";position:absolute;left:18px;right:18px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);pointer-events:none}
+.stage-head,.stage-in{position:relative;z-index:1}
+.stage .sent{font-size:17.5px!important;line-height:1.55;color:#1E2433}
+.stage .word{color:#151A26}
+.stage .stress{color:#5E5A63;font-size:14.5px}
+.stage .sub{color:#5E5A63}
+.stamp-layer{top:12px;left:118px;right:auto;transform:none}
+.gtile{color:#1E2433;font-weight:600}
+.gtile.dim{opacity:.68;filter:saturate(.5);transform:none;box-shadow:inset 0 1px 0 #fff,0 3px 0 #CDB48E}
+.gtile.dim .tt{color:#4A4E5A}
+.gtile.bad{background:linear-gradient(180deg,#F4E2DE,#E9CFCA);color:#5E2230}
+.gtile.bad::before{content:"";position:absolute;inset-inline-start:12px;top:50%;width:18px;height:2px;background:#C9566A;transform:rotate(-45deg);border-radius:2px;box-shadow:0 0 0 0 transparent}
+.gtile.ok{color:#3A2600;font-weight:700}
+.tiles.grid .gtile.bad::before{display:none}
+.tile.key.ghost{opacity:.4}
+.ghost{background:rgba(14,40,50,.82);border:1px solid rgba(246,195,91,.28);color:#FBF4E8;box-shadow:0 4px 0 rgba(0,0,0,.35)}
+.primary{position:relative;overflow:hidden}
+.primary::before{content:"";position:absolute;inset:0 0 50% 0;background:linear-gradient(180deg,rgba(255,255,255,.18),transparent);pointer-events:none}
+.primary .kbd{display:none}
+.fb{border-radius:16px}
+.fb .w{color:inherit}
+.fb.bad{background:#F8E6E6;color:#5E2230}
+.stage-wrap .quip{font-size:14px;line-height:1.4}
+.lean{width:104px;height:128px;top:-10px}
+.lean svg,.host.lean svg{width:104px!important;height:128px!important}
+.stage-wrap{padding-top:68px}
+.stage-wrap .quip{left:108px;max-width:calc(100% - 118px)}
+.lean::after{content:"";position:absolute;left:50%;top:6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#FFE3A6;box-shadow:0 0 14px 6px rgba(246,195,91,.7);opacity:0;pointer-events:none}
+.lean.jump::after{animation:spark4 .7s ease-out}
+@keyframes spark4{0%{opacity:0;transform:translate(0,10px) scale(.4)}30%{opacity:1}100%{opacity:0;transform:translate(26px,-26px) scale(1.4)}}
+.mt{color:#1E2433}
+.mt.done,.mt.snd.done{opacity:1;background:#E6F0EC;color:#1F5C66;font-weight:700}
+.reveal-word .w{color:#151A26}
+.next4 .prog{display:flex;align-items:center;gap:8px;margin-top:6px}
+.next4 .prog i{flex:1;max-width:150px;height:6px;border-radius:6px;background:rgba(255,255,255,.14);overflow:hidden;display:block}
+.next4 .prog i b{display:block;height:100%;background:linear-gradient(90deg,#E8B44C,#F6C35B);border-radius:6px}
+.next4 .prog span{font-size:11.5px;font-weight:700;color:var(--gold)}
+.play4 small{display:block;font-size:11px;font-weight:700;opacity:.9}
+.play4 span{display:flex;flex-direction:column;line-height:1.05}
+.orb-wrap{flex:none;height:150px}
+.pic,.scene,.ticket,.marquee,.bubble-q,.flip{flex-shrink:0}
+.stage:has(.stampmark) .chip-s{visibility:hidden}
+.play4 svg{width:18px;height:18px;flex:none}
+@media (max-height:720px){.actions .tiles .gtile.dim{display:none}.fb{padding:8px 11px}.orb-wrap{height:120px}.lean{width:80px;height:100px;top:-6px}.lean svg,.host.lean svg{width:80px!important;height:100px!important}.stage-wrap{padding-top:50px}.stage-wrap .quip{left:84px;max-width:calc(100% - 92px);font-size:13px}.stage .word{font-size:34px!important}.stage .sent{font-size:16px!important}.stage-in{gap:9px;padding:8px 16px 14px}.gtile{min-height:50px;font-size:15.5px}.stamp-layer{left:92px}}
 @media (max-height:720px){.stage-wrap{padding-top:46px}.lean{width:74px;height:94px}.lean svg,.host.lean svg{width:74px!important;height:94px!important}.stage-wrap .quip{left:78px;max-width:calc(100% - 86px)}.gtile{min-height:54px}.panel4{max-height:40%}.built4{top:36%}.ban4 b{font-size:25px}}
 body.calm *,body.calm *::before,body.calm *::after{animation:none!important;transition:none!important}
 </style>

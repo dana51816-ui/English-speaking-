@@ -230,10 +230,10 @@
       combo++; best = Math.max(best, combo); U.face("h"); U.hop(); stamp(["בול!", "נכון!", "יש!", "מעולה!"][Math.floor(Math.random() * 4)], "ok");
       stats.ok[cur.type] = (stats.ok[cur.type] || 0) + 1; stats.stars++; addStar();
       if (cur.kind === "review") stats.reviewGood++;
-      if (!anyOk || combo % 3 === 0) U.peek(combo >= 6 ? "wow" : "cheer");
+      U.peek(combo >= 6 ? "wow" : "cheer"); if (combo !== 3 && combo !== 6 && combo !== 9) U.quip("ok1", "h", false, pos);
       anyOk = true;
     }
-    else if (!ok) { if (combo > 0 || prev !== cur.type) U.peek("oops"); combo = 0; U.face("s"); stamp("לא הפעם", "bad"); }
+    else if (!ok) { U.peek("oops"); U.quip("miss1", "s", false, pos); combo = 0; stamp("לא הפעם", "bad"); }
     else stamp("כמעט", "mid");
     setCombo();
     if (combo === 3) { U.tone("combo"); U.quip("combo3", "h", false, pos); } else if (combo === 6) { U.tone("combo"); U.quip("combo6", "h", true, pos); } else if (combo === 9) { U.tone("combo"); U.quip("combo9", "w", true, pos); }

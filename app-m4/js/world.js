@@ -182,6 +182,11 @@
       const lit = o.islands[i + 1].open;
       pts.forEach(p => { const s = new T.Mesh(new T.SphereGeometry(.055, 6, 6), new T.MeshBasicMaterial({ color: lit ? col(0xFFD58A) : col(0xFFF6E6), transparent: true, opacity: lit ? 1 : .45 })); s.position.copy(p); scene.add(s); });
     }
+    let ring = null;
+    if (o.curIndex >= 0 && o.curStage != null) {
+      const g = isl[o.curIndex], hp = g.userData.parts[o.curStage];
+      if (hp) { ring = new T.Mesh(new T.TorusGeometry(.42, .035, 6, 32), new T.MeshBasicMaterial({ color: col(0xF6C35B), transparent: true })); ring.rotation.x = Math.PI / 2; ring.position.set(hp.position.x, .26, hp.position.z); g.add(ring); }
+    }
     let margoEl = null;
     if (o.margoHTML && o.curIndex >= 0) { margoEl = document.createElement("div"); margoEl.className = "wmargo"; margoEl.innerHTML = o.margoHTML; host.appendChild(margoEl); }
 
@@ -207,9 +212,14 @@
     S.canvas.addEventListener("pointerup", up); S.canvas.addEventListener("pointercancel", () => { drag = null; });
 
     const still = calm();
+    let last = 0;
     function frame(now) {
       if (!alive) return;
+      const busy = drag || Math.abs(want - focus) > .002 || Math.abs(wantYaw - yaw) > .002;
+      if (!busy && now - last < 32) { raf = requestAnimationFrame(frame); return; }
+      last = now;
       const t = now / 1000;
+      if (ring) { const k = (t * .8) % 1; ring.scale.setScalar(1 + k * 1.6); ring.material.opacity = (1 - k) * .9; }
       focus += (want - focus) * .09; yaw += (wantYaw - yaw) * .08; if (!drag) wantYaw *= .985;
       const fi = Math.max(0, Math.min(isl.length - 1, focus)), i0 = Math.floor(fi), i1 = Math.min(isl.length - 1, i0 + 1);
       look.copy(spot(i0)).lerp(spot(i1), fi - i0); look.y += .9;
