@@ -1,0 +1,170 @@
+<title>WORDPLAY Daily and 1000</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap">
+<style>
+/* Layout: one reading column. Summary numbers, then the proposed chapters with level split and sample words, then the quality gate. */
+:root{--bg:#F3EADB;--fg:#2A211D;--muted:#5E4F46;--line:#DCCDB4;--panel:#FBF5EA;--terra:#B4532F;--ochre:#D99A4B;--sage:#5F8A68;--f:"Assistant",system-ui,sans-serif;--fh:"Frank Ruhl Libre",Georgia,serif;--fe:"Fraunces",Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16.5px;line-height:1.65;direction:rtl}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--fh);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,44px)}h2{font-size:26px}h3{font-size:19px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.en{font-family:var(--fe);direction:ltr;unicode-bidi:isolate}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.facts div{border-top:2px solid var(--fg);padding-top:8px;display:flex;flex-direction:column}
+.facts b{font-family:var(--fh);font-size:30px;font-variant-numeric:tabular-nums;line-height:1.1}.facts span{font-size:13.5px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top}
+th{font-weight:700}
+td.n{text-align:center;font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:800}
+.tbl{overflow-x:auto;border-radius:12px}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;min-width:120px}
+.bar i{display:block;height:100%}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.ch .hd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ch .lv{font-size:13px;color:var(--muted);font-weight:700}
+.ch .s{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--fe);font-style:italic;font-size:15.5px;direction:ltr;justify-content:flex-end}
+.ch p{font-size:14.5px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ask{border:2px solid var(--terra);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.ask ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.rec{color:var(--terra);font-weight:700}
+.key{display:flex;gap:14px;font-size:13px;color:var(--muted)}.key i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:4px;vertical-align:middle}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
+.find{display:flex;flex-direction:column;gap:10px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.f .hd{display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.f h3{font-size:17.5px}
+.tag{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
+.t-m{color:var(--sage)}.t-e{color:var(--ochre)}.t-o{color:var(--terra)}
+.f p{font-size:15px;color:var(--muted)}.f p b{color:var(--fg)}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.flow div{border-top:2px solid var(--terra);padding-top:6px;font-size:14px}
+.flow b{display:block;font-size:15px}
+@media (max-width:640px){.flow{grid-template-columns:1fr 1fr}}
+</style>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+<span class="eyebrow">WORDPLAY · M6 · מוצר יומי · 20 בנובמבר 2026</span>
+<h1>המסלול היומי, ותוכנית ל-1,000 פריטים</h1>
+<p class="lead">בדיקה של איך WORDPLAY מתנהגת ביום-יום ולאורך חודשים, ותוכנית תוכן שממשיכה מעצמה. לא שיניתי קוד, ולא הוספתי מילים.</p>
+</header>
+
+<section>
+<h2>מה מדדתי</h2>
+<p>סימולציה של 90 ימים, סבב אחד ביום, עם המנוע האמיתי של גרסת הבדיקה. נקודת המוצא היא ההתקדמות האמיתית שלך, ואחוז ההצלחה המשוער הוא 85%. בנוסף בדקתי את קובצי התוכן ואת צילומי המסך מבדיקות האייפון. כל ממצא מסומן לפי סוג הראיה:</p>
+<div class="key"><span class="tag t-m">נמדד</span><span class="tag t-e">סימולציה (הערכה)</span><span class="tag t-o">נצפה במסך</span></div>
+<div class="facts">
+<div><b>1</b><span>לחיצה מהבית ועד תחילת סבב</span></div>
+<div><b>0%</b><span>סבבים שבהם סוג אחד תופס יותר ממחצית השאלות</span></div>
+<div><b>202/216</b><span>פריטים ותיקים עם משפט דוגמה אחד בלבד</span></div>
+<div><b>20→79</b><span>חזרות שממתינות, אחרי 90 ימים של סבב ביום</span></div>
+</div>
+</section>
+
+<section>
+<h2>מה עובד</h2>
+<p>אין שני תרגילים מאותו סוג ברצף. אף סוג לא שולט בסבב. רק 19% מהמילים שחזרו יחד חוזרות יחד שוב, כך שאין "חבילה" קבועה של מילים. וההתחלה היומית היא לחיצה אחת.</p>
+</section>
+
+<section class="find">
+<h2>מה לתקן, לפי חשיבות</h2>
+
+<div class="f"><div class="hd"><h3>1. החזרות מצטברות בשקט</h3><span class="tag t-e">סימולציה</span></div>
+<p>סבב לוקח עד 12 חזרות. כשיש כ-200 מילים פעילות, הצורך היומי גדול יותר מזה, והתור גדל מ-20 ל-79 בתוך שלושה חודשים. את לא רואה את זה עד שזה מכביד. <b>הצעה:</b> במסך הבית תופיע מטרה יומית ברורה ("היום: 18 חזרות ו-3 חדשות, כ-8 דק'"), וכשנשארות חזרות, "עוד סבב" יציע אותן לפני מילים חדשות. מנגנון הלמידה והשאלות לא משתנים, רק כמה נכנס לסבב ומה מוצע אחריו. <b>טעון אישור.</b></p></div>
+
+<div class="f"><div class="hd"><h3>2. אותו משפט בכל פעם</h3><span class="tag t-m">נמדד</span></div>
+<p>ל-202 מתוך 216 הפריטים הוותיקים יש משפט דוגמה אחד, ולכן "השלמת משפט" מציגה בדיוק אותו משפט בכל חזרה. זה מקור השחיקה הכי גדול שמצאתי. <b>הצעה:</b> שני משפטים נוספים לכל פריט, מסיטואציות שונות (עבודה, יום-יום, סדרה), כמו בפרק השיחה. זה תוכן בלבד, בלי שינוי קוד, וזה הצעד הראשון בתוכנית התוכן.</p></div>
+
+<div class="f"><div class="hd"><h3>3. עונת השיחה לא מגיעה מעצמה</h3><span class="tag t-e">סימולציה</span></div>
+<p>בלי ללחוץ "מילים חדשות מהפרק הזה", לא הגיע אף ביטוי שיחה ב-90 ימים, כי המילים החדשות מגיעות לפי סדר הפרקים. <b>הפתרון</b> הוא ההמלצה החכמה שביקשת (סעיף "המלצה חכמה" למטה).</p></div>
+
+<div class="f"><div class="hd"><h3>4. אחרי סבב מוצעות 10 מילים חדשות, גם כשמחכות חזרות</h3><span class="tag t-o">נצפה</span></div>
+<p>הכפתור הראשי במסך הסיום הוא "עוד סבב · 10 מילים חדשות". זה מנוגד ל-Learning First ומאיץ את ההצטברות מסעיף 1. <b>הצעה:</b> כשיש חזרות, הכפתור יהיה "עוד סבב · 8 חזרות". מילים חדשות יישארו זמינות בלחיצה, ממליצים ולא חוסמים.</p></div>
+
+<div class="f"><div class="hd"><h3>5. מסך הסיום צפוף</h3><span class="tag t-o">נצפה</span></div>
+<p>ארבעה מונים (בדרך כלל שלושה מהם על אפס), כוכבים, יעדים ורשימת מילים, בטקסט של כ-11 פיקסלים. במוצר יומי זה נקרא כמו דוח. <b>הצעה:</b> שורה אחת של מה שהשתנה היום ("5 נלמדו · 3 זוהו אחרי הפסקה · ביטוי אחד הורכב"), והפירוט המלא נפתח בלחיצה.</p></div>
+
+<div class="f"><div class="hd"><h3>6. "0 מזהה" מיד אחרי שלמדת 5 מילים</h3><span class="tag t-o">נצפה</span></div>
+<p>זיהוי נספר רק אחרי הפסקה, וזה נכון. אבל השורה בבית נשארת על אפס, ומרגיש שלא קרה כלום. <b>הצעה:</b> שינוי ניסוח בלבד: "5 נלמדו היום · ייבדקו מחר".</p></div>
+
+<div class="f"><div class="hd"><h3>7. הבועה של מרגו מכסה את שם הפרק</h3><span class="tag t-o">נצפה</span></div>
+<p>במסך הבית, כשמרגו מדברת, הבועה שלה יושבת על שם הפרק. <b>הצעה:</b> להזיז את הבועה. תיקון קטן.</p></div>
+
+<div class="f"><div class="hd"><h3>להשאיר כרגע: שמיעה ב-14% מהחזרות</h3><span class="tag t-e">סימולציה</span></div>
+<p>רוב החזרות של מילה מוכרת הן "איך אומרים?" ו"השלמת משפט", כי כך נבדקת שליפה. זו בחירה של מנוע הלמידה, ולא נוגעים בו בשלב הזה. כדאי לחזור לזה אחרי שתשחקי.</p></div>
+</section>
+
+<section>
+<h2>מאגר של 1,000 פריטים</h2>
+<p>יש היום 240 פריטים, וחסרים 768: 32 פרקים חדשים של 24 פריטים, שלושה שלבים בכל פרק, כמו היום. החלוקה לפי סדר העדיפויות שלך מהיומן (1.3):</p>
+<div class="tbl"><table>
+<tr><th>מסלול</th><th>פרקים חדשים</th><th>פריטים</th><th>דוגמאות לפרקים</th></tr>
+<tr><td>יום-יום</td><td class="n">13</td><td class="n">312</td><td>מסעדות ואוכל · קניות והחזרות · בית ותיקונים · שכנים ושיחות חולין · תחבורה ועיר · שדה תעופה ותקלות · משפחה וחברים · תוכניות והזמנות · בנק וכסף אישי · טכנולוגיה ביום-יום · חגים ואירועים · שירות לקוחות ובירוקרטיה · מזג אוויר וטבע</td></tr>
+<tr><td>עבודה</td><td class="n">11</td><td class="n">264</td><td>מצגות · משוב והערכה · ניהול פרויקטים · ייעוץ ולקוחות · שיווק · מכירות · אסטרטגיה ומספרים · צוות והנהגה · ראיונות וקריירה · פוליטיקה משרדית · סטארטאפ וטק</td></tr>
+<tr><td>סדרות ותוכן</td><td class="n">5</td><td class="n">120</td><td>פשע ומתח · קומדיה וסיטקום · דרמה ויחסים · ריאליטי ופודקאסטים · חדשות ואקטואליה</td></tr>
+<tr><td>שיחה טבעית</td><td class="n">3</td><td class="n">72</td><td>ריכוך והסתייגות · הסכמה ואי-הסכמה בנימוס · תגובות קצרות</td></tr>
+<tr class="tot"><td>סה"כ</td><td class="n">32</td><td class="n">768</td><td>המאגר יגיע ל-1,008 פריטים</td></tr>
+</table></div>
+<div class="grid">
+<div class="ch"><div class="hd"><h3>רמות (ב-768 החדשים)</h3></div><p>B1 25% · B2 50% · C1 25%. בלי A2. את ברמת ביניים-מתקדמת, וכרגע יש רק 22 פריטים ברמת C1.</p></div>
+<div class="ch"><div class="hd"><h3>סוגי ביטויים</h3></div><p>מילים 30% · צירופים קבועים (collocations) 20% · פעלים עם מילת יחס 15% · ביטויי שיחה 15% · ניבים 12% · סלנג 8%.</p></div>
+</div>
+<p><b>כל פריט מגיע מלא:</b> שלושה משפטים מסיטואציות שונות, שני מסיחים עם הסבר למה הם שגויים, תרגום שמתאים לכוונה ולטון, רמז והטעמה. לביטוי של כמה מילים מצורפים גם סיטואציה ואריחים לבונה הביטוי. את המבנה הזה מנוע התרגילים כבר מכיר.</p>
+</section>
+
+<section>
+<h2>בקרת איכות ומניעת כפילויות</h2>
+<div class="flow">
+<div><b>1. מועמדים</b>40 מועמדים לכל פרק, ומהם נבחרים 24, לפי שכיחות, תועלת ופיזור רמות.</div>
+<div><b>2. בדיקה אוטומטית</b>הבודק הקיים, ועוד: כפילויות בכל המאגר (גם בצורת בסיס וגם בכתיב שונה), משפטים חוזרים, אורך משפט, ומסיחים שהם בעצם מילים נרדפות לתשובה.</div>
+<div><b>3. בדיקת איכות</b>טבלה כמו בפרק השיחה: שכיחות, התאמה, טון התרגום, האם המשפט טבעי, וחלופה טובה יותר.</div>
+<div><b>4. האישור שלך</b>טבלה אחת לכל חבילה. את מוחקת או מסמנת, ולא צריך לקרוא את כל הפריטים.</div>
+<div><b>5. אות מהשימוש</b>פריט שנכשל שוב ושוב אצלך מסומן לבדיקה. לפעמים הבעיה היא בתוכן ולא בזיכרון.</div>
+</div>
+<p><b>שכיחות:</b> כרגע זו הערכה שלי. כדי שהיא תהיה נמדדת, אפשר להשתמש ברשימת שכיחות ציבורית וחינמית של אנגלית מדוברת. בלי עלות, אבל זה מקור נתונים חדש, ולכן טעון אישור.</p>
+</section>
+
+<section>
+<h2>תוכן חדש לאורך חודשים, בלי לבקש</h2>
+<div class="grid">
+<div class="ch"><div class="hd"><h3>מלאי מוכן מראש</h3></div><p>התוכן מופק מראש בשש חבילות ונכנס לאפליקציה מוכן. בקצב של כ-3 מילים חדשות ביום, 768 פריטים מספיקים לכ-8 חודשים (הערכה). כלל המלאי: תמיד מוכנים פרקים לפחות לשישה שבועות קדימה. כשהמלאי יורד מתחת לארבעה שבועות, במסך ההתקדמות תופיע שורה שקטה, ואני מכין את החבילה הבאה. בשלב הזה אין AI בזמן אמת ואין עלות.</p></div>
+<div class="ch"><div class="hd"><h3>המלצה חכמה: מאיפה המילים הבאות</h3></div><p>בכל יום האפליקציה בוחרת את הפרק שממנו יגיעו המילים החדשות, לפי ארבעה דברים:
+<br>• <b>איזון:</b> יום-יום, עבודה וסדרות, לפי היחס שבחרת.
+<br>• <b>רמה:</b> אם את מצליחה ביותר מ-85% ב-B2, עולה החלק של C1. אם פחות מ-70%, הוא יורד.
+<br>• <b>עניין:</b> לפי הפרקים שבחרת, ועם כפתורי "יותר מזה" ו"פחות מזה" בכרטיס הפרק.
+<br>• <b>גיוון:</b> לא יותר מיומיים ברצף מאותו פרק.
+<br>ליד ההמלצה מופיעה שורה אחת שמסבירה למה. בחירה ידנית של פרק תמיד גוברת על ההמלצה.</p></div>
+</div>
+</section>
+
+<section>
+<h2>הערכת מאמץ</h2>
+<div class="tbl"><table>
+<tr><th>שלב</th><th>מה כולל</th><th>עבודה שלי (הערכה)</th><th>הזמן שלך</th></tr>
+<tr><td>א. ליטוש יומי</td><td>ממצאים 1 ו-4 עד 7, בדיקות אייפון וסימולציה חוזרת</td><td class="n">סשן עבודה אחד</td><td>משחק של כמה ימים</td></tr>
+<tr><td>ב. העשרת משפטים</td><td>418 משפטים חדשים, כדי שלכל 216 הפריטים הוותיקים יהיו שלושה, בשלוש חבילות</td><td class="n">2 סשנים</td><td>כ-20 דק' לכל חבילה, בדיקה מדגמית</td></tr>
+<tr><td>ג. המלצה חכמה</td><td>בחירת פרק אוטומטית, "יותר/פחות מזה", בדיקות יחידה</td><td class="n">סשן אחד</td><td>אישור לפני ואחרי</td></tr>
+<tr><td>ד. 32 פרקים</td><td>6 חבילות של 5-6 פרקים, כל אחת עוברת את חמשת שלבי הבקרה</td><td class="n">סשן לכל חבילה</td><td>כ-30 דק' לכל חבילה</td></tr>
+<tr class="tot"><td>סה"כ</td><td></td><td class="n">כ-10 סשנים</td><td>כ-4 שעות לאורך כל התהליך</td></tr>
+</table></div>
+<p>עלות תפעול נוספת: 0 דולר. שום שלב לא דורש שירות בתשלום.</p>
+</section>
+
+<section class="ask">
+<h2>ההמלצה שלי</h2>
+<ol>
+<li><span class="rec">לאשר את תוכנית התוכן ואת חמשת שלבי הבקרה.</span></li>
+<li>להתחיל בהעשרת המשפטים (שלב ב). זה הפתרון הכי זול לשחיקה הכי גדולה, ולא נוגע בקוד.</li>
+<li>אחרי שתשחקי בגרסת M5.3: ליטוש יומי (שלב א) והמלצה חכמה (שלב ג) יחד, ואז הכול עובר לקישור הראשי.</li>
+<li>להחליט על רשימת השכיחות החינמית, או להמשיך עם הערכה.</li>
+</ol>
+</section>
+</div>
