@@ -1,0 +1,696 @@
+<title>WORDPLAY M5 Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Heebo:wght@400;500;700;800;900&family=Outfit:wght@500;700;800&display=swap">
+<style>
+/* Layout: a review document. Quiet chrome; each direction lives in three phone frames carrying its own world. */
+:root{--bg:#F4F1EC;--fg:#1D1B1A;--muted:#6A645E;--line:#DED6CB;--panel:#FFFFFF;--accent:#8C3B24;
+  --f:"Assistant","Heebo",system-ui,sans-serif;--fh:"Frank Ruhl Libre",Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161412;--fg:#F1ECE5;--muted:#ABA298;--line:#2E2A26;--panel:#1F1C19;--accent:#F0A487;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161412;--fg:#F1ECE5;--muted:#ABA298;--line:#2E2A26;--panel:#1F1C19;--accent:#F0A487;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16.5px;line-height:1.65;direction:rtl}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 80px;display:flex;flex-direction:column;gap:64px}
+h1,h2,h3{font-family:var(--fh);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,5.4vw,54px)}h2{font-size:clamp(25px,3.6vw,36px)}h3{font-size:19px}
+p{margin:0;max-width:70ch}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.lead{font-size:19px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:18px}
+.en{direction:ltr;unicode-bidi:isolate}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{color:var(--fg);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:14.5px;background:var(--panel)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.shots img{width:100%;border-radius:18px;border:1px solid var(--line);display:block}
+.shots figcaption{font-size:13px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.note b{font-size:16.5px}.note span{font-size:15px;color:var(--muted)}
+.sev{align-self:flex-start;font-size:12px;font-weight:700;border-radius:999px;padding:0 9px;border:1px solid currentColor;color:var(--accent)}
+.prin{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.prin div{border-top:2px solid var(--fg);padding-top:10px;display:flex;flex-direction:column;gap:4px}
+.prin b{font-size:15.5px}.prin span{font-size:14px;color:var(--muted)}
+.dir-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
+dl.facts{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:15px;margin:0}
+dl.facts dt{color:var(--muted)}dl.facts dd{margin:0}
+.sw{display:inline-flex;gap:3px;vertical-align:middle;margin-inline-start:4px}
+.sw i{width:17px;height:17px;border-radius:4px;display:inline-block;border:1px solid rgba(0,0,0,.12)}
+.phones{display:flex;gap:26px;overflow-x:auto;padding:6px 2px 18px;scroll-snap-type:x mandatory}
+.ph{flex:none;display:flex;flex-direction:column;gap:8px;align-items:center;scroll-snap-align:center;width:350px}
+.ph>small{font-size:14px;color:var(--muted);text-align:center;max-width:330px}
+.phone{width:350px;height:734px;border-radius:48px;padding:10px;background:#0D0C0C;box-shadow:0 26px 50px -22px rgba(0,0,0,.5)}
+.scr{width:330px;height:714px;border-radius:38px;overflow:hidden;position:relative;isolation:isolate;direction:rtl;user-select:none;-webkit-user-select:none}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pc div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.pc ul{margin:6px 0 0;padding-inline-start:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:right;vertical-align:top}
+th{font-weight:700}
+.tbl{overflow-x:auto;border-radius:12px}
+.rec{border:2px solid var(--accent);border-radius:18px;padding:20px 22px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+.label{align-self:flex-start;font-size:12px;font-weight:800;border-radius:6px;padding:1px 8px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+ul.plain{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:900px){.shots{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2,.dir-head,.pc{grid-template-columns:1fr}.prin{grid-template-columns:1fr 1fr}}
+
+/* =========================== D1 · HORIZONS =========================== */
+.d1{--paper:#F3EADB;--paper2:#E9DCC5;--ink:#2A211D;--ink2:#5E4F46;--terra:#B4532F;--ochre:#D99A4B;--sage:#6F8F72;--sage2:#E2E9DC;--dusk:#3A3F5C;
+  background:var(--paper);color:var(--ink);font-family:"Assistant",sans-serif}
+.d1 .grain{position:absolute;inset:0;pointer-events:none;z-index:40;opacity:.5;mix-blend-mode:multiply;background-size:160px 160px}
+.d1 .hs{font-family:"Frank Ruhl Libre",serif}
+.d1 .es{font-family:"Fraunces",serif;direction:ltr;unicode-bidi:isolate}
+.d1 .pano{position:absolute;inset:0 0 auto 0;height:440px;overflow:hidden;touch-action:pan-y;cursor:grab}
+.d1 .lay{position:absolute;top:0;right:0;height:100%;will-change:transform}
+.d1 .lay svg{display:block;height:100%}
+.d1 .top{position:absolute;top:18px;left:18px;right:18px;display:flex;align-items:center;justify-content:space-between;z-index:10;color:var(--paper)}
+.d1 .wm{font-family:"Fraunces",serif;font-style:italic;font-weight:600;font-size:20px;direction:ltr;letter-spacing:.01em}
+.d1 .day{font-size:13.5px;font-weight:700;letter-spacing:.04em;opacity:.92}
+.d1 .day b{font-family:"Frank Ruhl Libre",serif;font-size:17px}
+.d1 .pin{position:absolute;z-index:3;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none;white-space:nowrap}
+.d1 .pin b{font-family:"Frank Ruhl Libre",serif;font-size:15px;font-weight:700;color:var(--paper);text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.d1 .pin span{font-size:12px;color:var(--paper);opacity:.9;font-weight:600;letter-spacing:.03em}
+.d1 .pin.lock b,.d1 .pin.lock span{opacity:.7}
+.d1 .pin i{width:7px;height:7px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 4px rgba(243,234,219,.25)}
+.d1 .hint{position:absolute;top:404px;left:0;right:0;text-align:center;font-size:12px;color:var(--paper);opacity:.8;z-index:4;letter-spacing:.04em;pointer-events:none}
+.d1 .sheet{position:absolute;left:0;right:0;bottom:0;top:418px;z-index:5;padding:26px 24px 20px;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+.d1 .sheet::before{content:"";position:absolute;left:0;right:0;top:-22px;height:24px;background:var(--paper);clip-path:path("M0 22 C 60 6, 120 4, 165 10 S 270 24, 330 6 L330 24 L0 24Z")}
+.d1 .kick{font-size:12.5px;letter-spacing:.08em;font-weight:700;color:var(--ink2)}
+.d1 h4{font-family:"Frank Ruhl Libre",serif;font-weight:700;font-size:31px;line-height:1.1;margin:0}
+.d1 .meta{font-size:14.5px;color:var(--ink2)}
+.d1 .ticks{display:flex;gap:5px;margin-top:4px}
+.d1 .ticks i{flex:1;height:5px;border-radius:3px;background:rgba(42,33,29,.13)}
+.d1 .ticks i.on{background:var(--terra)}
+.d1 .ticks i.gate{box-shadow:inset 0 0 0 1.5px var(--terra);background:transparent}
+.d1 .cap{font-size:13px;color:var(--ink2)}
+.d1 .cta{margin-top:auto;height:58px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:700 18px "Assistant";display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 10px;cursor:pointer;transition:transform .12s cubic-bezier(.2,.7,.2,1)}
+.d1 .cta:active{transform:scale(.98)}
+.d1 .cta .go{width:40px;height:40px;border-radius:50%;background:var(--terra);display:flex;align-items:center;justify-content:center}
+.d1 .cta small{font-weight:600;font-size:13px;opacity:.75;margin-inline-start:8px}
+.d1 .links{display:flex;justify-content:center;gap:18px;font-size:14px;font-weight:600;color:var(--ink2)}
+.d1 .links span b{font-family:"Frank Ruhl Libre",serif;color:var(--ink)}
+/* trivia */
+.d1 .band{position:absolute;inset:0 0 auto 0;height:140px;overflow:hidden}
+.d1 .band svg{display:block;width:100%;height:100%}
+.d1 .walker{position:absolute;bottom:14px;width:26px;height:46px;transition:left .7s cubic-bezier(.3,.7,.2,1);z-index:3}
+.d1 .walker.hop{animation:d1hop .5s cubic-bezier(.3,1.4,.4,1)}
+@keyframes d1hop{40%{transform:translateY(-10px)}}
+.d1 .walker.turn svg{transform:scaleX(-1)}
+.d1 .walker .lg{transform-box:fill-box;transform-origin:50% 0;animation:d1leg .5s ease-in-out infinite alternate}
+.d1 .walker .lg2{animation-delay:-.5s}
+@keyframes d1leg{from{transform:rotate(16deg)}to{transform:rotate(-16deg)}}
+.d1 .walker.stop .lg{animation:none}
+.d1 .xbtn{position:absolute;top:16px;left:16px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,234,219,.5);background:rgba(42,33,29,.25);color:var(--paper);font-size:15px;z-index:5;cursor:pointer}
+.d1 .cnt{position:absolute;top:20px;right:20px;z-index:5;color:var(--paper);font-family:"Frank Ruhl Libre",serif;font-size:16px;font-weight:700}
+.d1 .cnt small{font-family:"Assistant";font-size:12px;opacity:.8;font-weight:600}
+.d1 .q{position:absolute;top:152px;left:24px;right:24px;display:flex;flex-direction:column;gap:5px}
+.d1 .qk{font-size:12.5px;letter-spacing:.08em;font-weight:700;color:var(--ink2)}
+.d1 .qp{font-family:"Frank Ruhl Libre",serif;font-size:19px;font-weight:500}
+.d1 .word{font-family:"Fraunces",serif;font-weight:700;font-size:46px;line-height:1;letter-spacing:-.01em;direction:ltr;text-align:center;margin-top:6px}
+.d1 .str{display:flex;justify-content:center;align-items:center;gap:10px;direction:ltr;font-family:"Fraunces";font-size:15px;color:var(--ink2);letter-spacing:.06em}
+.d1 .str b{color:var(--terra)}
+.d1 .spk{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--ink);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.d1 .ex{font-family:"Fraunces",serif;font-style:italic;font-size:15.5px;line-height:1.5;color:var(--ink2);direction:ltr;text-align:center;margin-top:4px}
+.d1 .ex u{text-decoration-color:var(--terra);text-decoration-thickness:2px;text-underline-offset:3px;color:var(--ink);font-style:normal;font-weight:600}
+.d1 .fbk{min-height:0;text-align:center;font-size:14.5px;color:var(--ink2);opacity:0;transform:translateY(6px);transition:opacity .22s,transform .22s cubic-bezier(.2,.7,.2,1)}
+.d1 .fbk.on{opacity:1;transform:none}
+.d1 .fbk .es{font-weight:700;color:var(--ink)}
+.d1 .opts{position:absolute;left:18px;right:18px;bottom:86px;display:flex;flex-direction:column;gap:7px}
+.d1 .opt{position:relative;min-height:50px;border:1px solid rgba(42,33,29,.16);border-radius:16px;background:#F8F1E5;color:var(--ink);font:600 15.5px "Assistant";text-align:right;padding:8px 16px 8px 44px;display:flex;align-items:center;gap:12px;cursor:pointer;overflow:hidden;transition:background .22s,border-color .22s,transform .12s,opacity .22s}
+.d1 .opt .n{font-family:"Frank Ruhl Libre",serif;font-size:15px;color:var(--ink2);width:14px;flex:none}
+.d1 .opt:active{transform:scale(.985)}
+.d1 .opt .mk{position:absolute;left:14px;top:50%;margin-top:-11px;width:22px;height:22px}
+.d1 .opt.ok{background:var(--sage);border-color:var(--sage);color:#FBF7EF}
+.d1 .opt.ok .n{color:#FBF7EF}
+.d1 .opt.ok .mk path{stroke-dasharray:30;stroke-dashoffset:30;animation:d1draw .35s .1s forwards}
+@keyframes d1draw{to{stroke-dashoffset:0}}
+.d1 .opt.show{border-color:var(--sage);box-shadow:inset 0 0 0 1.5px var(--sage)}
+.d1 .opt.bad{color:var(--ink2)}
+.d1 .opt.bad::after{content:"";position:absolute;right:42px;left:20px;top:50%;height:1.5px;background:var(--terra);transform-origin:right;animation:d1strike .3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes d1strike{from{transform:scaleX(0)}}
+.d1 .opt.dim{opacity:.55}
+.d1 .next{position:absolute;left:18px;right:18px;bottom:22px;height:54px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:700 17px "Assistant";opacity:.18;transition:opacity .22s;cursor:pointer}
+.d1 .next.on{opacity:1}
+/* end */
+.d1 .endhero{position:absolute;inset:0 0 auto 0;height:400px;overflow:hidden}
+.d1 .endhero svg{display:block;width:100%;height:100%}
+.d1 .rise{transform-box:fill-box;transform-origin:50% 100%;animation:d1rise 1.1s .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes d1rise{from{transform:scaleY(.62)}}
+.d1 .lit{opacity:0;animation:d1lit .3s both}
+@keyframes d1lit{to{opacity:1}}
+.d1 .star{opacity:0;animation:d1lit 1s both}
+.d1 .sunset{animation:d1sun 2.4s .3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes d1sun{from{transform:translateY(-26px)}}
+.d1 .fig{position:absolute;width:74px;height:126px;z-index:3;animation:d1fig .6s 1.5s cubic-bezier(.3,1.4,.4,1) both}
+@keyframes d1fig{from{transform:translateY(16px);opacity:0}}
+.d1 .esheet{position:absolute;left:0;right:0;bottom:0;top:384px;background:var(--paper);padding:22px 22px 18px;display:flex;flex-direction:column;gap:12px;z-index:5}
+.d1 .esheet::before{content:"";position:absolute;left:0;right:0;top:-22px;height:24px;background:var(--paper);clip-path:path("M0 8 C 70 22, 150 24, 200 12 S 290 2, 330 14 L330 24 L0 24Z")}
+.d1 .cols{display:grid;grid-template-columns:1fr 1px .78fr;gap:14px}
+.d1 .cols .vr{background:rgba(42,33,29,.15)}
+.d1 .ch{font-size:12px;letter-spacing:.08em;font-weight:800;color:var(--ink2)}
+.d1 .big{font-family:"Frank Ruhl Libre",serif;font-size:34px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.d1 .sm{font-size:13px;color:var(--ink2);line-height:1.35}
+.d1 .tag{font-size:10.5px;font-weight:800;letter-spacing:.06em;color:var(--sage)}
+.d1 .wl{display:flex;flex-wrap:wrap;gap:4px 10px;font-family:"Fraunces";font-style:italic;font-size:14px;direction:ltr;justify-content:flex-end}
+.d1 .wl span::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--sage);margin-right:5px;vertical-align:middle}
+.d1 .wl span.sh::before{background:var(--ochre)}
+.d1 .game b{font-family:"Frank Ruhl Libre",serif;font-size:26px}
+.d1 .ecta{height:54px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:700 16.5px "Assistant";cursor:pointer;margin-top:auto}
+.d1 .elink{text-align:center;font-size:14px;font-weight:600;color:var(--ink2)}
+
+/* =========================== D2 · COLOR STUDIO =========================== */
+.d2{--field:#F28C38;--field2:#F6A65E;--deep:#B8551A;--canvas:#F6F2EC;--ink:#151515;--ink2:#55524E;
+  font-family:"Heebo",sans-serif;color:var(--ink);background:var(--field);transition:background .45s cubic-bezier(.2,.7,.2,1)}
+.d2 .en2{font-family:"Outfit",sans-serif;direction:ltr;unicode-bidi:isolate}
+.d2 .top{position:absolute;top:20px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;z-index:5;font-size:13px;font-weight:700}
+.d2 .brand{font-family:"Outfit";font-weight:800;letter-spacing:.12em;font-size:13px;direction:ltr}
+.d2 .streak{display:flex;align-items:center;gap:6px}
+.d2 .streak i{width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.d2 .orb{position:absolute;top:70px;left:50%;width:276px;height:276px;margin-left:-138px;border-radius:50%;background:var(--field2);transition:background .45s}
+.d2 canvas{position:absolute;display:block}
+.d2 .cv-home{top:40px;left:0;width:330px;height:360px}
+.d2 .wtitle{position:absolute;top:396px;left:24px;right:24px;display:flex;flex-direction:column;gap:2px}
+.d2 .wtitle small{font-size:13px;font-weight:700;letter-spacing:.06em;opacity:.75}
+.d2 .wtitle h5{margin:0;font-weight:900;font-size:56px;line-height:.95;letter-spacing:-.02em}
+.d2 .wtitle p{font-size:16px;font-weight:500;margin-top:6px}
+.d2 .segs{display:flex;gap:4px;margin-top:10px}
+.d2 .segs i{flex:1;height:6px;border-radius:3px;background:rgba(21,21,21,.18)}
+.d2 .segs i.on{background:var(--ink)}
+.d2 .segcap{font-size:13px;font-weight:600;margin-top:4px;opacity:.85}
+.d2 .acts{position:absolute;left:20px;right:20px;bottom:86px;display:flex;gap:10px}
+.d2 .play{flex:1;height:58px;border:0;border-radius:999px;background:var(--ink);color:#fff;font:800 18px "Heebo";display:flex;align-items:center;justify-content:space-between;padding:0 22px 0 8px;cursor:pointer;transition:transform .12s}
+.d2 .play:active{transform:scale(.97)}
+.d2 .play .ar{width:44px;height:44px;border-radius:50%;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center}
+.d2 .play small{font-weight:600;font-size:13px;opacity:.7;margin-inline-start:6px}
+.d2 .ghostb{width:58px;height:58px;border-radius:50%;border:2px solid var(--ink);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.d2 .pager{position:absolute;bottom:62px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.d2 .pager i{width:6px;height:6px;border-radius:3px;background:rgba(21,21,21,.25);transition:width .3s}
+.d2 .pager i.on{width:20px;background:var(--ink)}
+.d2 .nav{position:absolute;left:0;right:0;bottom:0;height:52px;display:flex;justify-content:space-around;align-items:center;padding:0 30px 10px}
+.d2 .nav span{display:flex;flex-direction:column;align-items:center;font-size:10.5px;font-weight:700;gap:1px;opacity:.6}
+.d2 .nav span.on{opacity:1}
+.d2 .lockcap{position:absolute;top:356px;left:0;right:0;text-align:center;font-size:12.5px;font-weight:700;opacity:0;transition:opacity .3s}
+.d2 .lockcap.on{opacity:.8}
+.d2 .arrows{position:absolute;top:196px;left:6px;right:6px;display:flex;justify-content:space-between;z-index:4;pointer-events:none}
+.d2 .arrows button{pointer-events:auto;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.35);font-size:16px;cursor:pointer}
+/* trivia */
+.d2.tv{background:var(--canvas)}
+.d2 .block{position:absolute;inset:0 0 auto 0;height:318px;background:var(--field);border-radius:0 0 40px 40px}
+.d2 .tbar{position:absolute;top:18px;left:18px;right:18px;display:flex;align-items:center;gap:12px;z-index:5}
+.d2 .tbar button{width:34px;height:34px;border-radius:50%;border:0;background:rgba(21,21,21,.1);font-size:14px;cursor:pointer}
+.d2 .prog{flex:1;display:flex;gap:3px}
+.d2 .prog i{flex:1;height:5px;border-radius:3px;background:rgba(21,21,21,.18);transition:background .3s}
+.d2 .prog i.on{background:var(--ink)}
+.d2 .cv-mg{top:62px;right:4px;width:120px;height:170px;z-index:3}
+.d2 .wordblk{position:absolute;top:96px;left:22px;right:118px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;direction:ltr}
+.d2 .wordblk .w{font-family:"Outfit";font-weight:800;font-size:44px;line-height:1;letter-spacing:-.02em}
+.d2 .wordblk .s{display:flex;align-items:center;gap:8px;font-family:"Outfit";font-weight:500;font-size:15px;letter-spacing:.04em}
+.d2 .wordblk .s b{font-weight:800}
+.d2 .sp2{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.d2 .qp2{position:absolute;top:240px;right:22px;left:22px;font-weight:800;font-size:21px}
+.d2 .bub2{position:absolute;top:60px;right:122px;font-size:12.5px;font-weight:700;background:#fff;border-radius:12px 12px 4px 12px;padding:4px 10px;opacity:0;transform:translateY(4px);transition:all .2s;z-index:6}
+.d2 .bub2.on{opacity:1;transform:none}
+.d2 .ex2{position:absolute;top:334px;left:22px;right:22px;font-family:"Outfit";font-weight:500;font-size:15px;line-height:1.45;color:var(--ink2);direction:ltr}
+.d2 .ex2 b{color:var(--ink);font-weight:800;box-shadow:inset 0 -6px 0 color-mix(in srgb,var(--field) 45%,transparent)}
+.d2 .grid4{position:absolute;left:16px;right:16px;top:398px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.d2 .t4{position:relative;height:110px;border:0;border-radius:24px;background:#fff;color:var(--ink);font:600 15px "Heebo";text-align:right;padding:34px 14px 12px;cursor:pointer;line-height:1.3;box-shadow:0 1px 0 rgba(0,0,0,.04),0 10px 24px -14px rgba(0,0,0,.3);transition:transform .14s cubic-bezier(.2,.7,.2,1),background .25s,color .25s,box-shadow .25s}
+.d2 .t4:active{transform:scale(.96)}
+.d2 .t4 .k{position:absolute;top:12px;right:14px;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(21,21,21,.25);font:700 11.5px "Outfit";display:flex;align-items:center;justify-content:center}
+.d2 .t4.ok{background:var(--field);transform:scale(1.03);box-shadow:0 14px 30px -12px color-mix(in srgb,var(--field) 80%,#000)}
+.d2 .t4.ok .k{background:var(--ink);color:#fff;border-color:var(--ink)}
+.d2 .t4.bad{background:#EDE8E1;color:var(--ink2);animation:d2shake .35s}
+.d2 .t4.bad .k{border-color:#B9452E;color:#B9452E}
+@keyframes d2shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.d2 .t4.show{box-shadow:0 0 0 3px var(--field)}
+.d2 .t4.dim{opacity:.45}
+.d2 .go2{position:absolute;left:16px;right:16px;bottom:22px;height:56px;border:0;border-radius:999px;background:var(--ink);color:#fff;font:800 17px "Heebo";opacity:.15;transition:opacity .2s;cursor:pointer}
+.d2 .go2.on{opacity:1}
+.d2 .fb2{position:absolute;top:640px;left:16px;right:16px;font-size:13px;font-weight:600;text-align:center;color:var(--ink2);opacity:0;transition:opacity .2s}
+/* end */
+.d2 .cv-end{top:30px;left:0;width:330px;height:370px}
+.d2 .etitle{position:absolute;top:58px;left:0;right:0;text-align:center;z-index:4}
+.d2 .etitle small{font-size:13px;font-weight:700;letter-spacing:.06em}
+.d2 .etitle h5{margin:2px 0 0;font-weight:900;font-size:40px;line-height:1;letter-spacing:-.02em}
+.d2 .learn{position:absolute;left:16px;right:16px;top:392px;background:#fff;border-radius:28px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;animation:d2up .5s .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes d2up{from{opacity:0;transform:translateY(20px)}}
+.d2 .learn .hd{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--ink2)}
+.d2 .learn .nums{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.d2 .learn .nums b{display:block;font-family:"Outfit";font-weight:800;font-size:34px;line-height:1}
+.d2 .learn .nums span{font-size:12.5px;font-weight:600;color:var(--ink2)}
+.d2 .learn .nums em{font-style:normal;font-size:10.5px;font-weight:800;color:#2E7D4F;margin-inline-start:4px}
+.d2 .chips{display:flex;flex-wrap:wrap;gap:5px;direction:ltr}
+.d2 .chips span{font-family:"Outfit";font-weight:700;font-size:12.5px;border:1.5px solid var(--ink);border-radius:999px;padding:1px 9px}
+.d2 .chips span.sh{border-style:dashed;color:var(--ink2);border-color:var(--ink2)}
+.d2 .gamerow{position:absolute;left:16px;right:16px;top:600px;display:flex;gap:8px;animation:d2up .5s .8s both}
+.d2 .gamerow span{background:var(--ink);color:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700}
+.d2 .ebtn{position:absolute;left:16px;right:16px;bottom:22px;display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.d2 .ebtn button{height:56px;border-radius:999px;font:800 16px "Heebo";cursor:pointer}
+.d2 .ebtn .p{background:var(--ink);color:#fff;border:0}
+.d2 .ebtn .s{background:none;border:2px solid var(--ink);color:var(--ink)}
+.replay{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);z-index:50;border:0;border-radius:999px;font:700 11px "Assistant";padding:1px 10px;background:rgba(0,0,0,.18);color:#fff;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:12px">
+  <span class="eyebrow">WORDPLAY · M5 · כיוון חזותי · שלבים א-ד</span>
+  <h1>מעולם שבנוי מצורות לעולם שמצויר</h1>
+  <p class="lead">אבחון ביקורתי של M4, העקרונות שמאחורי הרפרנסים, ושני כיוונים חדשים. בכל כיוון מוצגים אותם שלושה מסכים עם אותה מילה ואותו תוכן. המסכים הם הדגמה אינטראקטיבית: אפשר לגרור את המסע, לענות על השאלה ולהפעיל שוב את מסך הסיום. הם לא מחוברים למנוע האמיתי, וגרסת M4 בקישור הראשי לא השתנתה.</p>
+  <nav class="toc"><a href="#audit">אבחון</a><a href="#refs">מה לקחתי מהרפרנסים</a><a href="#d1">כיוון 1 · אופקים</a><a href="#d2">כיוון 2 · סטודיו צבע</a><a href="#motion">מערכת תנועה</a><a href="#rec">המלצה</a></nav>
+</header>
+
+<section id="audit">
+  <span class="eyebrow">שלב א</span>
+  <h2>אבחון: למה M4 עוד לא מרגיש כמו מוצר פרימיום</h2>
+  <div class="shots">
+    <figure><img src="img/home.jpg" alt="מסך הבית ב-M4 עם ההתקדמות האמיתית" loading="lazy"><figcaption>בית: חמש שכבות ממשק על העולם</figcaption></figure>
+    <figure><img src="img/pick.jpg" alt="שאלת טריוויה ב-M4 אחרי תשובה" loading="lazy"><figcaption>שאלה: הכול באותו משקל</figcaption></figure>
+    <figure><img src="img/end.jpg" alt="מסך סיום ב-M4" loading="lazy"><figcaption>סיום: לוח נתונים כהה</figcaption></figure>
+    <figure><img src="img/bank.jpg" alt="בנק המילים ב-M4" loading="lazy"><figcaption>בנק: רשימה, לא אוסף</figcaption></figure>
+  </div>
+  <div class="grid2">
+    <div class="note"><span class="sev">חמור</span><b>1. העולם בנוי מגופים גאומטריים, לא מאיור</b><span>האיים התלת-ממדיים בנויים מצילינדרים, קונוסים וקופסאות. זו התקרה של תלת-ממד שנבנה בקוד בלי מודלים: זה תמיד ייראה כמו הדגמה טכנית. הרפרנסים שבחרת כולם מאוירים. האיכות שם באה מקו, משכבות ומצבע, לא מגיאומטריה.</span></div>
+    <div class="note"><span class="sev">חמור</span><b>2. מסך הבית עמוס בשכבות</b><span>מעל העולם יושבים שלושה כדורים עליונים, תוויות לכל אי, מרגו עם בועה, כרטיס כהה, כפתור "חיזוק" וסרגל ניווט. העולם הופך לרקע של ממשק, במקום שהממשק יהיה מסגרת שקטה לעולם.</span></div>
+    <div class="note"><span class="sev">חמור</span><b>3. במסך השאלה המילה לא שולטת</b><span>מרגו, בועת דיבור, תגית סוג, תגית "חדשה", חותמת, משפט ומשוב מתחרים על אותו חלל. המילה באנגלית היא רק אלמנט אחד מתוך תשעה.</span></div>
+    <div class="note"><span class="sev">חמור</span><b>4. מרגו היא מדבקה באותה תנוחה</b><span>חזה אחד שנשען על הכרטיס בכל שאלה, ואותה דמות שעומדת על האי בבית. היא מחליפה הבעות, אבל אין לה שפת גוף, אין לה מקום בעולם ואין לה סיבה להיות שם.</span></div>
+    <div class="note"><span class="sev">בינוני</span><b>5. אמייל מבריק בכל מקום</b><span>אותו כפתור שנהב עבה עם צל תחתון חוזר באריחים, בכפתורים ובכרטיסים. זה בדיוק "הפלסטיק המבריק" שכתבת שאת לא רוצה.</span></div>
+    <div class="note"><span class="sev">בינוני</span><b>6. אין זהות לכל עולם</b><span>כל הפרקים חולקים את אותה שקיעה ואותו ירוק. הצבע של הפרק מופיע רק בדגל קטן. אין "תחושת מקום".</span></div>
+    <div class="note"><span class="sev">בינוני</span><b>7. הטיפוגרפיה לא עורכת</b><span>Rubik בכל מקום ו-Syne למילה. אין גופן כותרות עם אופי עברי, ואין היררכיה עריכתית של כותרת, כותרת משנה וגוף.</span></div>
+    <div class="note"><span class="sev">בינוני</span><b>8. בסיום אין הבחנה בין למידה למשחק</b><span>כוכבים, מדדים, הישגים ומילים יושבים באותו לוח כהה ובאותו משקל, כך שהזיכרון האמיתי נבלע בתוך הפרסים.</span></div>
+  </div>
+  <p><b>מה נשאר מ-M4:</b> העיקרון "הזיכרון בונה את העולם", האנימציה של מבנה שגדל בסיום, "אנימציות מופחתות", והמשוב הכפול לנכון ולשגוי. אלה עובדים, ושני הכיוונים בונים עליהם.</p>
+</section>
+
+<section id="refs">
+  <h2>מה לקחתי מהרפרנסים (בלי להעתיק)</h2>
+  <div class="prin">
+    <div><b>צבע אחד שולט</b><span>בכל מסך צבע דומיננטי אחד על בסיס ניטרלי, כמו בכרטיסי הדמויות ובמסכי ה-onboarding.</span></div>
+    <div><b>האיור הוא הגיבור</b><span>הממשק שקט וקטן. התמונה עושה את הרושם, כמו ב-Zen Soundscapes וב-MELLO.</span></div>
+    <div><b>שכבות במקום תלת-ממד</b><span>עומק שנוצר מהרים בשכבות, אור ואווירה, ולא מגיאומטריה.</span></div>
+    <div><b>דמות אחת, הרבה תנוחות</b><span>ב-Poppy הדמות מופיעה בכל מסך בהקשר אחר. היא לא חוזרת באותה תנוחה.</span></div>
+    <div><b>אוויר וטיפוגרפיה</b><span>הרבה חלל ריק, כותרת גדולה אחת וטקסט קטן ומדויק. מעט כרטיסים.</span></div>
+  </div>
+</section>
+
+<!-- ============ D1 ============ -->
+<section id="d1">
+  <span class="eyebrow">שלבים ב-ג · כיוון 1</span>
+  <div class="dir-head">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h2>אופקים: מסע דרך נופים מצוירים</h2>
+      <p>המסע הוא נוף פנורמי אחד שעוברים בו מימין לשמאל, כמו בקריאה בעברית. כל פרק הוא עמק עם שעה משלו ביום: המשרד בשעת זהב, הבית בבוקר, משא ומתן בערב ורוד, סדרות בלילה, טיולים בזריחה. פרק שעוד לא נפתח מופיע כקו מתאר בהיר באופק. ככל שהזיכרון מתחזק, נדלקים חלונות ונבנים מבנים. מרגו הולכת בתוך הנוף, צעד על כל שאלה. היא חלק מהעולם, לא שכבה מעליו.</p>
+    </div>
+    <dl class="facts">
+      <dt>פלטה</dt><dd>נייר, דיו, טרקוטה, ענבר ומרווה<span class="sw"><i style="background:#F3EADB"></i><i style="background:#2A211D"></i><i style="background:#B4532F"></i><i style="background:#D99A4B"></i><i style="background:#6F8F72"></i></span>. לכל עולם צבע שמיים משלו.</dd>
+      <dt>טיפוגרפיה</dt><dd>Frank Ruhl Libre לכותרות בעברית, Fraunces למילים באנגלית, Assistant לטקסט</dd>
+      <dt>חומר</dt><dd>נייר מט עם גרעין עדין. בלי ברק ובלי צללים תחתונים.</dd>
+      <dt>עולם</dt><dd>נוף בשכבות עם פרלקסה: 5 מישורים שזזים במהירויות שונות. נבנה מקוד, כך שאפשר לייצר מאות עמקים.</dd>
+      <dt>דמות</dt><dd>מרגו כאיור עריכתי שטוח: מעיל ארוך, ברט וצעיף. מופיעה קטנה כשהיא חלק מהנוף, וגדולה ברגעי שיא.</dd>
+      <dt>תנועה</dt><dd>שקטה ואיטית: נוף שזז, שמש ששוקעת וחלונות שנדלקים. התנועה עוקבת אחרי האצבע ולא קופצת.</dd>
+    </dl>
+  </div>
+  <div class="phones">
+    <div class="ph"><div class="phone"><div class="scr d1" id="d1home"></div></div><small>בית: גררי את הנוף הצידה כדי לראות את העמקים הבאים</small></div>
+    <div class="ph"><div class="phone"><div class="scr d1" id="d1triv"></div></div><small>טריוויה: מרגו מתקדמת בנוף על כל תשובה נכונה</small></div>
+    <div class="ph"><div class="phone"><div class="scr d1" id="d1end"></div></div><small>סיום שלב: המגדל נבנה והחלונות נדלקים לפי המילים שנקלטו</small></div>
+  </div>
+  <div class="pc">
+    <div><b>יתרונות</b><ul><li>מקורי ומזוהה בלי לוגו: נוף בשכבות שמשתנה לפי שעות היום.</li><li>הכי נוח לסשן של 30 דקות: נייר, דיו וניגודיות גבוהה.</li><li>קל ומהיר: SVG בלבד, בלי WebGL ובלי ספרייה של 600KB.</li><li>הרחבה זולה: עמק חדש הוא הגדרה של צבעים ומבנים, בלי איור ידני.</li></ul></div>
+    <div><b>חסרונות</b><ul><li>פחות "וואו" מיידי מתלת-ממד.</li><li>איור שטוח דורש הקפדה כדי לא להיראות כמו תבנית וקטורית גנרית.</li><li>מרגו קטנה יותר רוב הזמן. זו בחירה מכוונת, אבל היא משנה את האופי שלה.</li><li>צריך לבדוק כותרות עברית בסריף בגדלים קטנים.</li></ul></div>
+  </div>
+</section>
+
+<!-- ============ D2 ============ -->
+<section id="d2">
+  <span class="eyebrow">שלבים ב-ג · כיוון 2</span>
+  <div class="dir-head">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h2>סטודיו צבע: כל עולם הוא פוסטר</h2>
+      <p>כל פרק הוא שדה צבע אחד מלא: כתום למשרד, מרווה לבית, לילך למשא ומתן, ורוד לסדרות, תכלת לטיולים. במרכז יש דיורמה קטנה מחומר רך, ומרגו עשויה מאותו "חימר" ועומדת בתוכה. הממשק כמעט שחור-לבן: טיפוגרפיה ענקית, כפתורים שחורים ומעט אלמנטים. במסך השאלה הצבע עולה למעלה, והאריחים הלבנים יושבים על בסיס ניטרלי ונוח לעין.</p>
+    </div>
+    <dl class="facts">
+      <dt>פלטה</dt><dd>שדה צבע לכל עולם, ושחור ושנהב לממשק<span class="sw"><i style="background:#F28C38"></i><i style="background:#7FB685"></i><i style="background:#9B8CE8"></i><i style="background:#151515"></i><i style="background:#F6F2EC"></i></span></dd>
+      <dt>טיפוגרפיה</dt><dd>Heebo 900 לכותרות בעברית, Outfit למילים באנגלית</dd>
+      <dt>חומר</dt><dd>חימר מט רך עם תאורת סטודיו. הממשק עצמו שטוח לגמרי.</dd>
+      <dt>עולם</dt><dd>דיורמה תלת-ממדית קטנה לכל פרק. מחליפים עולם בהחלקה, והצבע של כל המסך מתחלף.</dd>
+      <dt>דמות</dt><dd>מרגו מחימר עם שלד: אפשר להעמיד אותה בכל תנוחה (נפנוף, חשיבה, שמחה, אכזבה)</dd>
+      <dt>תנועה</dt><dd>קפיצית ותוססת: מעברי צבע, דיורמה שמסתובבת וקונפטי מחימר</dd>
+    </dl>
+  </div>
+  <div class="phones">
+    <div class="ph"><div class="phone"><div class="scr d2" id="d2home"></div></div><small>בית: החיצים מחליפים עולם. עולם שעוד לא נפתח מופיע בחימר אפור</small></div>
+    <div class="ph"><div class="phone"><div class="scr d2 tv" id="d2triv"></div></div><small>טריוויה: מרגו משנה תנוחה לפי התשובה</small></div>
+    <div class="ph"><div class="phone"><div class="scr d2" id="d2end"></div></div><small>סיום שלב: המגדל גדל לגובה מלא</small></div>
+  </div>
+  <div class="pc">
+    <div><b>יתרונות</b><ul><li>רושם ראשוני חזק מאוד, ושדה צבע שונה לכל עולם.</li><li>מרגו תלת-ממדית עם שלד יכולה לעמוד בכל תנוחה, וזה פותר את "אותה תנוחה בכל מסך".</li><li>הממשק השחור-לבן נקי ובוגר.</li></ul></div>
+    <div><b>חסרונות</b><ul><li>חימר רך נוטה בקלות למראה צעצוע וילדי. זה בדיוק הסיכון שהזכרת.</li><li>תלת-ממד בקוד עדיין מוגבל בפרטים. דמות חימר באמת פרימיום דורשת מודל ממאייר/ת תלת-ממד, כלומר עלות.</li><li>WebGL כבד על אייפונים ישנים. אפשר לצלם את תנוחות מרגו מראש לתמונות, אבל זה מוסיף שלב בנייה.</li><li>שדות צבע מלאים מעייפים בשימוש ארוך, ולכן מסך השאלה ניטרלי.</li></ul></div>
+  </div>
+</section>
+
+<section id="motion">
+  <h2>מערכת תנועה (משותפת לשני הכיוונים)</h2>
+  <div class="tbl"><table>
+    <tr><th>רמה</th><th>משך</th><th>עקומה</th><th>שימוש</th></tr>
+    <tr><td>מגע</td><td>120ms</td><td><span class="en">cubic-bezier(.2,.7,.2,1)</span></td><td>לחיצה על אריח או כפתור, מצב לחוץ</td></tr>
+    <tr><td>משוב</td><td>220-350ms</td><td>אותה עקומה, בלי קפיצה</td><td>נכון או שגוי, קו מחיקה, סימן וי שנמתח</td></tr>
+    <tr><td>מעבר</td><td>420ms</td><td>יציאה מהירה, כניסה רכה</td><td>מעבר בין שאלות, פתיחת גיליון</td></tr>
+    <tr><td>רגע</td><td>900-1400ms</td><td><span class="en">cubic-bezier(.3,1.3,.4,1)</span>, רק כאן</td><td>סיום שלב, פתיחת עולם, בניין שעולה. אפשר לדלג בנגיעה</td></tr>
+    <tr><td>אווירה</td><td>אינסופי, איטי מאוד</td><td>לינארית</td><td>עננים, אור ונשימה של מרגו. נעצרת במצב "אנימציות מופחתות" וכשהמסך לא פעיל</td></tr>
+  </table></div>
+  <p>כלל אחד: תנועה מספרת מה קרה, ולא ממלאת מסך. במצב "אנימציות מופחתות" כל המעברים הופכים להחלפה רכה של 150ms, ורגעי השיא מוצגים במצב הסופי שלהם.</p>
+</section>
+
+<section id="rec" class="rec">
+  <span class="label">שלב ד · ההמלצה שלי</span>
+  <h3>כיוון 1, אופקים</h3>
+  <ul class="plain">
+    <li><b>איכות עיצוב:</b> כיוון 1 מגיע לרמת הרפרנסים שבחרת, כי האיכות שלו באה מצבע, שכבות וטיפוגרפיה, וכולם בשליטה מלאה בקוד. בכיוון 2 התקרה היא איכות הפיסול: חימר שנבנה מצורות פשוטות יישאר צעצוע, ודמות חימר ברמה גבוהה דורשת אומן ותקציב.</li>
+    <li><b>חוויית למידה:</b> נייר ודיו הם הסביבה הכי נוחה לקריאה ארוכה, והמילה באנגלית בסריף גדול היא הגיבורה של המסך. מרגו בתוך הנוף נותנת המשכיות בלי לשבת על השאלה.</li>
+    <li><b>ביצועים:</b> כיוון 1 בלי WebGL בכלל. העולם מהיר גם באייפון ישן ולא מחמם את המכשיר.</li>
+    <li><b>הרחבה:</b> עשרות עולמות לאורך חודשים הם ציור של עוד עמק: שעה ביום, צבע ומבנים. זה מתאים בדיוק לתוכנית להגיע לאלפי מילים.</li>
+    <li><b>מה כדאי לקחת מכיוון 2:</b> אפשר לשלב בכיוון 1 את רעיון השלד של מרגו, דמות אחת עם הרבה תנוחות, בגרסה שטוחה. עם זה מרגו יכולה להצביע, לחשוב ולשמוח בלי לצייר כל תנוחה מחדש.</li>
+  </ul>
+  <p style="color:var(--muted);font-size:14.5px">נכסים ורישוי: אין נכסים חיצוניים. הגופנים מ-Google Fonts ברישיון OFL, בחינם. כיוון 2 משתמש ב-three.js ברישיון MIT, בחינם. עלות נוספת: 0.</p>
+  <p><b>מה אני צריכה ממך:</b> לבחור כיוון: 1, 2, או 1 עם השלד של מרגו. אחרי הבחירה אבנה את שלושת המסכים בקישור הבדיקה, מחוברים למנוע האמיתי, בלי לגעת בגרסה הראשית.</p>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const Q={en:"bottleneck",stress:'<b>BOT</b> · tle · neck',ex:"Everything waits for the manager's approval. It's our biggest ",exw:"bottleneck",
+  he:"צוואר בקבוק, מה שמאט את כל התהליך",
+  opts:[["לחזור למישהו בהמשך, לעקוב",0],["צוואר בקבוק, מה שמאט את כל התהליך",1],["להתעדכן בקצרה, ליצור קשר",0],["מוצף, יותר מדי עליי",0]]};
+const WORDS=["leverage","follow up","touch base","bottleneck","procrastinate","overwhelmed"],SHAKY=["hesitant","reluctant"];
+const SPK='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L13 5v14l-5.5-4.5H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+const ARROW='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+
+/* paper grain, generated once */
+const grain=(()=>{const c=document.createElement("canvas");c.width=c.height=160;const x=c.getContext("2d");const d=x.createImageData(160,160);for(let i=0;i<d.data.length;i+=4){const v=200+Math.random()*55;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255;}x.putImageData(d,0,0);return c.toDataURL();})();
+function rnd(s){const x=Math.sin(s*127.1)*43758.5453;return x-Math.floor(x);}
+function ridge(seed,w,y0,amp,step,h){let d="M0 "+h+" L0 "+y0;for(let x=0;x<=w;x+=step){const y=y0-amp*(.55*Math.sin(x/97+seed)+.3*Math.sin(x/41+seed*2.3)+.15*Math.sin(x/17+seed*5.1));d+=" L"+x+" "+y.toFixed(1);}return d+" L"+w+" "+h+"Z";}
+
+/* ===================== D1: Horizons ===================== */
+const WORLDS=[
+  {n:"במשרד",top:"#2E3150",hz:"#F0A55A",far:"#8B6876",mid:"#5E4651",near:"#3F3036",sun:{y:262,r:44,c:"#FFD08A"},open:1,kind:"office"},
+  {n:"החיים בחוץ",top:"#6E97A8",hz:"#F1D8AE",far:"#9DB1A4",mid:"#7E9A86",near:"#56715E",sun:{y:120,r:22,c:"#FFF2D4"},kind:"home"},
+  {n:"משא ומתן",top:"#2B2846",hz:"#C9798C",far:"#6B5679",mid:"#4E3F60",near:"#352B45",sun:{y:240,r:30,c:"#F5C2B8"},kind:"agora"},
+  {n:"סלנג של סדרות",top:"#10142B",hz:"#3E4473",far:"#2A3155",mid:"#1E2442",near:"#151A31",moon:1,kind:"cinema"},
+  {n:"טיולים",top:"#6C8DAE",hz:"#F3C1A4",far:"#A99EB6",mid:"#8A7F9C",near:"#61597A",sun:{y:300,r:50,c:"#FFE0C2"},kind:"coast"}];
+const SP=300,VW=330;
+function hgrad(id,key,lw,factor){ // horizontal gradient across the panorama, chapter i centred where its landmark sits
+  const stops=WORLDS.map((w,i)=>{const cx=lw-165-i*SP*factor;return '<stop offset="'+Math.max(0,Math.min(1,cx/lw)).toFixed(3)+'" stop-color="'+w[key]+'"/>';}).reverse().join("");
+  return '<linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="0">'+stops+'</linearGradient>';
+}
+function margoSide(){ // walking, flat editorial
+  return '<svg viewBox="0 0 26 46" width="26" height="46"><g class="lg"><rect x="10" y="30" width="3" height="14" rx="1.5" fill="#2A211D"/></g><g class="lg lg2"><rect x="13.5" y="30" width="3" height="14" rx="1.5" fill="#3A2E28"/></g>'+
+   '<path d="M8 15 Q13 12 18 15 L20 33 L6 33Z" fill="#B4532F"/><path d="M9 15 Q13 18 17 15 L17 18 Q13 21 9 18Z" fill="#F3EADB"/>'+
+   '<circle cx="13" cy="9" r="5" fill="#E9B793"/><path d="M8 9 Q8 3 13 3 Q18 3 18.5 8 L18.5 12 Q16 10 15 9 Q11 8 8 11Z" fill="#3B2433"/><ellipse cx="13" cy="3.6" rx="6" ry="2" fill="#D99A4B" transform="rotate(-10 13 3.6)"/></svg>';
+}
+function margoFront(){ // arms up, celebrating
+  return '<svg viewBox="0 0 74 126" width="74" height="126"><rect x="27" y="92" width="7" height="30" rx="3" fill="#2A211D"/><rect x="40" y="92" width="7" height="30" rx="3" fill="#2A211D"/>'+
+   '<path d="M22 46 Q37 40 52 46 L58 98 L16 98Z" fill="#B4532F"/><path d="M37 44 L37 98" stroke="#8E3E22" stroke-width="1.2"/>'+
+   '<path d="M24 48 Q14 32 10 16" stroke="#B4532F" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M50 48 Q60 32 64 16" stroke="#B4532F" stroke-width="8" stroke-linecap="round" fill="none"/>'+
+   '<circle cx="10" cy="13" r="5" fill="#E9B793"/><circle cx="64" cy="13" r="5" fill="#E9B793"/>'+
+   '<path d="M26 44 Q37 52 48 44 L48 49 Q37 57 26 49Z" fill="#F3EADB"/><path d="M42 50 L46 66 L41 66Z" fill="#F3EADB"/>'+
+   '<circle cx="37" cy="30" r="11" fill="#E9B793"/><path d="M25 31 Q25 17 37 17 Q49 17 49 31 L50 38 Q46 34 44 30 Q37 26 30 30 Q28 34 24 38Z" fill="#3B2433"/>'+
+   '<ellipse cx="38" cy="18" rx="13" ry="4.5" fill="#D99A4B" transform="rotate(-8 38 18)"/>'+
+   '<path d="M32 31 q2 -2 4 0 M38 31 q2 -2 4 0" stroke="#2A211D" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M34 35 q3 3 6 0" stroke="#8E3E22" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>';
+}
+function landmark(kind,cx,base,open,prog){
+  const s=open?'':' fill="none" stroke="#F3EADB" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="3 3"';
+  const F=(c)=>open?' fill="'+c+'"':s;
+  let g="";
+  if(kind==="office"){
+    const T=[[cx-48,64,128,1],[cx-8,52,96,prog],[cx+30,40,70,0]];
+    T.forEach(([x,w,h,p],i)=>{
+      if(!open||p===0){g+='<rect x="'+x+'" y="'+(base-h)+'" width="'+w+'" height="'+h+'" rx="2" fill="none" stroke="#F3EADB" stroke-opacity=".5" stroke-width="1.3" stroke-dasharray="3 3"/>';return;}
+      g+='<rect x="'+x+'" y="'+(base-h)+'" width="'+w+'" height="'+h+'" rx="2" fill="'+["#4A3843","#5A4350","#4A3843"][i]+'"/>';
+      let k=0;const cols=Math.floor((w-10)/10),rows=Math.floor((h-12)/14),lit=Math.round(cols*rows*p);
+      for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const on=(k++)<lit && rnd(r*9+c+i)>.18;g+='<rect x="'+(x+7+c*10)+'" y="'+(base-h+8+r*14)+'" width="5" height="7" fill="'+(on?"#FFD99A":"#6E5664")+'"/>';}
+    });
+  } else if(kind==="home"){
+    [[cx-50,30,24],[cx-10,36,30],[cx+28,28,22]].forEach(([x,w,h])=>{g+='<rect x="'+x+'" y="'+(base-h)+'" width="'+w+'" height="'+h+'"'+F("#E8D9BF")+'/><path d="M'+(x-3)+' '+(base-h)+' L'+(x+w/2)+' '+(base-h-16)+' L'+(x+w+3)+' '+(base-h)+'Z"'+F("#B4532F")+'/>';});
+  } else if(kind==="agora"){
+    for(let i=0;i<5;i++)g+='<rect x="'+(cx-44+i*20)+'" y="'+(base-56)+'" width="6" height="56"'+F("#E8D9BF")+'/>';
+    g+='<path d="M'+(cx-52)+' '+(base-56)+' L'+(cx+52)+' '+(base-56)+' L'+cx+' '+(base-82)+'Z"'+F("#E8D9BF")+'/>';
+  } else if(kind==="cinema"){
+    g+='<rect x="'+(cx-40)+'" y="'+(base-44)+'" width="80" height="44"'+F("#2A2F52")+'/><path d="M'+(cx-26)+' '+(base-44)+' A26 26 0 0 1 '+(cx+26)+' '+(base-44)+'Z"'+F("#3B4170")+'/>';
+  } else {
+    g+='<path d="M'+(cx-8)+' '+base+' L'+(cx-5)+' '+(base-80)+' L'+(cx+5)+' '+(base-80)+' L'+(cx+8)+' '+base+'Z"'+F("#E8D9BF")+'/><rect x="'+(cx-7)+'" y="'+(base-92)+'" width="14" height="12"'+F("#FFD99A")+'/>';
+  }
+  return g;
+}
+function buildD1Home(){
+  const el=$("d1home"),H=440,lwFor=f=>VW+(WORLDS.length-1)*SP*f;
+  const L=[{f:.32,draw:far},{f:.6,draw:mid},{f:1,draw:near},{f:1.35,draw:fore}];
+  function sky(lw){let s='<defs>'+hgrad("d1top","top",lw,.12)+hgrad("d1hz","hz",lw,.12)+'<linearGradient id="d1v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".72" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="d1m"><rect width="'+lw+'" height="'+H+'" fill="url(#d1v)"/></mask></defs>';
+    s+='<rect width="'+lw+'" height="'+H+'" fill="url(#d1hz)"/><rect width="'+lw+'" height="'+H+'" fill="url(#d1top)" mask="url(#d1m)"/>';
+    WORLDS.forEach((w,i)=>{const cx=lw-(165+i*SP)*.12;
+      if(w.sun)s+='<circle cx="'+cx+'" cy="'+w.sun.y+'" r="'+(w.sun.r*2.2)+'" fill="'+w.sun.c+'" opacity=".18"/><circle cx="'+cx+'" cy="'+w.sun.y+'" r="'+w.sun.r+'" fill="'+w.sun.c+'"/>';
+      if(w.moon){s+='<circle cx="'+cx+'" cy="110" r="20" fill="#F3EADB"/><circle cx="'+(cx+8)+'" cy="104" r="18" fill="'+w.top+'"/>';for(let k=0;k<26;k++)s+='<circle cx="'+(cx-90+rnd(k)*180)+'" cy="'+(30+rnd(k+40)*170)+'" r="'+(rnd(k+7)*1.2+.4)+'" fill="#F3EADB" opacity=".8"/>';}});
+    return s;}
+  function far(lw){return '<defs>'+hgrad("d1far","far",lw,.32)+'</defs><path d="'+ridge(1.3,lw,250,34,8,H)+'" fill="url(#d1far)"/>';}
+  function mid(lw){return '<defs>'+hgrad("d1mid","mid",lw,.6)+'</defs><path d="'+ridge(4.1,lw,300,28,8,H)+'" fill="url(#d1mid)"/>';}
+  function near(lw){let s='<defs>'+hgrad("d1near","near",lw,1)+'</defs>';
+    WORLDS.forEach((w,i)=>{const cx=lw-165-i*SP;s+=landmark(w.kind,cx,352,w.open,.375);});
+    s+='<path d="'+ridge(7.7,lw,356,10,6,H)+'" fill="url(#d1near)"/>';
+    let road="M"+lw+" 392";for(let x=lw;x>=0;x-=30)road+=" L"+x+" "+(388+Math.sin(x/70)*8).toFixed(1);
+    s+='<path d="'+road+'" fill="none" stroke="#F3EADB" stroke-opacity=".45" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>';
+    return s;}
+  function fore(lw){let s="";for(let x=0;x<lw;x+=7){const h=6+rnd(x)*16;s+='<path d="M'+x+' '+H+' Q'+(x+2)+' '+(H-h)+' '+(x+5+rnd(x+1)*3)+' '+(H-h-4)+'" stroke="#1E1716" stroke-width="2" fill="none" opacity=".75"/>';}return s;}
+  let html='<div class="pano" id="d1pano">'+WORLDS.map((w,i)=>'<div class="sky" data-i="'+i+'" style="position:absolute;inset:0;background:linear-gradient(180deg,'+w.top+' 0%,'+w.top+' 18%,'+w.hz+' 78%);opacity:'+(i?0:1)+'">'+
+    (w.sun?'<i style="position:absolute;left:'+(165-w.sun.r*2.2)+'px;top:'+(w.sun.y-w.sun.r*2.2)+'px;width:'+(w.sun.r*4.4)+'px;height:'+(w.sun.r*4.4)+'px;border-radius:50%;background:'+w.sun.c+';opacity:.18"></i><i style="position:absolute;left:'+(165-w.sun.r)+'px;top:'+(w.sun.y-w.sun.r)+'px;width:'+(w.sun.r*2)+'px;height:'+(w.sun.r*2)+'px;border-radius:50%;background:'+w.sun.c+'"></i>':'')+
+    (w.moon?'<svg width="330" height="300" style="position:absolute;inset:0">'+Array.from({length:30},(_,k)=>'<circle cx="'+(rnd(k)*330)+'" cy="'+(20+rnd(k+40)*200)+'" r="'+(rnd(k+7)*1.2+.4)+'" fill="#F3EADB" opacity=".8"/>').join("")+'<circle cx="190" cy="110" r="20" fill="#F3EADB"/><circle cx="198" cy="104" r="18" fill="'+w.top+'"/></svg>':'')+'</div>').join("");
+  L.forEach((l,i)=>{const lw=lwFor(l.f);html+='<div class="lay" data-f="'+l.f+'" style="width:'+lw+'px;z-index:'+i+'"><svg viewBox="0 0 '+lw+' '+H+'" width="'+lw+'" height="'+H+'">'+l.draw(lw)+'</svg>'+
+    (l.f===1?WORLDS.map((w,k)=>'<div class="pin'+(w.open?"":" lock")+'" style="left:'+(lw-(165+k*SP))+'px;top:'+(w.kind==="office"?208:250)+'px"><b>'+w.n+'</b><span>'+(w.open?"שלב 2 מתוך 3":"עוד לא נפתח")+'</span><i></i></div>').join("")+'<div class="walker" style="left:'+(lw-118)+'px;bottom:44px;position:absolute">'+margoSide()+'</div>':"")+'</div>';});
+  html+='<div class="top"><span class="wm">wordplay</span><span class="day"><b>4</b> ימים ברצף</span></div><div class="hint">גררי לצדדים ←→</div></div>';
+  html+='<div class="sheet"><span class="kick">פרק 1 · במשרד · שלב 2 מתוך 3</span><h4>הפרויקט מתעכב</h4><span class="meta">6 מילים חדשות · 3 חזרות</span>'+
+    '<div class="ticks">'+[1,1,1,0,0,0,0,0].map((o,i)=>'<i class="'+(o?"on":i===4?"gate":"")+'"></i>').join("")+'</div><span class="cap">3 מתוך 8 בזיכרון. עוד 2, והעמק הבא מתחיל להופיע.</span>'+
+    '<button class="cta"><span>להמשיך את המסע<small>כ-6 דקות</small></span><span class="go">'+ARROW+'</span></button>'+
+    '<div class="links"><span>בנק המילים <b>46</b></span><span>משימות <b>1/3</b></span><span>התקדמות</span></div></div><div class="grain" style="background-image:url('+grain+')"></div>';
+  el.innerHTML=html;
+  const pano=$("d1pano"),lays=[...pano.querySelectorAll(".lay")],skies=[...pano.querySelectorAll(".sky")],MAX=(WORLDS.length-1)*SP;
+  let p=0,want=0,drag=null,raf=0;
+  const apply=()=>{lays.forEach(l=>l.style.transform="translateX("+(p*+l.dataset.f).toFixed(1)+"px)");skies.forEach((k,i)=>k.style.opacity=Math.max(0,1-Math.abs(p-i*SP)/SP).toFixed(3));};
+  const tick=()=>{p+=(want-p)*.14;apply();raf=Math.abs(want-p)>.3?requestAnimationFrame(tick):0;};
+  pano.addEventListener("pointerdown",e=>{drag={x:e.clientX,p:want};try{pano.setPointerCapture(e.pointerId);}catch(_){}});
+  pano.addEventListener("pointermove",e=>{if(!drag)return;want=Math.max(0,Math.min(MAX,drag.p+(e.clientX-drag.x)*1.1));if(!raf)raf=requestAnimationFrame(tick);});
+  const up=()=>{if(!drag)return;drag=null;want=Math.round(want/SP)*SP;if(!raf)raf=requestAnimationFrame(tick);};
+  pano.addEventListener("pointerup",up);pano.addEventListener("pointercancel",up);
+  apply();
+}
+function bandSVG(w,h,stars){
+  const W=WORLDS[0];
+  let s='<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="bg'+h+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+W.top+'"/><stop offset=".85" stop-color="'+W.hz+'"/></linearGradient></defs>';
+  s+='<rect width="'+w+'" height="'+h+'" fill="url(#bg'+h+')"/>';
+  if(stars)for(let k=0;k<22;k++)s+='<circle class="star" style="animation-delay:'+(1.2+rnd(k)*1.4).toFixed(2)+'s" cx="'+(rnd(k+3)*w)+'" cy="'+(10+rnd(k+60)*h*.4)+'" r="'+(rnd(k)*1.1+.5)+'" fill="#F3EADB"/>';
+  s+='<g class="'+(stars?"sunset":"")+'"><circle cx="'+(w*.35)+'" cy="'+(h*.62)+'" r="'+(h*.22)+'" fill="'+W.sun.c+'" opacity=".18"/><circle cx="'+(w*.35)+'" cy="'+(h*.62)+'" r="'+(h*.1)+'" fill="'+W.sun.c+'"/></g>';
+  s+='<path d="'+ridge(1.3,w,h*.66,h*.08,6,h)+'" fill="'+W.far+'"/><path d="'+ridge(4.1,w,h*.76,h*.06,6,h)+'" fill="'+W.mid+'"/>';
+  return s;
+}
+function buildD1Triv(){
+  const el=$("d1triv"),bh=140;
+  let s=bandSVG(330,bh,false);
+  s+='<g transform="translate(0 -24) scale(1)">'+landmark("office",230,142,1,.375)+'</g>';
+  s+='<path d="'+ridge(7.7,330,120,4,6,bh)+'" fill="'+WORLDS[0].near+'"/>';
+  for(let i=0;i<10;i++){const x=300-i*30;s+='<circle cx="'+x+'" cy="130" r="2.4" fill="#F3EADB" opacity="'+(i<5?.95:.35)+'"/>';}
+  s+='</svg>';
+  el.innerHTML='<div class="band">'+s+'<div class="walker" id="d1w" style="left:'+(300-4*30-13)+'px">'+margoSide()+'</div></div>'+
+   '<button class="xbtn" aria-label="יציאה">✕</button><span class="cnt" id="d1cnt">5 <small>מתוך 10</small></span>'+
+   '<div class="q"><span class="qp"><span class="qk">טריוויה · </span>מה פירוש המילה?</span><div class="word">'+Q.en+'</div>'+
+   '<div class="str"><span>'+Q.stress+'</span><button class="spk" aria-label="השמעה">'+SPK+'</button></div>'+
+   '<p class="ex">'+Q.ex+'<u>'+Q.exw+'</u>.</p><div class="fbk" id="d1fb"></div></div>'+
+   '<div class="opts">'+Q.opts.map((o,i)=>'<button class="opt" data-ok="'+o[1]+'"><span class="n">'+(i+1)+'</span><span>'+o[0]+'</span><svg class="mk" viewBox="0 0 24 24" fill="none" stroke="#FBF7EF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>').join("")+'</div>'+
+   '<button class="next" id="d1next">בחרי תשובה</button><button class="replay" id="d1r">שוב</button><div class="grain" style="background-image:url('+grain+')"></div>';
+  const w=$("d1w"),fb=$("d1fb");let done=false;
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if(done)return;done=true;const ok=b.dataset.ok==="1";
+    el.querySelectorAll(".opt").forEach(x=>{if(x===b)return;if(x.dataset.ok==="1")x.classList.add(ok?"dim":"show");else x.classList.add("dim");});
+    if(ok){b.classList.add("ok");w.classList.add("hop");w.style.left=(300-5*30-13)+"px";$("d1cnt").innerHTML='6 <small>מתוך 10</small>';fb.innerHTML='בדיוק. <span class="es">bottleneck</span> = צוואר בקבוק.';}
+    else{b.classList.add("bad");w.classList.add("stop","turn");fb.innerHTML='<span class="es">bottleneck</span> = צוואר בקבוק, מה שמאט את כל התהליך. היא תחזור עוד מעט.';}
+    fb.classList.add("on");const n=$("d1next");n.classList.add("on");n.textContent="המשך";
+  });
+  $("d1r").onclick=buildD1Triv;
+}
+function buildD1End(){
+  const el=$("d1end"),h=400;
+  let s=bandSVG(330,h,true);
+  // the tower that completes, its windows lighting one by one
+  const base=330,T=[[96,66,170],[170,56,120],[232,44,82]];
+  T.forEach(([x,w,hh],i)=>{
+    if(i===2){s+='<rect x="'+x+'" y="'+(base-hh)+'" width="'+w+'" height="'+hh+'" fill="none" stroke="#F3EADB" stroke-opacity=".5" stroke-width="1.4" stroke-dasharray="3 3"/>';return;}
+    s+='<g class="'+(i===0?"rise":"")+'"><rect x="'+x+'" y="'+(base-hh)+'" width="'+w+'" height="'+hh+'" rx="2" fill="'+(i?"#5A4350":"#4A3843")+'"/>';
+    const cols=Math.floor((w-10)/11),rows=Math.floor((hh-14)/15);let k=0;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const lit=i===0?(k<cols*rows*.75):(k<cols*rows*.375);const d=i===0?(1.2+k*.05):0;
+      s+='<rect x="'+(x+7+c*11)+'" y="'+(base-hh+9+r*15)+'" width="6" height="8" fill="#6E5664"/>'+(lit?'<rect class="lit" style="animation-delay:'+d.toFixed(2)+'s" x="'+(x+7+c*11)+'" y="'+(base-hh+9+r*15)+'" width="6" height="8" fill="#FFD99A"/>':'');k++;}
+    s+='</g>';
+  });
+  s+='<path d="'+ridge(7.7,330,base+4,8,6,h)+'" fill="'+WORLDS[0].near+'"/></svg>';
+  el.innerHTML='<div class="endhero">'+s+'<div class="fig" style="right:22px;top:'+(base-112)+'px">'+margoFront()+'</div></div>'+
+   '<div class="esheet"><span class="kick">שלב 1 הושלם · במשרד</span><h4>יום ראשון בעבודה</h4>'+
+   '<div class="cols"><div><span class="ch">מה למדת</span><div style="display:flex;gap:16px;margin:6px 0 8px"><div><span class="big">6/8</span><div class="sm">מילים נקלטו</div><span class="tag">נמדד</span></div><div><span class="big">3/3</span><div class="sm">חזרות נשמרו</div><span class="tag">נמדד</span></div></div>'+
+   '<div class="wl">'+WORDS.map(w=>'<span>'+w+'</span>').join("")+SHAKY.map(w=>'<span class="sh">'+w+'</span>').join("")+'</div></div>'+
+   '<div class="vr"></div><div class="game"><span class="ch">מה הרווחת</span><div style="margin-top:6px"><b>+23</b> <span class="sm">כוכבים</span></div><div class="sm" style="margin-top:6px">משימה הושלמה: לסיים סבב</div><div class="sm" style="margin-top:6px">המגדל הראשון במשרד עומד</div></div></div>'+
+   '<button class="ecta">לשלב הבא · הפרויקט מתעכב</button><span class="elink">חזרה למסע</span></div><button class="replay" id="d1er" style="bottom:auto;top:10px">שוב</button><div class="grain" style="background-image:url('+grain+')"></div>';
+  $("d1er").onclick=buildD1End;
+}
+
+/* ===================== D2: Color Studio (three.js clay) ===================== */
+const HAS3D=!!window.THREE&&(()=>{try{const c=document.createElement("canvas");return !!(c.getContext("webgl")||c.getContext("experimental-webgl"));}catch(e){return false;}})();
+let T;const lin=h=>new T.Color(h).convertSRGBToLinear();
+const clay=(h,o)=>new T.MeshStandardMaterial(Object.assign({color:lin(h),roughness:.62,metalness:0},o||{}));
+function rbox(w,h,d,r,mat){const s=new T.Shape(),x=-w/2+r,y=-h/2+r,W=w-2*r,H=h-2*r;s.moveTo(x,y-r);s.lineTo(x+W,y-r);s.quadraticCurveTo(x+W+r,y-r,x+W+r,y);s.lineTo(x+W+r,y+H);s.quadraticCurveTo(x+W+r,y+H+r,x+W,y+H+r);s.lineTo(x,y+H+r);s.quadraticCurveTo(x-r,y+H+r,x-r,y+H);s.lineTo(x-r,y);s.quadraticCurveTo(x-r,y-r,x,y-r);
+  const g=new T.ExtrudeGeometry(s,{depth:Math.max(.001,d-2*r),bevelEnabled:true,bevelSize:r*.9,bevelThickness:r,bevelSegments:4,curveSegments:6});g.translate(0,0,-(d-2*r)/2);const m=new T.Mesh(g,mat);m.castShadow=m.receiveShadow=true;return m;}
+const M=(geo,mat,x,y,z)=>{const m=new T.Mesh(geo,mat);m.position.set(x||0,y||0,z||0);m.castShadow=true;m.receiveShadow=true;return m;};
+function clayMargo(){
+  const g=new T.Group(),skin=clay("#F2C1A0"),hair=clay("#3A2236",{roughness:.5}),coat=clay("#1F6E77"),beret=clay("#F0B547"),dark=clay("#1C1C1C"),scarf=clay("#F6EFE4");
+  [-.1,.1].forEach(x=>{g.add(M(new T.CylinderGeometry(.075,.08,.5,16),dark,x,.3,0));const sh=M(new T.SphereGeometry(.11,16,12),dark,x,.06,.05);sh.scale.set(1,.6,1.5);g.add(sh);});
+  const pts=[];for(let i=0;i<=10;i++){const t=i/10;pts.push(new T.Vector2(.42-.18*t-.06*Math.sin(t*Math.PI),.5+t*.72));}pts.push(new T.Vector2(0,1.22));
+  g.add(M(new T.LatheGeometry(pts,40),coat));
+  const sc=M(new T.TorusGeometry(.2,.075,14,30),scarf,0,1.22,0);sc.rotation.x=Math.PI/2;g.add(sc);
+  const tail=M(new T.CylinderGeometry(.055,.06,.38,12),scarf,.1,1.02,.2);tail.rotation.z=.15;tail.rotation.x=.2;g.add(tail);
+  const arm=side=>{const p=new T.Group();p.position.set(side*.27,1.12,0);const a=M(new T.CylinderGeometry(.065,.07,.5,14),coat,0,-.25,0);const h=M(new T.SphereGeometry(.075,16,12),skin,0,-.52,0);p.add(a,h);g.add(p);p.rotation.z=side*.16;return p;};
+  const aL=arm(-1),aR=arm(1);
+  const head=new T.Group();head.position.set(0,1.28,0);g.add(head);
+  head.add(M(new T.CylinderGeometry(.08,.09,.12,12),skin,0,.04,0));
+  head.add(M(new T.SphereGeometry(.3,40,30),skin,0,.34,0));
+  const hb=M(new T.SphereGeometry(.325,40,30,0,Math.PI*2,0,Math.PI*.55),hair,0,.36,-.02);head.add(hb);
+  [-1,1].forEach(sd=>{const s=M(new T.SphereGeometry(.2,24,18),hair,sd*.22,.24,-.06);s.scale.set(.55,1.25,.95);head.add(s);});
+  const back=M(new T.SphereGeometry(.3,24,18),hair,0,.26,-.12);back.scale.set(1,1.05,.7);head.add(back);
+  const fr=M(new T.SphereGeometry(.22,24,16),hair,-.04,.55,.19);fr.scale.set(1.15,.38,.5);fr.rotation.z=.2;head.add(fr);
+  const br=M(new T.SphereGeometry(.3,32,20),beret,.06,.65,-.02);br.scale.set(1,.3,1);br.rotation.z=-.28;head.add(br);
+  head.add(M(new T.CylinderGeometry(.02,.03,.08,8),beret,.02,.78,0));
+  const eyeG=new T.SphereGeometry(.036,16,12),eL=M(eyeG,dark,-.1,.35,.275),eR=M(eyeG,dark,.1,.35,.275);head.add(eL,eR);
+  const hi=new T.MeshBasicMaterial({color:0xffffff});[eL,eR].forEach(e=>{const s=new T.Mesh(new T.SphereGeometry(.011,8,8),hi);s.position.set(.012,.014,.03);e.add(s);});
+  const bG=new T.BoxGeometry(.1,.018,.02),bL=M(bG,hair,-.1,.44,.27),bR=M(bG,hair,.1,.44,.27);head.add(bL,bR);
+  const ck=new T.MeshStandardMaterial({color:lin("#F08C7E"),transparent:true,opacity:.45,roughness:.9});[-1,1].forEach(sd=>{const c=M(new T.SphereGeometry(.055,16,12),ck,sd*.17,.27,.23);c.scale.z=.3;c.castShadow=false;head.add(c);});
+  const smile=M(new T.TorusGeometry(.055,.014,8,20,Math.PI),dark,0,.24,.285);smile.rotation.z=Math.PI;head.add(smile);
+  const ohm=M(new T.SphereGeometry(.035,16,12),clay("#5A1B2A"),0,.22,.28);ohm.scale.set(1,1.2,.5);ohm.visible=false;head.add(ohm);
+  let pose="idle",t0=0;
+  const api={group:g,setPose(p){pose=p;t0=performance.now();
+      smile.visible=p!=="oops"&&p!=="think";ohm.visible=p==="think";smile.rotation.z=Math.PI;
+      if(p==="oops"){smile.visible=true;smile.rotation.z=0;smile.position.y=.2;}else smile.position.y=.24;
+      bL.rotation.z=p==="oops"?-.35:p==="cheer"?.25:p==="think"?.2:0;bR.rotation.z=p==="oops"?.35:p==="cheer"?-.25:p==="think"?-.1:0;
+      bL.position.y=bR.position.y=p==="cheer"?.46:.44;},
+    update(now){const t=(now-t0)/1000,T2=now/1000;let lz=.16,rz=-.16,lx=0,rx=0,hz=0,hx=0,y=0;
+      if(pose==="wave"){rz=-2.5+Math.sin(T2*6)*.25;hz=-.08;}
+      else if(pose==="cheer"){lz=2.6;rz=-2.6;y=Math.abs(Math.sin(Math.min(t,1.2)*Math.PI*2.2))*.22*Math.max(0,1-t/1.4);hz=Math.sin(T2*3)*.05;}
+      else if(pose==="think"){rz=-.5;rx=-1.9;hz=.18;hx=.05;}
+      else if(pose==="oops"){lz=.5;rz=-.5;hz=-.2;hx=.12;}
+      else {hz=Math.sin(T2*.9)*.05;}
+      const k=.18;aL.rotation.z+=(lz-aL.rotation.z)*k;aR.rotation.z+=(rz-aR.rotation.z)*k;aL.rotation.x+=(lx-aL.rotation.x)*k;aR.rotation.x+=(rx-aR.rotation.x)*k;
+      head.rotation.z+=(hz-head.rotation.z)*k;head.rotation.x+=(hx-head.rotation.x)*k;g.position.y=y;
+      const bl=(T2%4.2)<.12?.1:1;eL.scale.y=eR.scale.y=bl;g.scale.y=1+Math.sin(T2*2)*.006;}};
+  api.setPose("idle");return api;
+}
+function diorama(kind,state,gray){
+  const g=new T.Group(),c=gray?"#CFCAC4":null;
+  const ground=M(new T.CylinderGeometry(1.55,1.6,.22,64),clay(c||"#FFF2E2"),0,-.11,0);g.add(ground);
+  const ghost=new T.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.32,roughness:.4,depthWrite:false});
+  const tower=(x,z,w,h,p,col)=>{const grp=new T.Group();grp.position.set(x,0,z);
+    if(p<1){const gh=rbox(w,h,w,.07,ghost);gh.position.y=h/2;gh.castShadow=false;grp.add(gh);}
+    if(p>0){const holder=new T.Group();const b=rbox(w,h,w,.07,clay(c||col));b.position.y=h/2;holder.add(b);
+      const wm=clay("#3A2A30"),lm=new T.MeshStandardMaterial({color:lin("#FFE2A8"),emissive:lin("#FFC968"),emissiveIntensity:.7,roughness:.5});
+      for(let r=0;r<Math.floor(h/.22);r++)for(const sx of[-1,1]){const wd=rbox(.1,.12,.04,.02,(r%3)?lm:wm);wd.position.set(sx*w*.22,.2+r*.22,w/2+.005);holder.add(wd);}
+      holder.scale.y=p;grp.add(holder);grp.userData.holder=holder;}
+    g.add(grp);return grp;};
+  const parts=[];
+  if(kind==="office"){parts.push(tower(-.55,-.2,.5,1.5,state[0],"#F7E7D2"),tower(.15,-.45,.44,1.05,state[1],"#2F5F69"),tower(.62,.1,.38,.7,state[2],"#E36F3A"));}
+  else if(kind==="home"){[[-.5,0],[.2,-.4],[.6,.3]].forEach(([x,z],i)=>{const b=rbox(.45,.36,.42,.06,gray?ghost:clay("#F7E7D2"));b.position.set(x,.18,z);g.add(b);const r=M(new T.ConeGeometry(.38,.3,4),gray?ghost:clay("#C9573F"),x,.51,z);r.rotation.y=Math.PI/4;g.add(r);});}
+  else if(kind==="agora"){for(let i=0;i<6;i++){const a=i/6*Math.PI*2;g.add(M(new T.CylinderGeometry(.06,.06,.8,14),gray?ghost:clay("#F7E7D2"),Math.cos(a)*.55,.4,Math.sin(a)*.55));}const d=M(new T.SphereGeometry(.65,32,16,0,Math.PI*2,0,Math.PI/2),gray?ghost:clay("#9B8CE8"),0,.8,0);d.scale.y=.55;g.add(d);}
+  else if(kind==="cinema"){const b=rbox(1,.6,.7,.08,gray?ghost:clay("#EE6F9A"));b.position.y=.3;g.add(b);const d=M(new T.SphereGeometry(.32,24,16,0,Math.PI*2,0,Math.PI/2),gray?ghost:clay("#F7E7D2"),0,.6,0);g.add(d);}
+  else {for(let i=0;i<5;i++)g.add(M(new T.CylinderGeometry(.2-i*.02,.22-i*.02,.26,24),gray?ghost:clay(i%2?"#E36F3A":"#F7E7D2"),0,.13+i*.26,0));}
+  [[1.05,.6],[-1.05,.55],[.95,-.75]].forEach(([x,z])=>{if(gray)return;const t=M(new T.CylinderGeometry(.035,.045,.25,10),clay("#8A5A3C"),x,.12,z);const f=M(new T.SphereGeometry(.2,24,18),clay("#5E9F6E"),x,.38,z);g.add(t,f);});
+  g.userData.parts=parts;return g;
+}
+function stage(canvas,opts){
+  T=window.THREE;const w=canvas.clientWidth,h=canvas.clientHeight;
+  const r=new T.WebGLRenderer({canvas,antialias:true,alpha:true});r.setPixelRatio(Math.min(2,devicePixelRatio||1));r.setSize(w,h,false);
+  r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.05;r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
+  const sc=new T.Scene(),cam=new T.PerspectiveCamera(opts.fov||30,w/h,.1,100);cam.position.set(...opts.cam);cam.lookAt(...opts.look);
+  sc.add(new T.HemisphereLight(0xffffff,lin(opts.ground||"#B8551A"),.85));
+  const key=new T.DirectionalLight(0xffffff,1.6);key.position.set(3,6,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.radius=6;Object.assign(key.shadow.camera,{left:-3,right:3,top:3,bottom:-3});sc.add(key);
+  const fill=new T.DirectionalLight(lin("#FFE7D0"),.5);fill.position.set(-4,2,3);sc.add(fill);
+  const sh=new T.Mesh(new T.PlaneGeometry(12,12),new T.ShadowMaterial({opacity:.16}));sh.rotation.x=-Math.PI/2;sh.position.y=-.22;sh.receiveShadow=true;sc.add(sh);
+  const root=new T.Group();sc.add(root);
+  let vis=true,raf=0;const hooks=[];
+  const frame=now=>{hooks.forEach(f=>f(now));r.render(sc,cam);raf=vis&&!REDUCED?requestAnimationFrame(frame):0;};
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis&&!raf)raf=requestAnimationFrame(frame);}).observe(canvas);
+  raf=requestAnimationFrame(frame);
+  return {root,sc,cam,hooks,kick(){if(!raf)raf=requestAnimationFrame(frame);}};
+}
+const D2W=[{k:"office",n:"במשרד",f:"#F28C38",f2:"#F6A65E",d:"#B8551A",open:1},{k:"home",n:"החיים בחוץ",f:"#8FBF8F",f2:"#A7CDA5",d:"#4E7A52"},{k:"agora",n:"משא ומתן",f:"#A497EA",f2:"#B7ADEF",d:"#5C4FA8"},{k:"cinema",n:"סדרות",f:"#EF7FA4",f2:"#F49BB8",d:"#A33A62"},{k:"coast",n:"טיולים",f:"#5BB3CF",f2:"#7FC5DB",d:"#2B7690"}];
+function setField(el,w){el.style.setProperty("--field",w.f);el.style.setProperty("--field2",w.f2);el.style.setProperty("--deep",w.d);el.style.background=el.classList.contains("tv")?"":w.f;}
+function buildD2Home(){
+  const el=$("d2home");
+  el.innerHTML='<div class="top"><span class="brand">WORDPLAY</span><span class="streak"><i></i>4 ימים</span></div><div class="orb"></div><canvas class="cv-home" id="d2hc"></canvas>'+
+   '<div class="arrows"><button id="d2prev" aria-label="העולם הקודם">›</button><button id="d2next" aria-label="העולם הבא">‹</button></div><div class="lockcap" id="d2lock">נפתח אחרי השלב הראשון בפרק הקודם</div>'+
+   '<div class="wtitle"><small id="d2k">פרק 1 · עונה 1</small><h5 id="d2n">במשרד</h5><p id="d2s">שלב 2 · הפרויקט מתעכב</p><div class="segs" id="d2seg">'+[1,1,1,0,0,0,0,0].map(o=>'<i class="'+(o?"on":"")+'"></i>').join("")+'</div><span class="segcap" id="d2c">3 מתוך 8 מילים בזיכרון</span></div>'+
+   '<div class="acts"><button class="play"><span>שחקי<small>כ-6 דק\'</small></span><span class="ar">'+ARROW+'</span></button><button class="ghostb" aria-label="בנק המילים"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg></button></div>'+
+   '<div class="pager" id="d2pg">'+D2W.map((w,i)=>'<i class="'+(i?"":"on")+'"></i>').join("")+'</div>'+
+   '<nav class="nav"><span class="on">● מסע</span><span>משימות</span><span>בנק</span><span>התקדמות</span></nav>';
+  if(!HAS3D)return;
+  const S=stage($("d2hc"),{cam:[0,2.3,7.4],look:[0,.75,0],fov:28});
+  let cur=0,dio=null,mg=clayMargo();mg.group.scale.setScalar(.62);mg.group.position.set(-.95,0,.75);mg.group.rotation.y=.35;mg.setPose("wave");
+  const show=i=>{cur=(i+D2W.length)%D2W.length;const w=D2W[cur];setField(el,w);el.querySelector(".orb").style.background=w.f2;
+    if(dio)S.root.remove(dio);dio=diorama(w.k,[1,.375,0],!w.open);dio.position.y=0;S.root.add(dio);
+    if(w.open){if(!mg.group.parent)S.root.add(mg.group);}else if(mg.group.parent)S.root.remove(mg.group);
+    $("d2n").textContent=w.n;$("d2k").textContent="פרק "+(cur+1)+" · עונה 1";$("d2s").textContent=w.open?"שלב 2 · הפרויקט מתעכב":"עוד לא נפתח";
+    $("d2seg").style.opacity=w.open?1:.25;$("d2c").textContent=w.open?"3 מתוך 8 מילים בזיכרון":"8 מילים מחכות";$("d2lock").classList.toggle("on",!w.open);
+    el.querySelector(".play").style.opacity=w.open?1:.35;[...$("d2pg").children].forEach((d,k)=>d.classList.toggle("on",k===cur));dio.rotation.y=-.6;S.kick();};
+  S.hooks.push(now=>{const t=now/1000;if(dio)dio.rotation.y+=((Math.sin(t*.25)*.25)-dio.rotation.y)*.05;mg.update(now);});
+  $("d2prev").onclick=()=>show(cur-1);$("d2next").onclick=()=>show(cur+1);
+  show(0);
+}
+function buildD2Triv(){
+  const el=$("d2triv");setField(el,D2W[0]);
+  el.innerHTML='<div class="block"></div><div class="tbar"><button aria-label="יציאה">✕</button><div class="prog" id="d2p">'+Array.from({length:10},(_,i)=>'<i class="'+(i<5?"on":"")+'"></i>').join("")+'</div></div>'+
+   '<canvas class="cv-mg" id="d2mc"></canvas><div class="bub2" id="d2b"></div>'+
+   '<div class="wordblk"><span class="w">'+Q.en+'</span><span class="s"><span>'+Q.stress.replace(/ · /g,"·")+'</span><button class="sp2" aria-label="השמעה">'+SPK+'</button></span></div>'+
+   '<div class="qp2">מה פירוש המילה?</div><p class="ex2">'+Q.ex+'<b>'+Q.exw+'</b>.</p>'+
+   '<div class="grid4">'+Q.opts.map((o,i)=>'<button class="t4" data-ok="'+o[1]+'"><span class="k">'+(i+1)+'</span>'+o[0]+'</button>').join("")+'</div>'+
+   '<div class="fb2" id="d2f"></div><button class="go2" id="d2g">בחרי תשובה</button><button class="replay" id="d2r" style="background:rgba(0,0,0,.25)">שוב</button>';
+  let mg=null;
+  if(HAS3D){const S=stage($("d2mc"),{cam:[0,1.6,5.2],look:[0,1.05,0],fov:30});mg=clayMargo();mg.setPose("think");mg.group.rotation.y=-.35;S.root.add(mg.group);S.hooks.push(n=>mg.update(n));el._k=S.kick;}
+  let done=false;
+  el.querySelectorAll(".t4").forEach(b=>b.onclick=()=>{
+    if(done)return;done=true;const ok=b.dataset.ok==="1";
+    el.querySelectorAll(".t4").forEach(x=>{if(x===b)return;if(x.dataset.ok==="1")x.classList.add(ok?"dim":"show");else x.classList.add("dim");});
+    b.classList.add(ok?"ok":"bad");if(!ok)el.querySelector('.t4[data-ok="1"]').classList.add("ok");
+    if(mg){mg.setPose(ok?"cheer":"oops");el._k&&el._k();}
+    const bb=$("d2b");bb.textContent=ok?"בול. זה צוואר בקבוק.":"קרוב. היא תחזור.";bb.classList.add("on");
+    if(ok)$("d2p").children[5].classList.add("on");
+    const g=$("d2g");g.classList.add("on");g.textContent="המשך";
+  });
+  $("d2r").onclick=buildD2Triv;
+}
+let d2end=null;
+function buildD2End(){
+  const el=$("d2end");setField(el,D2W[0]);
+  el.innerHTML='<div class="orb" style="top:96px"></div><canvas class="cv-end" id="d2ec"></canvas><div class="etitle"><small>במשרד · יום ראשון בעבודה</small><h5>שלב הושלם</h5></div>'+
+   '<div class="learn"><span class="hd">התקדמות לימודית</span><div class="nums"><div><b>6/8</b><span>מילים נקלטו</span><em>נמדד</em></div><div><b>3/3</b><span>חזרות נשמרו</span><em>נמדד</em></div></div>'+
+   '<div class="chips">'+WORDS.map(w=>'<span>'+w+'</span>').join("")+SHAKY.map(w=>'<span class="sh">'+w+'</span>').join("")+'</div></div>'+
+   '<div class="gamerow"><span>+23 ★ כוכבים</span><span>משימה הושלמה</span></div>'+
+   '<div class="ebtn"><button class="s">למסע</button><button class="p">לשלב הבא</button></div><button class="replay" id="d2er" style="bottom:auto;top:10px;background:rgba(0,0,0,.25)">שוב</button>';
+  $("d2er").onclick=()=>{d2end=null;buildD2End();};
+  if(!HAS3D)return;
+  const S=stage($("d2ec"),{cam:[0,2.6,8.4],look:[0,1.05,0],fov:28});
+  const dio=diorama("office",[.62,.375,0],false);S.root.add(dio);
+  const mg=clayMargo();mg.group.scale.setScalar(.52);mg.group.position.set(1.1,0,.75);mg.group.rotation.y=-.4;S.root.add(mg.group);mg.setPose("cheer");
+  const holder=dio.userData.parts[0].userData.holder,t0=performance.now();
+  const cols=["#151515","#FFF2E2","#2F5F69","#F6A65E"],conf=[];
+  for(let i=0;i<60;i++){const m=rbox(.07,.07,.07,.02,clay(cols[i%4]));m.visible=false;S.root.add(m);conf.push({m,v:new T.Vector3((Math.random()-.5)*.06,.06+Math.random()*.06,(Math.random()-.5)*.05),r:Math.random()*.2});}
+  S.hooks.push(now=>{const t=(now-t0)/1000;const k=Math.max(0,Math.min(1,(t-.4)/1));const e=k===0?0:k===1?1:Math.pow(2,-9*k)*Math.sin((k*9-.75)*(2*Math.PI)/3)+1;holder.scale.y=.62+.38*e;
+    dio.rotation.y=Math.sin(now/4000)*.3;mg.update(now);if(t>1.2&&t<1.25)mg.setPose("cheer");
+    conf.forEach((c,i)=>{if(t<1.3)return;if(!c.m.visible){c.m.visible=true;c.m.position.set(-.55+(Math.random()-.5)*.4,1.6,-.2);}c.v.y-=.0025;c.m.position.add(c.v);c.m.rotation.x+=c.r;c.m.rotation.y+=c.r;if(c.m.position.y<-.1)c.m.visible=false;});});
+}
+
+buildD1Home();buildD1Triv();buildD1End();
+if(window.THREE){buildD2Home();buildD2Triv();buildD2End();}
+})();
+</script>

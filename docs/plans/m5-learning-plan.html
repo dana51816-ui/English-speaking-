@@ -1,0 +1,188 @@
+<title>WORDPLAY M5 Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: one reading column; findings first, then the four pillars, milestones and the few decisions needed. Palette borrowed from the app: teal, ivory, gold. */
+:root{--bg:#FBF6EC;--fg:#1C2230;--muted:#5F6470;--line:#E4D8C4;--panel:#FFFFFF;--accent:#1F5C66;--gold:#B07A12;--goldbg:#FFF3D6;--warn:#B4472B;
+  --f:"Rubik",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F2A36;--fg:#F3EEE4;--muted:#AFC0C3;--line:#24495A;--panel:#133543;--accent:#7FC8C8;--gold:#F6C35B;--goldbg:#2A3A2E;--warn:#F08C6A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F2A36;--fg:#F3EEE4;--muted:#AFC0C3;--line:#24495A;--panel:#133543;--accent:#7FC8C8;--gold:#F6C35B;--goldbg:#2A3A2E;--warn:#F08C6A;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16px;line-height:1.65;direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{line-height:1.2;margin:0;text-wrap:balance;font-weight:800}
+h1{font-size:clamp(28px,5vw,40px)}h2{font-size:24px}h3{font-size:17.5px}
+p{margin:0}
+.eyebrow{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.en{direction:ltr;unicode-bidi:isolate}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.facts div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.facts b{font-size:26px;font-variant-numeric:tabular-nums}.facts span{font-size:13px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.card ul{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:0 7px;margin-inline-start:6px;vertical-align:middle}
+.t-m{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.t-e{background:var(--goldbg);color:var(--gold)}
+.t-s{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.ladder div{border-radius:12px;padding:10px 8px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:2px;font-size:13px}
+.ladder b{font-size:14.5px}
+.ladder div:nth-child(n+3){border-color:var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top}
+th{font-weight:700}
+.tbl{overflow-x:auto;border-radius:12px}
+.ms{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+.ms li{display:grid;grid-template-columns:70px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.ms li>b{font-size:20px;color:var(--accent);direction:ltr;text-align:right}
+.ms li div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ms li span{font-size:14.5px;color:var(--muted)}
+.ask{border:2px solid var(--accent);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+.ask ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:8px}
+.rec{color:var(--accent);font-weight:700}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.ladder{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">WORDPLAY · תוכנית M5 · ממתינה לאישור</span>
+  <h1>משחק שאפשר ללמוד ממנו חודשים</h1>
+  <p class="lead">M5 לא מוסיף סוגי שאלות ולא משנה את העיצוב. הוא משנה את מה שקורה מאחורי הקלעים: מה המשחק יודע עלייך, איזו שאלה מגיעה עכשיו ולמה, וכמה תוכן יש כדי שזה לא ייגמר. בסוף כל מהלך יש גרסה עובדת ובדיקה אוטומטית, והנתונים שלך נשמרים.</p>
+</header>
+
+<section>
+  <h2>מאיפה מתחילים: מה גיליתי במצב הקיים</h2>
+  <div class="facts">
+    <div><b>216</b><span>פריטים ב-9 פרקים</span></div>
+    <div><b>1.06</b><span>משפטי דוגמה לפריט בממוצע</span></div>
+    <div><b>8</b><span>פריטים בתחום "שיחה" (מדוברת)</span></div>
+    <div><b>1</b><span>מדד זיכרון לפריט, בלי הבחנה בין זיהוי לשליפה</span></div>
+  </div>
+  <div class="card">
+    <ul>
+      <li><b>המשפט חוזר על עצמו.</b> לכמעט כל פריט יש משפט דוגמה אחד, ולכן אותו משפט מופיע שוב ושוב. זה הגורם הכי גדול לתחושת חזרתיות, ופותרים אותו בתוכן ולא בקוד.</li>
+      <li><b>המנוע לא מבדיל בין "מזהה" ל"שולפת".</b> בחירה נכונה מתוך 4 תשובות מקדמת מילה בדיוק כמו שליפה עצמאית. כך מילה יכולה להיראות יציבה כשבפועל את רק מזהה אותה.</li>
+      <li><b>הקושי קבוע.</b> מספר המילים החדשות מותאם לעומס החזרות, אבל המסיחים, סוג השאלה והקצב לא משתנים לפי ההצלחה שלך.</li>
+      <li><b>האנגלית המדוברת חסרה.</b> 148 פריטים יומיומיים ו-106 עסקיים, אבל רק 8 מסומנים "שיחה". חסרות מילות קישור כמו <span class="en">that said</span> ו-<span class="en">to be fair</span>, ביטויי ניהול שיחה ותגובות טבעיות.</li>
+      <li><b>יש כבר בסיס טוב:</b> המנוע שומר תוצאות לכל סוג שאלה בכל פריט. זה בדיוק המידע שצריך כדי להפריד בין זיהוי לשליפה, בלי להתחיל מאפס.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>1. זיכרון כפול: מזהה ושולפת</h2>
+  <p>כל מילה תקבל שני מדדי זיכרון נפרדים במקום אחד. שניהם נמדדים מתוך המשחק, בלי הקלדה ובלי דיבור.</p>
+  <div class="tbl"><table>
+    <tr><th>מדד</th><th>מה הוא אומר</th><th>מאילו שאלות הוא נבנה</th></tr>
+    <tr><td><b>זיהוי</b> <span class="tag t-m">נמדד</span></td><td>כשאת פוגשת את המילה, את יודעת מה היא אומרת</td><td>טריוויה, שמיעה, התאמה, סצנה</td></tr>
+    <tr><td><b>שליפה</b> <span class="tag t-m">נמדד</span> <span class="tag t-s">חלקית דיווח עצמי</span></td><td>כשאת צריכה את המילה, היא עולה לך מעצמך</td><td>"איך אומרים?", השלמת משפט, שליפה שקטה, ו"חשבי קודם" (למטה)</td></tr>
+  </table></div>
+  <div class="card">
+    <h3>חידוש קטן: "חשבי קודם"</h3>
+    <p>בשאלות "איך אומרים?" ובהשלמת משפט, במילים שכבר זיהית היטב: האפשרויות מופיעות רק אחרי שתיים-שלוש שניות. בזמן הזה את מנסה לשלוף לבד. זה אותו סוג שאלה ואותה בחירה, רק עם הפסקה קצרה לפני האפשרויות. את ההפסקה אפשר לדלג בנגיעה, ואין לחץ זמן. מחקרים על "אפקט השליפה" מראים שניסיון שליפה לפני שרואים תשובה מחזק זיכרון יותר מזיהוי <span class="tag t-e">ממצא מוכח במחקר; ההשפעה אצלך תימדד</span>.</p>
+  </div>
+  <div class="ladder">
+    <div><b>נפגשה</b><span>ראית אותה</span></div>
+    <div><b>מזהה</b><span>בחרת נכון בלי רמז</span></div>
+    <div><b>שולפת</b><span>שלפת לפני שראית אפשרויות</span></div>
+    <div><b>יציבה</b><span>זיהוי ושליפה אחרי 3+ ימים</span></div>
+    <div><b>שלך</b><span>שליפה אחרי 21+ ימים</span></div>
+  </div>
+  <p>המבנים על האיים ימשיכו לגדול לפי שליפה ולא רק לפי זיהוי. כך העולם מראה בכנות מה באמת שלך. הנתונים שכבר צברת יומרו אוטומטית: כל מה שנמדד עד היום ייספר כזיהוי, ושליפה שקטה שדיווחת עליה תיספר כשליפה. גיבוי נלקח לפני כל המרה.</p>
+</section>
+
+<section>
+  <h2>2. קושי שמתאים את עצמו</h2>
+  <div class="card">
+    <ul>
+      <li><b>יעד הצלחה של 80%-85% בסבב.</b> מתחת לזה המשחק מוריד את מספר המילים החדשות, ובוחר מסיחים רחוקים יותר וסוגי שאלות קלים. מעל זה הוא מוסיף מילים חדשות, מסיחים קרובים (מזוגות הבלבול) ויותר שאלות שליפה. <span class="tag t-e">הערכה: הטווח הזה מקובל ללמידה אפקטיבית; נכייל לפי הנתונים שלך</span></li>
+      <li><b>קושי לכל מילה.</b> מילה שנכשלת בה פעמיים מקבלת יותר דוגמאות, רמז בפעם הבאה וחזרה מוקדמת. מילה קלה מתרחקת מהר.</li>
+      <li><b>"אני כבר מכירה" בכניסה לפרק.</b> סבב היכרות מהיר: את מסמנת מילים שאת כבר מכירה, והן נבדקות פעם אחת בשאלת שליפה. אם עברת, הן לא מבזבזות לך זמן. הסימון הוא דיווח עצמי, ולכן הבדיקה מאשרת אותו.</li>
+      <li><b>תקרת עומס יומית.</b> ברירת מחדל של 25 חזרות בסבב. אחרי היעדרות, החזרות מתפזרות על כמה ימים ולא נערמות.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>3. גיוון חכם: אותם סוגי שאלות, פחות חזרתיות</h2>
+  <div class="card">
+    <ul>
+      <li><b>3 משפטי דוגמה לכל פריט</b> מעבודה, משיחה ומסדרות. אותה מילה תופיע בהקשר אחר בכל פגישה. זה השינוי הכי משמעותי לגיוון.</li>
+      <li><b>במאי סבב.</b> שכבה שמחליטה על סדר השאלות: לא אותו סוג פעמיים ברצף, איזון בין שמיעה לקריאה, מילה חלשה אחרי מילה קלה, וכל שאלה אחרונה בסבב היא הצלחה צפויה.</li>
+      <li><b>רגעים מיוחדים מתוך הסוגים הקיימים:</b>
+        <ul>
+          <li><b>דו-קרב בלבול:</b> שתי מילים שמתבלבלים ביניהן, בשתי שאלות רצופות.</li>
+          <li><b>שיחה קצרה:</b> שלוש השלמות משפט שמספרות סצנה אחת.</li>
+          <li><b>סבב בנייה:</b> בסוף שלב, כל 8 המילים שלו בהתאמה ובשליפה, ואז הבניין עולה.</li>
+        </ul>
+        אלה צירופים של שאלות קיימות. לא נוסף סוג שאלה חדש.</li>
+      <li><b>מסיחים מתחלפים.</b> במקום 2 מסיחים קבועים, המסיחים נבחרים ממאגר לפי הרמה והקושי, כדי שלא תזהי את התשובה לפי הצורה.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>4. הרחבת התוכן</h2>
+  <div class="tbl"><table>
+    <tr><th>עונה</th><th>נושא</th><th>פריטים</th><th>מתי</th></tr>
+    <tr><td>3</td><td>עבודה מודרנית: מצגות, פידבק, גיוס, עבודה מרחוק, פרויקטים</td><td>72</td><td>M5.2</td></tr>
+    <tr><td>4</td><td>שיחה טבעית: מילות קישור, דעות, הסכמה ואי-הסכמה, סמול טוק, סיפור</td><td>72</td><td>M5.3</td></tr>
+    <tr><td>5</td><td>סדרות ותרבות: הומור, רגשות, ביטויים מסדרות</td><td>48</td><td>M5.4</td></tr>
+    <tr><td colspan="2"><b>סה"כ בסוף M5</b></td><td><b>408</b></td><td></td></tr>
+  </table></div>
+  <div class="card">
+    <h3>בקרת איכות</h3>
+    <ul>
+      <li>הבודק האוטומטי יתרחב:
+        <ul>
+          <li>כפילויות, כולל צורות של אותה מילה (<span class="en">freeze</span>/<span class="en">froze</span>), וגם תרגומים כמעט זהים.</li>
+          <li>אורך משפט לפי רמה.</li>
+          <li>3 דוגמאות לכל פריט.</li>
+          <li>מסיחים מאותו חלק דיבר.</li>
+        </ul>
+      </li>
+      <li>כל גל תוכן כולל קובץ דגימה של כ-10% מהפריטים, לקריאה שלך לפני פרסום. מה שלא עובר לא נכנס.</li>
+      <li>במקביל, משפטי דוגמה נוספים לכל 216 הפריטים הקיימים.</li>
+      <li>כל התוכן מוכן מראש. עלות התפעול לא משתנה: 0 דולר בחודש מעבר לקיים.</li>
+    </ul>
+    <p style="color:var(--muted);font-size:14px">אחרי M5 הקצב יהיה גל של כ-72 פריטים בכל גרסה, לכיוון 1,000 ומעלה. המטרה היא כמות שאפשר לבדוק ברצינות, לא מספר.</p>
+  </div>
+</section>
+
+<section>
+  <h2>5. המשכיות ותחושת התקדמות</h2>
+  <div class="card">
+    <ul>
+      <li><b>סיכום שבועי</b> <span class="tag t-m">נמדד</span>: כמה מילים עברו מזיהוי לשליפה, ושיעור ההצלחה בחזרות אחרי יום ויותר. זה המדד האמיתי לזיכרון.</li>
+      <li><b>העולם מראה מה דחוף.</b> מבנה שיש בו חזרות שהגיע זמנן מקבל דגל קטן על האי. לא מוחקים ולא מענישים, רק מסמנים לאן כדאי לחזור.</li>
+      <li><b>רצף סלחני.</b> יום חופש בשבוע לא שובר את הרצף. זה מתאים לעיקרון "סשן גמיש".</li>
+      <li><b>חזרה אחרי היעדרות:</b> מרגו מקבלת אותך עם סבב קצר של המילים החשובות, ולא עם ערימה של 80 חזרות.</li>
+      <li><b>יעד חודשי:</b> לדוגמה "40 מילים חדשות במצב שולפת". נקבע לפי הקצב שלך ומוצג על המסע.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>שלבי ביצוע</h2>
+  <ol class="ms">
+    <li><b>M5.1</b><div><strong>זיכרון כפול ו"חשבי קודם"</strong><span>מודל חדש לפריט, המרה של הנתונים הקיימים עם גיבוי, מבנים שגדלים לפי שליפה. בדיקה: אחרי ההמרה, כל מילה שזכרת עדיין מופיעה כזכורה.</span></div></li>
+    <li><b>M5.2</b><div><strong>קושי מתאים, במאי סבב ועונה 3</strong><span>יעד הצלחה, מסיחים לפי רמה, רגעים מיוחדים, 72 פריטים, ו-3 דוגמאות לכל פריט קיים. בדיקה: סימולציה של 30 ימים בבדיקה האוטומטית. העומס היומי נשאר מתחת לתקרה, ושום סוג שאלה לא מופיע ברצף.</span></div></li>
+    <li><b>M5.3</b><div><strong>המשכיות ועונה 4</strong><span>סיכום שבועי, דגלי חזרות על האיים, רצף סלחני, חזרה אחרי היעדרות, ו-72 פריטים של שיחה טבעית.</span></div></li>
+    <li><b>M5.4</b><div><strong>עונה 5 וליטוש</strong><span>48 פריטים, כיול יעד ההצלחה לפי הנתונים שנאספו, ובדיקה באייפון לפני פרסום.</span></div></li>
+  </ol>
+  <p>כל שלב נבדק קודם בקישור הבדיקה, ועובר לקישור הראשי רק אחרי גיבוי ואחרי שהבדיקה האוטומטית עוברת. מצב "אנימציות מופחתות" והעיצוב של M4 נשארים בכל השלבים.</p>
+</section>
+
+<section class="ask">
+  <h3>מה אני צריכה ממך לפני שמתחילים</h3>
+  <ol>
+    <li><b>זיכרון כפול ו"חשבי קודם":</b> לאשר? <span class="rec">ההמלצה שלי: כן. זה השינוי עם הכי הרבה השפעה על זיכרון לטווח ארוך.</span></li>
+    <li><b>חלוקת התוכן החדש:</b> 40% עבודה, 40% שיחה, 20% סדרות? <span class="rec">ההמלצה: כן, כי השיחה הכי חסרה היום.</span></li>
+    <li><b>תקרת חזרות בסבב:</b> 25? <span class="rec">ההמלצה: 25. אפשר לשנות בהגדרות.</span></li>
+    <li><b>רצף סלחני:</b> יום חופש אחד בשבוע? <span class="rec">ההמלצה: כן.</span></li>
+  </ol>
+  <p>אחרי האישור מתחילים ב-M5.1.</p>
+</section>
+</div>
