@@ -1,0 +1,200 @@
+<title>WORDPLAY Review Queue</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap">
+<style>
+/* Layout: one reading column. Summary numbers, then the proposed chapters with level split and sample words, then the quality gate. */
+:root{--bg:#F3EADB;--fg:#2A211D;--muted:#5E4F46;--line:#DCCDB4;--panel:#FBF5EA;--terra:#B4532F;--ochre:#D99A4B;--sage:#5F8A68;--f:"Assistant",system-ui,sans-serif;--fh:"Frank Ruhl Libre",Georgia,serif;--fe:"Fraunces",Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16.5px;line-height:1.65;direction:rtl}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--fh);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,44px)}h2{font-size:26px}h3{font-size:19px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.en{font-family:var(--fe);direction:ltr;unicode-bidi:isolate}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.facts div{border-top:2px solid var(--fg);padding-top:8px;display:flex;flex-direction:column}
+.facts b{font-family:var(--fh);font-size:30px;font-variant-numeric:tabular-nums;line-height:1.1}.facts span{font-size:13.5px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top}
+th{font-weight:700}
+td.n{text-align:center;font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:800}
+.tbl{overflow-x:auto;border-radius:12px}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;min-width:120px}
+.bar i{display:block;height:100%}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.ch .hd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ch .lv{font-size:13px;color:var(--muted);font-weight:700}
+.ch .s{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--fe);font-style:italic;font-size:15.5px;direction:ltr;justify-content:flex-end}
+.ch p{font-size:14.5px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ask{border:2px solid var(--terra);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.ask ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.rec{color:var(--terra);font-weight:700}
+.key{display:flex;gap:14px;font-size:13px;color:var(--muted)}.key i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:4px;vertical-align:middle}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
+.find{display:flex;flex-direction:column;gap:10px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.f .hd{display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.f h3{font-size:17.5px}
+.tag{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
+.t-m{color:var(--sage)}.t-e{color:var(--ochre)}.t-o{color:var(--terra)}
+.f p{font-size:15px;color:var(--muted)}.f p b{color:var(--fg)}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.flow div{border-top:2px solid var(--terra);padding-top:6px;font-size:14px}
+.flow b{display:block;font-size:15px}
+@media (max-width:640px){.flow{grid-template-columns:1fr 1fr}}
+td.g{color:var(--sage);font-weight:800}td.b{color:var(--terra);font-weight:800}
+tr.hl td{background:color-mix(in srgb,var(--sage) 12%,var(--panel))}
+.ex{display:flex;flex-direction:column;gap:4px;font-size:14.5px}
+.ex .en{font-size:15.5px}
+.ex s{color:var(--muted)}
+.note{font-size:14px;color:var(--muted)}
+</style>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+<span class="eyebrow">WORDPLAY · M6 · אבחון לפני פיתוח · 20 בנובמבר 2026</span>
+<h1>למה תור החזרות גדל, ומה עושים</h1>
+<p class="lead">אבחון של תור החזרות, השוואה בין 14 תרחישים, מנגנון קצב אישי, תוכנית למשפטי הדוגמה, תיקוני ממשק ורשימת השכיחות. לא שיניתי קוד באפליקציה.</p>
+</header>
+
+<section>
+<h2>איך מדדתי</h2>
+<p>סימולציה של 180 ימים, עם המתזמן, שכבת הזיכרון והמתכנן של גרסת הבדיקה. נקודת המוצא היא ההתקדמות האמיתית שלך. כל תרחיש רץ שלוש פעמים עם אקראיות שונה, והתוצאות קרובות זו לזו. הכלי שמור ב-<span class="en">tools/sim-queue.js</span>.</p>
+<p class="note"><b>שתי הנחות, ולא מדידה:</b> (1) חזרה בזמן מצליחה בהסתברות שנקבעת לכל תרחיש (75%, 85% או 92%). חזרה באיחור מצליחה פחות: חזרה באיחור של פי שניים מהמרווח מצליחה בערך כמו שתי חזרות רצופות. (2) הזמן לפי ההערכה של האפליקציה: כ-15 שניות לשאלה וכ-40 שניות למילה חדשה. האפליקציה לא מודדת היום זמן שימוש, ולכן אין לי עדיין נתון אמיתי שלך. לכן כדאי להסתכל על הכיוון ועל הסדר בין התרחישים, ולא על המספר המדויק.</p>
+</section>
+
+<section>
+<h2>האבחון: מה קורה היום</h2>
+<div class="facts">
+<div><b>94%</b><span>מהחזרות מגיעות באיחור של יום או יותר</span></div>
+<div><b>12.5</b><span>ימי איחור בממוצע</span></div>
+<div><b>32%</b><span>הצלחה בחזרה, כי מילים נשכחות בזמן ההמתנה</span></div>
+<div><b>~45</b><span>דקות שיידרשו כדי לנקות את התור ביום 90</span></div>
+</div>
+<p><b>הקצב לא יציב.</b> התור גדל בכ-2 חזרות ביום בלי הפסקה: 41 ← 109 ← 163 ← 357 בימים 30, 60, 90 ו-180. אחרי חצי שנה נלמדו 385 מילים, אבל רק 34 מהן יציבות (מרווח של 21 יום ומעלה). זו תחושה של התקדמות בלי זכירה.</p>
+<h3>ארבע סיבות, לפי חשיבות</h3>
+<ol style="margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px">
+<li><b>לפחות 2 מילים חדשות ביום, תמיד.</b> הכלל הנוכחי לא יורד מתחת ל-2, גם כשהתור עמוס. אפילו מילה חדשה אחת ביום קבוע מגדילה את התור (‎+0.87 ביום).</li>
+<li><b>ספירלה.</b> סבב לוקח עד 12 חזרות ולא מסתכל על השבוע הקרוב. חזרה שנדחית נשכחת, טעות מאפסת את המילה, והמילה המאופסת מייצרת עוד חזרות.</li>
+<li><b>טעות אחת מאפסת מילה יציבה.</b> מילה עם מרווח של שבועיים חוזרת ליום אחד בגלל טעות אחת, וזה עולה בערך 4 חזרות נוספות.</li>
+<li><b>יותר שאלות רק דוחות את הבעיה.</b> סבב של 20 חזרות, או סבב נוסף בחצי מהימים, עדיין גדלים בכ-2 ביום. כמו שביקשת, הפתרון לא יכול להיות רק עוד שאלות.</li>
+</ol>
+</section>
+
+<section>
+<h2>השוואת תרחישים (180 ימים, 85% הצלחה, אלא אם צוין אחרת)</h2>
+<div class="tbl"><table>
+<tr><th>תרחיש</th><th>תור ביום 30←60←90←180</th><th>מגמה</th><th>חזרות באיחור</th><th>איחור ממוצע</th><th>הצלחה בחזרה</th><th>חדשות ליום</th><th>מילים יציבות</th><th>דק' ביום</th></tr>
+<tr><td>היום (12 חזרות לסבב)</td><td>41←109←163←357</td><td class="b">‎+2.1</td><td class="n">94%</td><td class="n">12.5</td><td class="n">32%</td><td class="n">2.0</td><td class="n">34</td><td class="n">6.5</td></tr>
+<tr><td>היום, הצלחה 75%</td><td>69←131←191←375</td><td class="b">‎+2.1</td><td class="n">98%</td><td class="n">13.8</td><td class="n">12%</td><td class="n">2.0</td><td class="n">8</td><td class="n">7.0</td></tr>
+<tr><td>היום, הצלחה 92%</td><td>18←28←75←256</td><td class="b">‎+2.1</td><td class="n">86%</td><td class="n">7.1</td><td class="n">70%</td><td class="n">2.1</td><td class="n">161</td><td class="n">5.3</td></tr>
+<tr><td>סבב ארוך יותר (20 חזרות)</td><td>14←25←72←277</td><td class="b">‎+2.4</td><td class="n">71%</td><td class="n">5.7</td><td class="n">61%</td><td class="n">2.1</td><td class="n">147</td><td class="n">8.1</td></tr>
+<tr><td>סבב נוסף בחצי מהימים</td><td>33←39←106←301</td><td class="b">‎+2.2</td><td class="n">78%</td><td class="n">7.6</td><td class="n">49%</td><td class="n">2.1</td><td class="n">104</td><td class="n">8.0</td></tr>
+<tr><td>מילה חדשה אחת ביום</td><td>8←9←17←94</td><td class="b">‎+0.9</td><td class="n">54%</td><td class="n">3.5</td><td class="n">73%</td><td class="n">1.0</td><td class="n">105</td><td class="n">4.2</td></tr>
+<tr><td>4 מילים חדשות ביום</td><td>124←240←362←732</td><td class="b">‎+4.1</td><td class="n">98%</td><td class="n">22.9</td><td class="n">15%</td><td class="n">4.0</td><td class="n">16</td><td class="n">8.3</td></tr>
+<tr><td>רק סדר לפי סיכון</td><td>62←131←200←382</td><td class="b">‎+2.0</td><td class="n">97%</td><td class="n">11.3</td><td class="n">31%</td><td class="n">2.0</td><td class="n">4</td><td class="n">6.5</td></tr>
+<tr><td>רק טעות עדינה</td><td>28←88←136←326</td><td class="b">‎+2.2</td><td class="n">93%</td><td class="n">10.8</td><td class="n">40%</td><td class="n">2.0</td><td class="n">80</td><td class="n">6.2</td></tr>
+<tr><td>רק קצב חדשות אישי</td><td>14←24←34←28</td><td class="g">0.0</td><td class="n">72%</td><td class="n">1.2</td><td class="n">81%</td><td class="n">1.3</td><td class="n">178</td><td class="n">5.7</td></tr>
+<tr class="hl"><td><b>המוצע, סבב אחד ביום</b></td><td>22←17←14←21</td><td class="g">0.0</td><td class="n">34%</td><td class="n">1.2</td><td class="n">82%</td><td class="n">1.5</td><td class="n">240</td><td class="n">4.9</td></tr>
+<tr class="hl"><td>המוצע, 1.5 סבבים ביום</td><td>19←45←20←19</td><td class="g">‎-0.1</td><td class="n">42%</td><td class="n">1.3</td><td class="n">83%</td><td class="n">2.2</td><td class="n">342</td><td class="n">6.8</td></tr>
+<tr class="hl"><td>המוצע, 2 סבבים ביום</td><td>35←30←22←37</td><td class="g">‎+0.2</td><td class="n">7%</td><td class="n">1.2</td><td class="n">84%</td><td class="n">3.1</td><td class="n">497</td><td class="n">9.4</td></tr>
+<tr class="hl"><td>המוצע, הצלחה 75%</td><td>11←17←17←19</td><td class="g">0.0</td><td class="n">10%</td><td class="n">1.3</td><td class="n">72%</td><td class="n">0.9</td><td class="n">128</td><td class="n">4.8</td></tr>
+<tr class="hl"><td>המוצע, הצלחה 92%, 2 סבבים</td><td>20←24←30←37</td><td class="g">‎+0.2</td><td class="n">7%</td><td class="n">1.1</td><td class="n">92%</td><td class="n">3.9</td><td class="n">633</td><td class="n">9.3</td></tr>
+</table></div>
+<p class="note">"מגמה" היא שינוי התור ביום, ב-60 הימים האחרונים. "מילים יציבות" הן מילים עם מרווח של 21 יום ומעלה. בהצעה, ה"איחור" הוא בעיקר של מילים בסיכון נמוך, שיכולות לחכות יום.</p>
+<p><b>המסקנה:</b> ההצעה יציבה בכל התרחישים, גם בהצלחה של 75%. בסבב אחד ביום (כ-5 דקות) נלמדות פחות מילים מהיום (240 מול 385), אבל פי 7 מהן נשארות יציבות. כשאת משחקת יותר, מגיעות יותר מילים חדשות, בלי שהתור יגדל. כל אחד מהרכיבים לבד לא מספיק. רק השילוב עובד.</p>
+</section>
+
+<section class="find">
+<h2>הפתרון המומלץ: קצב אישי</h2>
+<div class="f"><div class="hd"><h3>א. סבב נשאר קצר</h3><span class="tag t-m">לא משתנה</span></div>
+<p>סבב הוא כ-5 דקות (כ-20 שאלות). החזרות הכי חשובות נכנסות ראשונות, ומילים חדשות ממלאות רק את המקום שנשאר. מילה חדשה אף פעם לא דוחקת חזרה חשובה.</p></div>
+<div class="f"><div class="hd"><h3>ב. כמה מילים חדשות היום</h3><span class="tag t-e">חדש</span></div>
+<p>ההחלטה היומית בנויה על שלושה נתונים מדודים:
+<br>• <b>עומס:</b> כמה חזרות צפויות בשבוע הקרוב.
+<br>• <b>זמן:</b> כמה סבבים את משחקת בפועל, בממוצע של 7 ימים. לשם כך צריך להתחיל לרשום את משך הסבבים (שדה חדש, נוסף בלבד).
+<br>• <b>הצלחה:</b> אחוז ההצלחה בניסיון ראשון ב-60 החזרות האחרונות. מתחת ל-75% אין מילים חדשות, וזה "יום חיזוק". בין 75% ל-85% עד 2 מילים חדשות. מעל 90% מילה אחת נוספת.
+<br>כשהתור בריא, תמיד יש לפחות מילה חדשה אחת, כדי שההתקדמות לא תעצור בלי צורך.</p></div>
+<div class="f"><div class="hd"><h3>ג. ימים קלים וימים מאתגרים</h3><span class="tag t-e">חדש</span></div>
+<p>בשבוע יש שני ימים קלים, ארבעה רגילים ואחד מאתגר:
+<br>• <b>יום קל:</b> סבב קצר יותר וללא יותר ממילה חדשה אחת. מגיע גם אחרי יום ארוך או אחרי ירידה בהצלחה.
+<br>• <b>יום מאתגר:</b> שתי מילים חדשות נוספות ויותר בונה ביטוי ושימוש בהקשר. מגיע רק כשההצלחה מעל 85% והתור בריא.
+<br>הדבר היחיד שמשתנה הוא התמהיל של סוגי השאלות הקיימים. מבנה השאלות נשאר כמו שהוא.</p></div>
+<div class="f"><div class="hd"><h3>ד. איך זה נראה במסך</h3><span class="tag t-o">ממשק</span></div>
+<p>לא מוצג מספר של תור. בבית מופיעים היעד היומי ("היום: סבב אחד, כ-5 דק'") ומצב אחד מתוך שלושה: <b>זיכרון יציב</b> · <b>עוד סבב קצר יחזק</b> · <b>יום חיזוק</b>. אחרי היעד מופיע "סיימת את היום". אפשר להמשיך לשחק: הסבבים הנוספים מביאים קודם חזרות ואחר כך מילים חדשות, עם שורה קצרה על ההשפעה ("‎+3 מילים, כ-2 חזרות ביום בשבוע הבא"). ממליצים, לא חוסמים.</p></div>
+<div class="f"><div class="hd"><h3>ה. שלושה שינויים במתזמן</h3><span class="tag t-o">שינוי במנגנון הלמידה, טעון אישור מפורש</span></div>
+<p>(1) <b>סדר לפי סיכון:</b> כשאין זמן לכל החזרות, קודם מגיעה המילה שהכי קרובה להישכח, ולא המילה שהמועד שלה הכי ישן. (2) <b>טעות עדינה:</b> מילה שהייתה יציבה (מרווח של 3 ימים ומעלה) חוזרת ל-40% מהמרווח שלה במקום ליום אחד. מילה צעירה מתאפסת כמו היום. (3) <b>פיזור:</b> שינוי של עד 8% במרווחים של 4 ימים ומעלה, כדי שמילים שנלמדו יחד לא יחזרו כגוש.
+<br>אם לא תאשרי את השינויים האלה, אפשר להפעיל רק את הקצב האישי (א-ד). גם אז התור יציב, אבל נשארות פחות מילים יציבות (178 מול 240). לפני כל שינוי: גיבוי, אפשרות לחזור לגרסה הקודמת, ובדיקות יחידה, כמו במעבר ל-memory.js.</p></div>
+</section>
+
+<section>
+<h2>משפטי דוגמה: גיוון אמיתי</h2>
+<p>418 משפטים חדשים, כדי שלכל אחד מ-216 הפריטים הוותיקים יהיו שלושה. הכללים:</p>
+<ol style="margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:4px">
+<li>כל משפט מסיטואציה אחרת: עבודה, יום-יום וסדרה או סרט.</li>
+<li>כשלמילה יש כמה שימושים, מראים שימושים שונים, אבל רק כאלה שמתאימים לתרגום. אם מופיע שימוש שהתרגום לא מכסה, משנים את התרגום או לא משתמשים במשפט.</li>
+<li>מבנה שונה בכל משפט: שאלה, שלילה, פתיחה או סיום של המשפט. לא שלוש וריאציות כמעט זהות. בדיקה אוטומטית תפסול משפטים שחולקים יותר מחצי מהמילים.</li>
+<li><b>תקינות התרגילים:</b> בכל משפט, המסיחים של השלמת המשפט חייבים להיות שגויים, ולא רק מוזרים. כל משפט נבדק מול כל מסיח, ומשפט שמסיח מתאים בו נפסל.</li>
+<li>במשפט אחד נשארת בדיוק צורת המטרה, עד 16 מילים.</li>
+<li>השלמת משפט לא תציג את המשפט שהוצג בפעם הקודמת. זה שינוי קטן בבחירת המשפט, לא במבנה השאלה.</li>
+</ol>
+<h3>דוגמה (פריטים קיימים, טיוטה)</h3>
+<div class="grid">
+<div class="ch ex"><div class="hd"><h3 class="en">figure out</h3><span class="lv">להבין, לפתור</span></div>
+<span class="en">I can't {figure out} how to turn off this alarm.</span><span class="note">קיים · יום-יום · לפתור בעיה</span>
+<span class="en">Did you ever {figure out} who sent the flowers?</span><span class="note">חדש · סדרה · להבין תעלומה · שאלה</span>
+<span class="en">We still need to {figure out} the budget before Monday.</span><span class="note">חדש · עבודה · להחליט, לסגור</span>
+<span class="note">מסיחים: make up, show off. שגויים בשלושת המשפטים ✓</span></div>
+<div class="ch ex"><div class="hd"><h3 class="en">reluctant</h3><span class="lv">לא רוצה, עושה בחוסר חשק</span></div>
+<span class="en">She didn't trust the numbers, so she was {reluctant} to sign.</span><span class="note">קיים · עבודה</span>
+<span class="en"><s>Fans were {reluctant} to accept the new lead actor.</s></span><span class="note">נפסל: גם eager מתאים כאן</span>
+<span class="en">At first, fans were {reluctant} to accept the new lead, but he won them over.</span><span class="note">חדש · סדרה · "at first... but" פוסל את eager ✓</span>
+<span class="en">He's {reluctant} to ask for help, even when he's drowning.</span><span class="note">חדש · יום-יום · אופי</span></div>
+<div class="ch ex"><div class="hd"><h3 class="en">catch up</h3><span class="lv">להתעדכן, להשלים פערים</span></div>
+<span class="en">Let's grab coffee and {catch up}. It's been ages!</span><span class="note">קיים · יום-יום · להתעדכן עם חבר</span>
+<span class="en">I missed two episodes, so I need to {catch up} before Friday.</span><span class="note">חדש · סדרה · להשלים פער</span>
+<span class="en">Go ahead without me, I'll {catch up} after the call.</span><span class="note">חדש · עבודה · להצטרף אחר כך</span></div>
+<div class="ch ex"><div class="hd"><h3 class="en">get the hang of</h3><span class="lv">להתחיל להסתדר עם משהו</span></div>
+<span class="en">The new app is confusing at first, but you'll {get the hang of} it.</span><span class="note">קיים · יום-יום</span>
+<span class="en">It took me a month to {get the hang of} the new CRM.</span><span class="note">חדש · עבודה · זמן עבר</span>
+<span class="en">Skiing is scary on day one, but by day three you {get the hang of} it.</span><span class="note">חדש · פנאי · "by day three" פוסל את get rid of ✓</span></div>
+</div>
+<p class="note">ההפקה בשלוש חבילות של כ-70 פריטים, וכל חבילה עוברת את בדיקת התוכן ואת טבלת האיכות. את מאשרת לפי מדגם.</p>
+</section>
+
+<section>
+<h2>שלוש בעיות הממשק</h2>
+<div class="tbl"><table>
+<tr><th>בעיה</th><th>תיקון</th></tr>
+<tr><td>אחרי סבב מוצעות 10 מילים חדשות, גם כשמחכות חזרות</td><td>כפתור "עוד סבב" לפי הקצב האישי (סעיף ד): קודם חזרות, אחר כך מילים חדשות, עם שורת השפעה</td></tr>
+<tr><td>מסך סיום צפוף, ו"0 מזהה" מיד אחרי שלמדת 5 מילים</td><td>שורה אחת של מה שהשתנה היום ("5 נלמדו · ייבדקו מחר · ביטוי אחד הורכב"). הפירוט בלחיצה, והמדדים עם הסימון שלהם (נמדד או דיווח עצמי)</td></tr>
+<tr><td>הבועה של מרגו מכסה את שם הפרק</td><td>להזיז את הבועה, ולבדוק את כל גדלי האייפון</td></tr>
+</table></div>
+</section>
+
+<section>
+<h2>רשימת שכיחות: מה בדקתי</h2>
+<p><b>wordfreq</b> היא רשימה פתוחה. קובצי הנתונים שלה מופצים ברישיון CC BY-SA 4.0, ומקורותיה כוללים כתוביות של סרטים וסדרות (SUBTLEX ו-OpenSubtitles), כלומר שפה מדוברת. הרישיון מתיר שימוש אישי, בתנאי שנותנים קרדיט. לפני שאני משתמש בה אבדוק את קובץ הרישיון העדכני במאגר הרשמי, כי בתיאורים של גרסאות שונות מצאתי סתירות.</p>
+<p><b>המגבלה:</b> הרשימה מתאימה למילים בודדות. לביטויים של כמה מילים היא רק משקללת את המילים, וזו לא שכיחות אמיתית של הביטוי. לא מצאתי רשימה חינמית של ביטויים מדוברים עם רישיון ברור. <b>לכן התנאי שלך מתקיים רק חלקית.</b> מילים בודדות יסומנו כ"נמדד" (בכתוביות), וביטויים יישארו "הערכה".</p>
+<p class="note">ההתקנה היא בסביבת הפיתוח בלבד ולא באפליקציה. עלות: 0.</p>
+</section>
+
+<section class="ask">
+<h2>סדר המימוש המוצע (בגרסת הבדיקה)</h2>
+<ol>
+<li><b>רישום זמן הסבבים והקצב האישי</b> (א-ד), כולל היעד היומי ושלושת מצבי הזיכרון. בלי שינוי במתזמן.</li>
+<li><b>שלושת שינויי המתזמן</b> (ה): רק אם תאשרי אותם במפורש. עם גיבוי, אפשרות חזרה ובדיקות.</li>
+<li><b>שלושת תיקוני הממשק.</b></li>
+<li><b>משפטי דוגמה</b>, חבילה ראשונה של כ-70 פריטים, וגיוון בבחירת המשפט בהשלמת משפט.</li>
+<li><b>המלצה אוטומטית לפרקים.</b></li>
+</ol>
+<p>אחרי כל שלב: בדיקות יחידה, הרצה חוזרת של סימולציית התור (התור חייב להישאר יציב), בדיקה מקצה לקצה בשלושה גדלי אייפון, ובדיקת תוכן. הקישור הראשי וההתקדמות שלך לא משתנים.</p>
+<p class="rec">ההמלצה שלי: לאשר את 1 עד 5, כולל שינויי המתזמן, ולהשתמש ב-wordfreq רק למילים בודדות.</p>
+</section>
+</div>

@@ -11,7 +11,7 @@
 
 ## שלב נוכחי ותהליך
 
-פיתוח: M4 בקישור הראשי. M5.3 (בונה ביטוי, פרק שיחה) בקישור הבדיקה עד אישור. M6 (מוצר יומי והרחבה ל-1,000) בתכנון: `docs/plans/m6-daily-and-1000.html`. סימולציית גיוון: `node tools/sim-variety.js <progress.json>`. הקוד ב-`app/`, התוכן ב-`app/content/`, בדיקת תוכן: `node tools/validate-content.js`, בדיקה מקצה לקצה: `tools/e2e-m4.js`. גיבויים: `prototypes/` (קוד) ו-`backups/` (נתוני התקדמות).
+פיתוח: M4 בקישור הראשי. M5.3 (בונה ביטוי, פרק שיחה) בקישור הבדיקה עד אישור. M6 בתכנון: איכות יומית וזיכרון קודם (`docs/plans/m6-queue-diagnosis.html`), הרחבה ל-1,000 אחר כך. סימולציית תור: `node tools/sim-queue.js <progress.json>`. סימולציית גיוון: `node tools/sim-variety.js <progress.json>`. הקוד ב-`app/`, התוכן ב-`app/content/`, בדיקת תוכן: `node tools/validate-content.js`, בדיקה מקצה לקצה: `tools/e2e-m4.js`. גיבויים: `prototypes/` (קוד) ו-`backups/` (נתוני התקדמות).
 
 סדר השלבים: Discovery ← PRD ← Creative Direction ← Technical Architecture ← Development.
 
