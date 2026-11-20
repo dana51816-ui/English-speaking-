@@ -1,0 +1,186 @@
+<title>WORDPLAY M5.3 Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap">
+<style>
+/* Layout: review document. Measurement change first, then the 24 items as a table grouped by stage, then the new game with a small working demo, then decisions. */
+:root{--bg:#F3EADB;--fg:#2A211D;--muted:#5E4F46;--line:#DCCDB4;--panel:#FBF5EA;--terra:#B4532F;--ochre:#B97D2E;--sage:#4F7A58;--gold:#E8B44C;--f:"Assistant",system-ui,sans-serif;--fh:"Frank Ruhl Libre",Georgia,serif;--fe:"Fraunces",Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;--gold:#E8B44C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;--gold:#E8B44C;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16.5px;line-height:1.6;direction:rtl}
+.wrap{max-width:1060px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:42px}
+h1,h2,h3{font-family:var(--fh);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,44px)}h2{font-size:26px}h3{font-size:19px}
+p{margin:0;max-width:72ch}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.en{font-family:var(--fe);direction:ltr;unicode-bidi:isolate}
+.lv5{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.lv5 div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.lv5 b{font-size:16px}.lv5 span{font-size:14px;color:var(--muted)}
+.lv5 i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-inline-end:6px;vertical-align:middle}
+.tag{display:inline-block;font-size:11.5px;font-weight:800;border-radius:6px;padding:0 6px;margin-top:2px}
+.new{background:color-mix(in srgb,var(--terra) 15%,transparent);color:var(--terra)}
+.tbl{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:var(--panel);min-width:860px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:right;vertical-align:top}
+th{font-weight:800;font-size:13px;color:var(--muted);background:color-mix(in srgb,var(--panel) 70%,var(--line))}
+tr.stg td{background:var(--bg);font-family:var(--fh);font-weight:700;font-size:16px;padding-top:14px}
+td.w{font-family:var(--fe);font-weight:600;font-size:16px;direction:ltr;text-align:left;white-space:nowrap}
+td.w small{display:block;font-family:var(--f);font-weight:600;font-size:12px;color:var(--muted)}
+td.w small b{color:var(--terra)}
+td.ex{font-family:var(--fe);font-style:italic;direction:ltr;text-align:left;min-width:230px}
+td.n{text-align:center;font-weight:800;font-size:13px}
+.B1{color:var(--sage)}.B2{color:var(--ochre)}.C1{color:var(--terra)}
+td .warn{display:block;font-size:12.5px;color:var(--terra);margin-top:3px}
+.sum{display:flex;gap:18px;flex-wrap:wrap;font-size:14.5px;color:var(--muted)}
+.sum b{color:var(--fg);font-family:var(--fh);font-size:18px}
+.game{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.card ul{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:5px;font-size:15px}
+.demo{background:#F8F1E5;color:#2A211D;border-radius:28px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 40px -24px rgba(0,0,0,.45);border:1px solid #DCCDB4}
+.demo .k{font-size:12px;font-weight:800;letter-spacing:.08em;color:#5E4F46}
+.demo .he{font-family:var(--fh);font-size:22px;font-weight:700}
+.demo .sit{font-size:14px;color:#5E4F46}
+.slots{direction:ltr;display:flex;flex-wrap:wrap;gap:6px;min-height:44px;padding:8px;border-radius:14px;border:1.5px dashed #B4532F;background:rgba(180,83,47,.05)}
+.slots.ok{border-style:solid;border-color:#4F7A58;background:#E4EBDF}
+.slots.bad{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pool{direction:ltr;display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.tile{font-family:var(--fe);font-weight:600;font-size:17px;border:1px solid rgba(42,33,29,.18);background:#FBF5EA;border-radius:12px;padding:6px 12px;cursor:pointer;color:#2A211D;transition:transform .12s}
+.tile:active{transform:scale(.95)}
+.tile.used{opacity:.25;pointer-events:none}
+.slots .tile{background:#fff}
+.row{display:flex;gap:8px}
+.row button{flex:1;height:44px;border-radius:999px;font:700 15px var(--f);cursor:pointer}
+.ghost{background:none;border:1.5px solid #2A211D;color:#2A211D}
+.ink{background:#2A211D;border:0;color:#F6EEDF}
+.fbk{font-size:14px;min-height:22px;color:#5E4F46}
+.fbk b{font-family:var(--fe)}
+.ask{border:2px solid var(--terra);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.ask ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:8px}
+.rec{color:var(--terra);font-weight:700}
+@media (max-width:860px){.lv5{grid-template-columns:repeat(2,minmax(0,1fr))}.game{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">WORDPLAY · M5.3 · לבדיקה לפני הוספה ופיתוח</span>
+  <h1>24 ביטויים לשיחה, ומשחק שבודק שליפה בלי אפשרויות</h1>
+  <p class="lead">שלושה דברים לאישור: חלוקה מדויקת יותר של רמות השליפה, הפרק הראשון של עונת השיחה, והצעה למשחק חדש. שום דבר עוד לא נוסף לאפליקציה, והקישור הראשי וההתקדמות שלך לא השתנו.</p>
+</header>
+
+<section>
+  <h2>1. ארבע רמות במקום שלוש, בלי לפרק את המנוע</h2>
+  <p>את צודקת: "יש לי" ואחריו בחירה מתוך ארבע זו שליפה מדווחת שאומתה, ולא שליפה עצמאית. ההצעה: לפצל את רמת השליפה לשתיים. הנתונים שכבר נאספו נשארים בדיוק כמו שהם, ועוברים לרמה המדויקת שלהם.</p>
+  <div class="lv5">
+    <div><b><i style="background:#D9B07A"></i>מזהה</b><span>בחירה נכונה מתוך אפשרויות, אחרי השהיה.</span><span class="tag new">כמו היום</span></div>
+    <div><b><i style="background:#E8B44C;opacity:.7"></i>שולפת, מאומת בבחירה</b><span>"יש לי" לפני האפשרויות, ואחריו בחירה נכונה. בשני ימים נפרדים.</span><span class="tag new">השם מדויק יותר, הנתונים נשמרים</span></div>
+    <div><b><i style="background:#FFD99A;box-shadow:0 0 8px #E8B44C"></i>שולפת עצמאית</b><span>בנית את הביטוי בעצמך, בלי לראות תשובות שלמות. בשני ימים נפרדים.</span><span class="tag new">חדש</span></div>
+    <div><b><i style="background:#4F7A58"></i>בהקשר</b><span>שליפה עצמאית או מאומתת בתוך משפט או שיחה, בשני משפטים שונים.</span><span class="tag new">מתעדכן</span></div>
+  </div>
+  <p><b>בעולם:</b> אור עמום = מזהה, אור חם = מאומת בבחירה, אור מלא וזוהר = שליפה עצמאית. כך שליפה עצמאית מקבלת את הפרס החזותי הגדול ביותר. <b>בתזמון:</b> אותו מנוע אחד. שליפה עצמאית מגדילה את המרווח הכי הרבה, שליפה מאומתת קצת פחות, וזיהוי בלבד בצעד קטן.</p>
+</section>
+
+<section>
+  <h2>2. הפרק הראשון בעונת השיחה: מילות קישור וניהול שיחה</h2>
+  <div class="sum"><span><b>24</b> פריטים</span><span><b class="B1">7</b> B1</span><span><b class="B2">12</b> B2</span><span><b class="C1">5</b> C1</span><span><b>0</b> כפילויות מול 216 הקיימים (בדיקה אוטומטית)</span><span><b>23</b> מתוך 24 הם ביטויים של כמה מילים</span></div>
+  <div class="tbl"><table>
+    <tr><th>ביטוי · הטעמה</th><th>רמה</th><th>תרגום</th><th>משפט שימושי</th><th>מתי אומרים את זה בשיחה</th></tr>
+    <tr class="stg"><td colspan="5">שלב 1 · לחבר מחשבות</td></tr>
+    <tr><td class="w">that said<small>that <b>SAID</b> · קישור</small></td><td class="n B2">B2</td><td>עם זאת, ובכל זאת</td><td class="ex">The budget is tight. That said, we can still hire one more person.</td><td>כשמסייגים משהו שאמרת רגע קודם. בעבודה ובשיחה.</td></tr>
+    <tr><td class="w">to be fair<small>to be <b>FAIR</b> · קישור</small></td><td class="n B2">B2</td><td>למען ההגינות</td><td class="ex">The app crashed twice. To be fair, it's still in beta.</td><td>כשמאזנים ביקורת או מגינים על מישהו.<span class="warn">זוג בלבול עם to be honest (בכנות), שכבר במאגר.</span></td></tr>
+    <tr><td class="w">come to think of it<small>come to <b>THINK</b> of it · ביטוי</small></td><td class="n B2">B2</td><td>עכשיו כשאני חושבת על זה</td><td class="ex">Come to think of it, I haven't seen Dana all week.</td><td>כשנזכרים במשהו תוך כדי דיבור.</td></tr>
+    <tr><td class="w">by the way<small>by the <b>WAY</b> · קישור</small></td><td class="n B1">B1</td><td>דרך אגב</td><td class="ex">By the way, the meeting moved to three.</td><td>כשמכניסים נושא צדדי בלי לשבור את השיחה.</td></tr>
+    <tr><td class="w">anyway<small><b>AN</b>·y·way · קישור</small></td><td class="n B1">B1</td><td>בכל מקרה, אז...</td><td class="ex">Anyway, where were we? Oh right, the budget.</td><td>כשחוזרים לנושא אחרי סטייה, או סוגרים אותו.</td></tr>
+    <tr><td class="w">on top of that<small>on <b>TOP</b> of that · קישור</small></td><td class="n B2">B2</td><td>ונוסף על כך</td><td class="ex">The flight was late, and on top of that they lost my bag.</td><td>כשמוסיפים עוד נקודה, בדרך כלל עוד בעיה.</td></tr>
+    <tr><td class="w">if anything<small>if <b>AN</b>·y·thing · קישור</small></td><td class="n C1">C1</td><td>אם כבר, דווקא להפך</td><td class="ex">The new version isn't slower. If anything, it's faster.</td><td>כשמתקנים הנחה ואומרים שהמצב הפוך.</td></tr>
+    <tr><td class="w">mind you<small><b>MIND</b> you · קישור</small></td><td class="n C1">C1</td><td>אבל שימי לב, רק שתדעי</td><td class="ex">It's a great flat. Mind you, it's tiny.</td><td>כשמוסיפים הסתייגות קלה. שיחתי, נפוץ באנגלית בריטית.</td></tr>
+    <tr class="stg"><td colspan="5">שלב 2 · לנהל את השיחה</td></tr>
+    <tr><td class="w">where was I?<small>where <b>WAS</b> I · ביטוי</small></td><td class="n B1">B1</td><td>איפה הייתי?</td><td class="ex">Sorry, my phone. Where was I?</td><td>כשחוזרים לחוט אחרי הפרעה.</td></tr>
+    <tr><td class="w">long story short<small>long story <b>SHORT</b> · ביטוי</small></td><td class="n B1">B1</td><td>בקיצור</td><td class="ex">Long story short, we missed the train.</td><td>כשמדלגים לשורה התחתונה של סיפור.<span class="warn">קרוב ל-in a nutshell שבמאגר, ויוגדר כזוג בלבול עם הסבר.</span></td></tr>
+    <tr><td class="w">bear with me<small><b>BEAR</b> with me · ביטוי</small></td><td class="n B2">B2</td><td>רק רגע, סבלנות</td><td class="ex">Bear with me, I'm just sharing my screen.</td><td>כשמבקשים סבלנות בזמן שמשהו נטען או כשמסבירים. מאוד נפוץ בזום.</td></tr>
+    <tr><td class="w">off the top of my head<small>off the <b>TOP</b> of my <b>HEAD</b> · ביטוי</small></td><td class="n B2">B2</td><td>ככה מהראש, בלי לבדוק</td><td class="ex">Off the top of my head, I'd say around fifty people.</td><td>כשעונים מהזיכרון ומסמנים שזו הערכה.</td></tr>
+    <tr><td class="w">let me put it this way<small>let me <b>PUT</b> it this <b>WAY</b> · ביטוי</small></td><td class="n B2">B2</td><td>בואי נגיד את זה כך</td><td class="ex">Let me put it this way: it's not my favorite project.</td><td>כשמנסחים מחדש, לפעמים כדי לרכך.</td></tr>
+    <tr><td class="w">what I mean is<small>what I <b>MEAN</b> is · ביטוי</small></td><td class="n B1">B1</td><td>מה שאני מתכוונת זה</td><td class="ex">What I mean is, we need more time, not more people.</td><td>כשמבהירים משהו שלא הובן כמו שרצית.</td></tr>
+    <tr><td class="w">going back to<small><b>GO</b>·ing <b>BACK</b> to · ביטוי</small></td><td class="n B2">B2</td><td>אם לחזור ל...</td><td class="ex">Going back to your question, yes, it's possible.</td><td>כשחוזרים לנקודה שעלתה קודם, בישיבה או בשיחה.</td></tr>
+    <tr><td class="w">just to clarify<small>just to <b>CLAR</b>·i·fy · ביטוי</small></td><td class="n B2">B2</td><td>רק כדי להבהיר</td><td class="ex">Just to clarify, the deadline is Friday, not Monday?</td><td>כשמוודאים הבנה בלי להישמע מאשימה.</td></tr>
+    <tr class="stg"><td colspan="5">שלב 3 · להגיב כמו דוברת</td></tr>
+    <tr><td class="w">fair enough<small>fair e·<b>NOUGH</b> · תגובה</small></td><td class="n B2">B2</td><td>מקובל, הוגן</td><td class="ex">"I can't come, I'm sick." "Fair enough."</td><td>כשמקבלים הסבר בלי להתווכח.</td></tr>
+    <tr><td class="w">no wonder<small>no <b>WON</b>·der · תגובה</small></td><td class="n B1">B1</td><td>אין פלא</td><td class="ex">You worked till 2 a.m.? No wonder you're tired.</td><td>כשמבינים פתאום את הסיבה למשהו.</td></tr>
+    <tr><td class="w">I'll take your word for it<small>I'll <b>TAKE</b> your <b>WORD</b> for it · ביטוי</small></td><td class="n B2">B2</td><td>אסמוך עלייך</td><td class="ex">I haven't seen the show, but I'll take your word for it.</td><td>כשמקבלים טענה בלי לבדוק בעצמך.</td></tr>
+    <tr><td class="w">tell me about it<small><b>TELL</b> me a·<b>BOUT</b> it · תגובה</small></td><td class="n B2">B2</td><td>אל תגידי לי! גם אני מכירה את זה</td><td class="ex">"Mondays are exhausting." "Tell me about it."</td><td>הזדהות ותסכול משותף.<span class="warn">פירוש מלכודת: זו לא בקשה לספר. אסביר את זה במשוב.</span></td></tr>
+    <tr><td class="w">it's up to you<small>it's <b>UP</b> to <b>YOU</b> · ביטוי</small></td><td class="n B1">B1</td><td>זה תלוי בך, את מחליטה</td><td class="ex">Pizza or sushi? It's up to you.</td><td>כשמעבירים את ההחלטה למישהו אחר.</td></tr>
+    <tr><td class="w">I stand corrected<small>I stand cor·<b>RECT</b>·ed · ביטוי</small></td><td class="n C1">C1</td><td>טעיתי, צדקת</td><td class="ex">Oh, it was 2019? I stand corrected.</td><td>כשמודים בטעות באלגנטיות, בעבודה ובשיחה.</td></tr>
+    <tr><td class="w">that's beside the point<small>that's be·<b>SIDE</b> the <b>POINT</b> · ביטוי</small></td><td class="n C1">C1</td><td>זה לא העניין</td><td class="ex">Sure, it's cheap, but that's beside the point.</td><td>כשמחזירים את השיחה לעיקר.</td></tr>
+    <tr><td class="w">I couldn't agree more<small>I <b>COULD</b>·n't a·<b>GREE MORE</b> · תגובה</small></td><td class="n C1">C1</td><td>אני מסכימה לגמרי</td><td class="ex">"We need fewer meetings." "I couldn't agree more."</td><td>הסכמה מלאה ונלהבת.<span class="warn">פירוש מלכודת: couldn't כאן זו הסכמה מקסימלית, לא שלילה.</span></td></tr>
+  </table></div>
+  <p style="font-size:14.5px;color:var(--muted)">בטבלה מופיע לכל פריט משפט אחד. בגרסה שתיכנס למאגר יהיו לכל פריט עוד שני משפטים מהקשרים אחרים (עבודה, חברים, סדרה), שני מסיחים עם הסבר בעברית, וזוגות בלבול איפה שצריך. הכול יעבור את הבודק האוטומטי.</p>
+</section>
+
+<section>
+  <h2>3. המשחק החדש: "בונה ביטוי"</h2>
+  <div class="game">
+    <div class="card">
+      <h3>איך זה עובד</h3>
+      <ul>
+        <li>מופיעים המשמעות בעברית וסיטואציה קצרה.</li>
+        <li>מתחת יש אריחי מילים: כל המילים של הביטוי, ועוד 3-4 מילים מטעות מביטויים דומים (<span class="en">about, now, mention</span>).</li>
+        <li>נוגעים במילים לפי הסדר ובונים את הביטוי. נגיעה במילה שכבר נבחרה מחזירה אותה.</li>
+        <li>אין תשובות שלמות לבחור מהן, ולכן זו שליפה עצמאית של הצורה. אין הקלדה ואין איות: כל אריח הוא מילה שלמה.</li>
+        <li>כמה זה מהיר: 3-6 נגיעות, בערך 5-10 שניות.</li>
+        <li>הסיכוי לנחש נכון ביטוי של 4 מילים מתוך 8 אריחים: פחות מ-1 ל-1,600. בשני ימים נפרדים הניחוש כבר לא רלוונטי.</li>
+        <li>טעות לא מענישה: המשוב מראה את הביטוי הנכון, ואם בנית ביטוי אמיתי אחר (למשל <span class="en">to be honest</span> במקום <span class="en">to be fair</span>), הוא מסביר את ההבדל.</li>
+      </ul>
+      <h3>מתי הוא מופיע</h3>
+      <ul>
+        <li>רק על ביטויים של כמה מילים (23 מתוך 24 בפרק הזה), ורק אחרי שמילה כבר מזוהה. כך הוא מגיע כאתגר, לא כמבחן.</li>
+        <li>לכל היותר פעמיים בסבב. זה מספיק לתחושת אתגר ולא מעייף.</li>
+        <li>בגרסה "בהקשר" בונים את הביטוי בתוך משפט שלם. זה ימדוד את רמת ההקשר.</li>
+        <li>על מילה בודדת (כמו <span class="en">anyway</span>) המשחק לא חל. שם השליפה תישאר "מאומתת בבחירה". אני לא רוצה לפרק מילים לאותיות, כי זה כבר איות.</li>
+      </ul>
+    </div>
+    <div class="demo" id="demo" aria-label="הדגמה של בונה ביטוי">
+      <span class="k">בונה ביטוי · הדגמה, לא מחובר לאפליקציה</span>
+      <span class="he">עכשיו כשאני חושבת על זה</span>
+      <span class="sit">נזכרת באמצע שיחה שלא ראית את דנה כל השבוע.</span>
+      <div class="slots" id="slots"></div>
+      <div class="pool" id="pool"></div>
+      <div class="fbk" id="fbk"></div>
+      <div class="row"><button class="ghost" id="rst">מחדש</button><button class="ink" id="chk">בדיקה</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="ask">
+  <h3>להחלטה</h3>
+  <ol>
+    <li>הפיצול לארבע רמות, כשהנתונים הקיימים נשמרים: לאשר? <span class="rec">ההמלצה: כן.</span></li>
+    <li>24 הפריטים: לאשר כמו שהם, או לסמן מה להחליף. <span class="rec">ההמלצה: לאשר. אחרי האישור אוסיף לכל פריט שני משפטים, מסיחים וזוגות בלבול, ואעביר את הכול בבודק.</span></li>
+    <li>"בונה ביטוי" כמשחק השליפה העצמאית: לאשר לפיתוח בקישור הבדיקה? <span class="rec">ההמלצה: כן, יחד עם הפרק. רוב הפרק הוא ביטויים, ולכן זה הזוג הטבעי.</span></li>
+  </ol>
+</section>
+</div>
+
+<script>
+(function(){
+  const target=["come","to","think","of","it"], decoys=["about","now","mention","on"];
+  const pool=document.getElementById("pool"),slots=document.getElementById("slots"),fbk=document.getElementById("fbk");
+  let picked=[];
+  const tiles=target.concat(decoys).map((w,i)=>({w,i})).sort(()=>Math.random()-.5);
+  function draw(){
+    pool.innerHTML=tiles.map(t=>'<button class="tile'+(picked.includes(t.i)?' used':'')+'" data-i="'+t.i+'">'+t.w+'</button>').join("");
+    slots.innerHTML=picked.map(i=>'<button class="tile" data-back="'+i+'">'+tiles.find(t=>t.i===i).w+'</button>').join("");
+  }
+  pool.addEventListener("click",e=>{const b=e.target.closest("[data-i]");if(!b)return;picked.push(+b.dataset.i);slots.className="slots";fbk.textContent="";draw();});
+  slots.addEventListener("click",e=>{const b=e.target.closest("[data-back]");if(!b)return;picked=picked.filter(i=>i!==+b.dataset.back);draw();});
+  document.getElementById("rst").onclick=()=>{picked=[];slots.className="slots";fbk.textContent="";draw();};
+  document.getElementById("chk").onclick=()=>{
+    const said=picked.map(i=>tiles.find(t=>t.i===i).w).join(" ");
+    if(said===target.join(" ")){slots.className="slots ok";fbk.innerHTML='נכון. זו שליפה עצמאית: <b class="en">come to think of it</b>';}
+    else{slots.className="slots";void slots.offsetWidth;slots.className="slots bad";fbk.innerHTML='כמעט. הביטוי: <b class="en">come to think of it</b>'+(said.indexOf("now")>-1||said.indexOf("mention")>-1?'. <span class="en">now that you mention it</span> קרוב, אבל הוא תגובה למשהו שמישהו אחר אמר.':'');}
+  };
+  draw();
+})();
+</script>
