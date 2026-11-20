@@ -1,0 +1,122 @@
+<title>WORDPLAY Content Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap">
+<style>
+/* Layout: one reading column. Summary numbers, then the proposed chapters with level split and sample words, then the quality gate. */
+:root{--bg:#F3EADB;--fg:#2A211D;--muted:#5E4F46;--line:#DCCDB4;--panel:#FBF5EA;--terra:#B4532F;--ochre:#D99A4B;--sage:#5F8A68;--f:"Assistant",system-ui,sans-serif;--fh:"Frank Ruhl Libre",Georgia,serif;--fe:"Fraunces",Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16.5px;line-height:1.65;direction:rtl}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--fh);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,44px)}h2{font-size:26px}h3{font-size:19px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.en{font-family:var(--fe);direction:ltr;unicode-bidi:isolate}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.facts div{border-top:2px solid var(--fg);padding-top:8px;display:flex;flex-direction:column}
+.facts b{font-family:var(--fh);font-size:30px;font-variant-numeric:tabular-nums;line-height:1.1}.facts span{font-size:13.5px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top}
+th{font-weight:700}
+td.n{text-align:center;font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:800}
+.tbl{overflow-x:auto;border-radius:12px}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;min-width:120px}
+.bar i{display:block;height:100%}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.ch .hd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ch .lv{font-size:13px;color:var(--muted);font-weight:700}
+.ch .s{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--fe);font-style:italic;font-size:15.5px;direction:ltr;justify-content:flex-end}
+.ch p{font-size:14.5px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ask{border:2px solid var(--terra);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.ask ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.rec{color:var(--terra);font-weight:700}
+.key{display:flex;gap:14px;font-size:13px;color:var(--muted)}.key i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:4px;vertical-align:middle}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">WORDPLAY · M5 · הצעת תוכן לפני הוספה</span>
+  <h1>מפת התוכן: 192 פריטים חדשים</h1>
+  <p class="lead">חלוקה לפי נושאים ורמות, עם דוגמאות לכל פרק כדי שתוכלי לשפוט את הכיוון לפני שנכתב פריט אחד. שום דבר עוד לא נוסף לאפליקציה.</p>
+</header>
+
+<section>
+  <h2>המצב היום והיעד</h2>
+  <div class="facts">
+    <div><b>216</b><span>פריטים היום ב-9 פרקים</span></div>
+    <div><b>+192</b><span>מוצע: 8 פרקים, 3 עונות</span></div>
+    <div><b>408</b><span>סה"כ בסוף M5</span></div>
+    <div><b>0</b><span>כפילויות בין דוגמאות ההצעה למאגר (נבדק אוטומטית)</span></div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>רמה</th><th>היום</th><th>מוצע</th><th>אחרי</th><th>חלק אחרי ההוספה</th></tr>
+    <tr><td>A2</td><td class="n">17</td><td class="n">0</td><td class="n">17</td><td><div class="bar"><i style="width:4%;background:#C9B793"></i></div></td></tr>
+    <tr><td>B1</td><td class="n">94</td><td class="n">52</td><td class="n">146</td><td><div class="bar"><i style="width:36%;background:var(--sage)"></i></div></td></tr>
+    <tr><td>B2</td><td class="n">87</td><td class="n">94</td><td class="n">181</td><td><div class="bar"><i style="width:44%;background:var(--ochre)"></i></div></td></tr>
+    <tr><td>C1</td><td class="n">18</td><td class="n">46</td><td class="n">64</td><td><div class="bar"><i style="width:16%;background:var(--terra)"></i></div></td></tr>
+    <tr class="tot"><td>סה"כ</td><td class="n">216</td><td class="n">192</td><td class="n">408</td><td></td></tr>
+  </table></div>
+  <p>היום הרמה נשענת על B1 ו-B2. ההצעה מזיזה את המרכז למעלה, ל-B2, ומכפילה יותר מפי 3 את C1. זה מה שמתאים לרמת ביניים-מתקדמת. A2 לא מקבל תוספת.</p>
+</section>
+
+<section>
+  <h2>נושאים: 8 פרקים בשלוש עונות</h2>
+  <div class="tbl"><table>
+    <tr><th>עונה</th><th>פרק</th><th class="n">B1</th><th class="n">B2</th><th class="n">C1</th><th class="n">סה"כ</th></tr>
+    <tr><td rowspan="3">3 · עבודה מודרנית</td><td>מצגות וישיבות</td><td class="n">6</td><td class="n">12</td><td class="n">6</td><td class="n">24</td></tr>
+    <tr><td>פידבק וניהול אנשים</td><td class="n">6</td><td class="n">12</td><td class="n">6</td><td class="n">24</td></tr>
+    <tr><td>פרויקטים ועבודה מרחוק</td><td class="n">8</td><td class="n">12</td><td class="n">4</td><td class="n">24</td></tr>
+    <tr><td rowspan="3">4 · שיחה טבעית</td><td>מילות קישור וניהול שיחה</td><td class="n">8</td><td class="n">12</td><td class="n">4</td><td class="n">24</td></tr>
+    <tr><td>דעות, הסכמה ואי-הסכמה</td><td class="n">6</td><td class="n">12</td><td class="n">6</td><td class="n">24</td></tr>
+    <tr><td>סמול טוק וסיפור</td><td class="n">10</td><td class="n">10</td><td class="n">4</td><td class="n">24</td></tr>
+    <tr><td rowspan="2">5 · סדרות ותרבות</td><td>הומור ועקיצות</td><td class="n">4</td><td class="n">12</td><td class="n">8</td><td class="n">24</td></tr>
+    <tr><td>ביטויים מהמסך</td><td class="n">4</td><td class="n">12</td><td class="n">8</td><td class="n">24</td></tr>
+    <tr class="tot"><td colspan="2">סה"כ</td><td class="n">52</td><td class="n">94</td><td class="n">46</td><td class="n">192</td></tr>
+  </table></div>
+  <p>החלוקה יוצאת 37.5% עבודה, 37.5% שיחה ו-25% סדרות, ולא בדיוק 40/40/20, כי פרק הוא תמיד 3 שלבים של 8 פריטים. אם תעדיפי יותר עבודה ושיחה, אפשר להוריד את פרק "ביטויים מהמסך" לעונה הבאה.</p>
+  <p class="key"><span><i style="background:var(--muted)"></i>בכל פרק בערך: 35% מילים, 25% פעלים עם מילת יחס, 20% צירופים קבועים, 20% ניבים או מילות קישור</span></p>
+</section>
+
+<section>
+  <h2>דוגמאות מכל פרק</h2>
+  <div class="grid">
+    <div class="ch"><div class="hd"><h3>מצגות וישיבות</h3><span class="lv">6 · 12 · 6</span></div><div class="s"><span>walk through</span><span>takeaway</span><span>bear with me</span><span>run over</span><span>elaborate</span><span>to recap</span></div><p>להציג, לסכם, לנהל זמן ושאלות בישיבה.</p></div>
+    <div class="ch"><div class="hd"><h3>פידבק וניהול</h3><span class="lv">6 · 12 · 6</span></div><div class="s"><span>constructive</span><span>on track</span><span>step up</span><span>fall short</span><span>drop the ball</span><span>room for improvement</span></div><p>לתת ולקבל משוב, לשבח ולהעיר בעדינות.</p></div>
+    <div class="ch"><div class="hd"><h3>פרויקטים ועבודה מרחוק</h3><span class="lv">8 · 12 · 4</span></div><div class="s"><span>deliverable</span><span>scope creep</span><span>kick off</span><span>on hold</span><span>ping</span><span>time zone</span></div><p>תכנון, עיכובים ותיאום בין אנשים ושעונים.</p></div>
+    <div class="ch"><div class="hd"><h3>מילות קישור</h3><span class="lv">8 · 12 · 4</span></div><div class="s"><span>that said</span><span>to be fair</span><span>come to think of it</span><span>by the way</span><span>if anything</span><span>mind you</span></div><p>המילים הקטנות שגורמות לדיבור להישמע טבעי. החוסר הכי גדול היום.</p></div>
+    <div class="ch"><div class="hd"><h3>דעות ואי-הסכמה</h3><span class="lv">6 · 12 · 6</span></div><div class="s"><span>I'd argue</span><span>fair point</span><span>I beg to differ</span><span>with a grain of salt</span><span>on the fence</span><span>devil's advocate</span></div><p>להביע עמדה, להתלבט ולהתנגד בנימוס.</p></div>
+    <div class="ch"><div class="hd"><h3>סמול טוק וסיפור</h3><span class="lv">10 · 10 · 4</span></div><div class="s"><span>how's it going</span><span>long time no see</span><span>small world</span><span>long story short</span><span>catch you later</span><span>you won't believe</span></div><p>לפתוח שיחה, לספר משהו ולסגור בקלילות.</p></div>
+    <div class="ch"><div class="hd"><h3>הומור ועקיצות</h3><span class="lv">4 · 12 · 8</span></div><div class="s"><span>pull someone's leg</span><span>tongue in cheek</span><span>deadpan</span><span>savage</span><span>low blow</span><span>no offense</span></div><p>להבין מתי צוחקים, מתי עוקצים ומתי זה כבר פוגע.</p></div>
+    <div class="ch"><div class="hd"><h3>ביטויים מהמסך</h3><span class="lv">4 · 12 · 8</span></div><div class="s"><span>plot twist</span><span>cliffhanger</span><span>spoiler alert</span><span>red herring</span><span>jump the shark</span><span>break character</span></div><p>מילים שחוזרות בסדרות, בביקורות ובשיחות עליהן.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>בקרת איכות לפני שכל פריט נכנס</h2>
+  <ul style="margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px">
+    <li>בדיקה אוטומטית של כפילויות מול כל המאגר, כולל צורות של אותה מילה ותרגומים כמעט זהים.</li>
+    <li>3 משפטי דוגמה לכל פריט, מהקשרים שונים, ומילת היעד מופיעה בכל משפט פעם אחת.</li>
+    <li>2 מסיחים לכל פריט מאותו חלק דיבר, עם הסבר בעברית למה הם לא נכונים.</li>
+    <li>הרמה (B1, B2 או C1) נקבעת לפי שכיחות המילה ומורכבות השימוש בה. זו הערכה שלי, ואפשר לתקן אותה לפי הביצועים שלך.</li>
+    <li>לכל פרק תקבלי לקריאה דגימה של כ-10% מהפריטים לפני שהוא נכנס לאפליקציה.</li>
+    <li>הסדר: קודם עונה 4 (שיחה, החוסר הכי גדול), אחר כך עונה 3, ואז עונה 5.</li>
+  </ul>
+</section>
+
+<section class="ask">
+  <h3>להחלטה</h3>
+  <ol>
+    <li>החלוקה לנושאים: לאשר כמו שהיא? <span class="rec">ההמלצה: כן.</span></li>
+    <li>חלוקת הרמות (52 · 94 · 46): לאשר? <span class="rec">ההמלצה: כן, היא מזיזה את המרכז ל-B2.</span></li>
+    <li>יחס עבודה/שיחה/סדרות של 37.5/37.5/25: לאשר, או להעביר פרק סדרות לעונה הבאה?</li>
+    <li>להתחיל מעונה 4 (שיחה)? <span class="rec">ההמלצה: כן.</span></li>
+  </ol>
+</section>
+</div>
