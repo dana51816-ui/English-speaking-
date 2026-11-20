@@ -1,0 +1,145 @@
+<title>WORDPLAY M5.2 Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap">
+<style>
+/* Layout: one reading column. Diagnosis of the engine first, then the ranked upgrades, the order, a content sample and the decisions. Horizons palette. */
+:root{--bg:#F3EADB;--fg:#2A211D;--muted:#5E4F46;--line:#DCCDB4;--panel:#FBF5EA;--terra:#B4532F;--ochre:#B97D2E;--sage:#4F7A58;--f:"Assistant",system-ui,sans-serif;--fh:"Frank Ruhl Libre",Georgia,serif;--fe:"Fraunces",Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1715;--fg:#F1E9DC;--muted:#B7A99B;--line:#3A322C;--panel:#241F1B;--terra:#E38A62;--ochre:#E8B46A;--sage:#8DBA95;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:16.5px;line-height:1.65;direction:rtl}
+.wrap{max-width:920px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:42px}
+h1,h2,h3{font-family:var(--fh);font-weight:700;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,44px)}h2{font-size:26px}h3{font-size:18.5px}
+p{margin:0;max-width:70ch}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.lead{font-size:18px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.en{font-family:var(--fe);direction:ltr;unicode-bidi:isolate}
+code{font-size:13.5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:0 5px;direction:ltr;unicode-bidi:isolate}
+.diag{display:flex;flex-direction:column;gap:10px}
+.dq{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.dq .v{grid-row:span 2;font-weight:800;font-size:13px;border-radius:999px;padding:2px 10px;align-self:start;white-space:nowrap}
+.v.no{background:color-mix(in srgb,var(--terra) 16%,transparent);color:var(--terra)}
+.v.part{background:color-mix(in srgb,var(--ochre) 18%,transparent);color:var(--ochre)}
+.v.yes{background:color-mix(in srgb,var(--sage) 16%,transparent);color:var(--sage)}
+.dq b{font-size:16.5px}.dq span{font-size:15px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top}
+th{font-weight:700}
+.tbl{overflow-x:auto;border-radius:12px}
+.r{font-weight:800;color:var(--terra);font-family:var(--fh);font-size:17px;text-align:center}
+.lv{display:inline-block;font-weight:800;font-size:12.5px;border-radius:6px;padding:0 7px}
+.h{background:color-mix(in srgb,var(--sage) 18%,transparent);color:var(--sage)}
+.m{background:color-mix(in srgb,var(--ochre) 18%,transparent);color:var(--ochre)}
+.l{background:color-mix(in srgb,var(--muted) 14%,transparent);color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:grid;grid-template-columns:76px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.steps li>b{font-family:var(--fh);font-size:21px;color:var(--terra);direction:ltr;text-align:right}
+.steps li div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.steps li span{font-size:14.5px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.mech{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mech .card b{font-size:16.5px}.mech .card span{font-size:14.5px;color:var(--muted)}
+.item{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:3px}
+.item .w{font-family:var(--fe);font-weight:600;font-size:20px;direction:ltr;text-align:right}
+.item .w small{font-family:var(--f);font-size:13px;color:var(--muted);font-weight:600;margin-inline-start:8px}
+.item ul{margin:2px 0 0;padding-inline-start:18px;font-size:14.5px}
+.item .ex{font-family:var(--fe);font-style:italic;direction:ltr;text-align:left}
+.chat{display:flex;flex-direction:column;gap:6px;font-size:15px}
+.chat div{max-width:80%;padding:7px 12px;border-radius:14px;direction:ltr;font-family:var(--fe)}
+.chat .a{align-self:flex-end;background:var(--bg);border:1px solid var(--line)}
+.chat .b{align-self:flex-start;background:color-mix(in srgb,var(--ochre) 14%,transparent)}
+.chat u{text-decoration-style:dashed;text-decoration-color:var(--terra)}
+.ask{border:2px solid var(--terra);border-radius:16px;padding:18px 20px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.ask ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:8px}
+.rec{color:var(--terra);font-weight:700}
+@media (max-width:640px){.mech{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">WORDPLAY · M5.2 · תוכנית מתועדפת, לפני פיתוח</span>
+  <h1>מלמידת מילים לשימוש בהן</h1>
+  <p class="lead">קודם אבחון של מנוע הלמידה כמו שהוא בקוד היום. אחריו השדרוגים מדורגים לפי ערך לימודי, השפעה על החוויה ומורכבות, וההמלצה מאיפה להתחיל. בסוף: דוגמת תוכן מעונת השיחה, כדי שתוכלי לשפוט את האיכות לפני שאכתוב 72 פריטים.</p>
+</header>
+
+<section>
+  <h2>אבחון: מה המנוע עושה היום</h2>
+  <div class="diag">
+    <div class="dq"><span class="v part">חלקית</span><b>מבחין בין זיהוי לשליפה?</b><span>המנוע שומר תוצאה נפרדת לכל סוג תרגיל בכל מילה (<code>st.tr</code>), אבל התזמון משתמש במרווח אחד בלבד. תשובה נכונה בטריוויה, שהיא זיהוי, מגדילה את המרווח בדיוק כמו שליפה שקטה.</span></div>
+    <div class="dq"><span class="v no">לא</span><b>מילה שזוהתה אבל לא נשלפה, חוזרת בהתאם?</b><span>חזרה שנענתה נכון בניסיון הראשון נחשבת "נשמרה", בלי קשר לסוג התרגיל. מילה יכולה להגיע ל"יציבה 21+ ימים" רק דרך בחירה מתוך 4 אפשרויות, ובלי אף שליפה עצמאית.</span></div>
+    <div class="dq"><span class="v part">חלקית</span><b>החזרות מותאמות לרמת השליטה?</b><span>בחזרה המנוע בוחר את סוג התרגיל שבו הצלחת הכי פחות (<code>X.choose</code>). זה טוב. אבל קושי המסיחים קבוע, והמרווח לא מתחשב בכמה קשה לך המילה מעבר לטעויות.</span></div>
+    <div class="dq"><span class="v part">חלקית</span><b>איזון בין חדשות לחיזוק?</b><span>מספר המילים החדשות יורד כשיש הרבה חזרות (בין 2 ל-6, ועד 12 חזרות בסבב). אבל הוא לא מתחשב באחוז ההצלחה שלך: אחרי סבב עם הרבה טעויות יגיעו אותן כמויות חדשות.</span></div>
+    <div class="dq"><span class="v yes">כן</span><b>מה עובד טוב</b><span>חזרות בתוך הסבב (+1, +3), בדיקה שנייה למילה חדשה בסוג תרגיל אחר, מילה שנכשלה חוזרת מהר, זוגות בלבול עם הסבר, ומדידה כנה עם סימון של מה נמדד ומה דיווח עצמי.</span></div>
+    <div class="dq"><span class="v part">מוקדם</span><b>מה הנתונים שלך אומרים</b><span>בגיבוי יש 20 מילים, וכולן במרווח של יום אחד. מוקדם מדי לראות את הבעיה בנתונים, אבל היא מבנית: היא תופיע ברגע שמילים יגיעו לחזרה של 3 ימים ומעלה.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>השדרוגים, מדורגים</h2>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>שדרוג</th><th>ערך לימודי</th><th>השפעה על החוויה</th><th>מורכבות</th></tr>
+    <tr><td class="r">1</td><td><b>זיכרון כפול: זיהוי ושליפה</b><br>שני מדדים לכל מילה. אחרי 3 ימים, מילה מתקדמת רק בשליפה. אורות בעולם נדלקים רק על שליפה.</td><td><span class="lv h">גבוה מאוד</span></td><td><span class="lv m">בינונית</span><br>האורות נהיים משמעותיים</td><td><span class="lv m">בינונית</span><br>שינוי במנוע עם המרה של נתונים קיימים</td></tr>
+    <tr><td class="r">2</td><td><b>"חשבי קודם"</b><br>ב"איך אומרים?", בהשלמה ובשמיעה של מילים שכבר זיהית: האפשרויות מוסתרות עד שאת נוגעת ב"יש לי". תשובה נכונה אחרי "יש לי" נספרת כשליפה.</td><td><span class="lv h">גבוה מאוד</span><br>אפקט השליפה (ממצא מוכח)</td><td><span class="lv h">גבוהה</span><br>מרגיש כמו אתגר, לא כמו שאלון</td><td><span class="lv l">נמוכה</span></td></tr>
+    <tr><td class="r">3</td><td><b>עונת השיחה: 72 פריטים</b><br>B2 במרכז, 3 דוגמאות לכל פריט, ו"מתי משתמשים" (רשמי, חברים, עבודה).</td><td><span class="lv h">גבוה</span></td><td><span class="lv m">בינונית</span><br>עמק חדש בעולם</td><td><span class="lv m">בינונית</span><br>בעיקר כתיבה ובדיקה</td></tr>
+    <tr><td class="r">4</td><td><b>השלמת שיחה</b><br>צ'אט של 3-4 שורות. בשורה אחת חסר ביטוי, ובוחרים את מה שדובר אנגלית באמת היה אומר.</td><td><span class="lv h">גבוה</span><br>שימוש בהקשר אמיתי</td><td><span class="lv h">גבוהה</span></td><td><span class="lv m">בינונית</span><br>דורש תוכן שיחות</td></tr>
+    <tr><td class="r">5</td><td><b>מה היית אומרת?</b><br>סיטואציה (לבוס, לחברה, במייל) ושלושה ביטויים נכונים מבחינת משמעות. רק אחד מתאים לסיטואציה.</td><td><span class="lv h">גבוה</span><br>רגיסטר ושימוש</td><td><span class="lv h">גבוהה</span></td><td><span class="lv m">בינונית</span></td></tr>
+    <tr><td class="r">6</td><td><b>הבנת דיבור</b><br>שומעים משפט שלם בלי טקסט ובוחרים מה הדובר התכוון, או מה סביר שיגיד אחר כך. הטקסט נחשף רק אחרי התשובה.</td><td><span class="lv h">גבוה</span><br>שמיעה במהירות טבעית</td><td><span class="lv m">בינונית</span></td><td><span class="lv l">נמוכה-בינונית</span><br>על המשפטים שכבר קיימים</td></tr>
+    <tr><td class="r">7</td><td><b>במאי סבב</b><br>כמות המילים החדשות לפי אחוז ההצלחה האחרון (יעד 80-85%), מסיחים קשים יותר כשאת שולטת, ומילה חלשה אחרי מילה קלה.</td><td><span class="lv h">גבוה</span></td><td><span class="lv m">בינונית</span><br>הקצב מרגיש נכון</td><td><span class="lv m">בינונית</span></td></tr>
+    <tr><td class="r">8</td><td><b>אירועים בעולם שנפתחים בזכות שליפה</b><br>אחרי 10 מילים שנשלפו בעמק, מופיעה דמות עם שיחה קצרה שמשתמשת בהן (מכניקה 4). שלב שהושלם חושף חלק מהעמק הבא.</td><td><span class="lv m">בינוני</span><br>חזרה בהקשר חדש</td><td><span class="lv h">גבוהה</span></td><td><span class="lv m">בינונית</span><br>תלוי ב-1 וב-4</td></tr>
+    <tr><td class="r">9</td><td><b>מדד שימור שבועי</b><br>אחוז ההצלחה בניסיון ראשון בחזרות אחרי יום או יותר, בנפרד לזיהוי ולשליפה. זה המדד האמיתי לזיכרון.</td><td><span class="lv m">בינוני</span><br>משוב כן</td><td><span class="lv l">נמוכה</span></td><td><span class="lv l">נמוכה</span></td></tr>
+    <tr><td class="r">10</td><td><b>רמיקס: מילים ישנות בהקשר חדש</b><br>משפט אחד ששתי מילים שלמדת מופיעות בו.</td><td><span class="lv h">גבוה</span></td><td><span class="lv m">בינונית</span></td><td><span class="lv h">גבוהה</span><br>כתיבה של הרבה משפטים</td></tr>
+  </table></div>
+  <p>כל המכניקות החדשות (4, 5, 6, 10) מתווספות לצד שמונת סוגי התרגילים. אף סוג קיים לא משתנה פדגוגית. "חשבי קודם" הוא מצב בתוך שלושה סוגים קיימים: אותה שאלה ואותה בחירה, עם עצירה קצרה לפני שהאפשרויות מופיעות. תקציב: 0 דולר. הכול כתוב מראש, וההשמעה משתמשת בקול שכבר קיים.</p>
+</section>
+
+<section>
+  <h2>הסדר המומלץ: ארבעה שלבים, אחד אחרי השני</h2>
+  <ol class="steps">
+    <li><b>M5.2a</b><div><strong>הליבה הלימודית: 1, 2 ו-9</strong><span>זיכרון כפול, "חשבי קודם" ומדד השימור. כאן השיפור הכי גדול גם בלמידה וגם בתחושה: התרגול הופך מבחירה לאתגר, והאורות בעולם מקבלים משמעות אמיתית. לפני שמשנים את המנוע: גיבוי, והמרה שלא מוחקת שום דבר. מה שנמדד עד היום נספר כזיהוי, ושליפות שקטות מוצלחות נספרות כשליפה.</span></div></li>
+    <li><b>M5.2b</b><div><strong>עונת השיחה ושתי מכניקות: 3, 4 ו-5</strong><span>התוכן והמכניקות נכתבים יחד. לכל פרק בעונה יהיו שיחות קצרות וסיטואציות, כך ש"השלמת שיחה" ו"מה היית אומרת?" נולדות עם התוכן ולא מודבקות עליו. 72 פריטים בשלושה גלים של 24, ולכל גל דגימה לקריאה שלך לפני שהוא נכנס.</span></div></li>
+    <li><b>M5.2c</b><div><strong>הבנת דיבור ובמאי סבב: 6 ו-7</strong><span>משחק שמיעה אמיתי על המשפטים הקיימים, וקצב שמתאים את עצמו לאחוז ההצלחה שלך.</span></div></li>
+    <li><b>M5.2d</b><div><strong>העולם מגיב ללמידה: 8 ו-10</strong><span>אירועים ודמויות בעמקים שנפתחים רק בזכות שליפה, ורמיקס של מילים ישנות.</span></div></li>
+  </ol>
+  <p>כל שלב נבנה בקישור הבדיקה, נבדק אוטומטית בשלושה גדלי אייפון על עותק של ההתקדמות שלך, ומחכה לבדיקה שלך לפני שעוברים לשלב הבא. הקישור הראשי לא משתנה.</p>
+</section>
+
+<section>
+  <h2>המכניקות החדשות במבט אחד</h2>
+  <div class="mech">
+    <div class="card"><b>חשבי קודם</b><span>"איך אומרים באנגלית: <b>להתעדכן בקצרה</b>?" הכרטיס מחכה. נגיעה ב"יש לי" מציגה את האפשרויות. אם בחרת נכון, זו שליפה. "לא עולה לי" מציג אותן מיד, בלי עונש, וזה נספר כזיהוי בלבד.</span></div>
+    <div class="card"><b>השלמת שיחה</b>
+      <div class="chat"><div class="a">Have you met the new manager yet?</div><div class="b">No... <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>, I think I saw her at the café yesterday.</div></div>
+      <span>האפשרויות: <span class="en">Come to think of it</span> · <span class="en">That said</span> · <span class="en">To be fair</span>. רק הראשונה טבעית כאן: נזכרים במשהו תוך כדי דיבור.</span></div>
+    <div class="card"><b>מה היית אומרת?</b><span>"המנהלת מציעה תוכנית שאת לא מסכימה איתה, בישיבה." שלוש אפשרויות שאומרות "אני לא מסכימה": <span class="en">I beg to differ</span> · <span class="en">No way</span> · <span class="en">You're wrong</span>. ההסבר מדבר על טון, לא על משמעות.</span></div>
+    <div class="card"><b>הבנת דיבור</b><span>שומעים: <span class="en">"I'm swamped today, but let's touch base on Monday."</span> בלי טקסט. "מה היא מציעה?" ובוחרים מבין שלוש פרפרזות בעברית. רק אחרי התשובה המשפט נחשף ומודגש.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>דוגמת תוכן: איך ייראה פריט בעונת השיחה</h2>
+  <div class="card">
+    <div class="item"><span class="w">that said <small>B2 · מילת קישור · that <b>SAID</b></small></span>
+      <span><b>עם זאת, ובכל זאת</b>, אחרי שאמרתי את זה</span>
+      <span><b>מתי משתמשים:</b> כשמסייגים משהו שאמרת רגע קודם. מתאים לעבודה ולשיחה, לא רשמי מדי.</span>
+      <ul><li class="ex">The budget is tight. That said, we can still hire one more person.</li><li class="ex">I loved the show. That said, the ending was a mess.</li><li class="ex">He's not the fastest. That said, his work is always solid.</li></ul>
+      <span><b>מסיחים:</b> <span class="en">so to speak</span> (כביכול, לא מסייג) · <span class="en">in other words</span> (מסביר מחדש, לא מסייג)</span></div>
+    <div class="item"><span class="w">fair point <small>B1 · תגובה בשיחה · fair <b>POINT</b></small></span>
+      <span><b>צודק/ת, נקודה טובה</b></span>
+      <span><b>מתי משתמשים:</b> כשמסכימים לטענה של מישהו בלי להתלהב, לפעמים לפני "אבל". שיחה ועבודה.</span>
+      <ul><li class="ex">"We haven't tested it on mobile." "Fair point. Let's do that first."</li><li class="ex">Fair point, but we still need a decision today.</li><li class="ex">"You never asked her." "Okay, fair point."</li></ul>
+      <span><b>מסיחים:</b> <span class="en">good riddance</span> (טוב שנפטרנו) · <span class="en">no point</span> (אין טעם). <span class="en">point taken</span> נפסל כמסיח, כי משמעותו כמעט זהה.</span></div>
+    <p style="font-size:14px;color:var(--muted)">כך אני בודק מסיחים: מסיח שאומר כמעט אותו דבר נפסל, גם אם הוא נראה "קשה". קושי שמגיע מתשובות שנכונות שתיהן לא מלמד, הוא רק מתסכל.</p>
+  </div>
+</section>
+
+<section class="ask">
+  <h3>להחלטה</h3>
+  <ol>
+    <li><b>הסדר:</b> להתחיל ב-M5.2a (זיכרון כפול, "חשבי קודם" ומדד שימור)? <span class="rec">ההמלצה: כן. בלי זה, גם מכניקות חדשות ימדדו רק זיהוי.</span></li>
+    <li><b>שינוי במנוע:</b> לאשר את הזיכרון הכפול, עם גיבוי והמרה שלא מוחקת נתונים? <span class="rec">ההמלצה: כן.</span></li>
+    <li><b>סגנון התוכן:</b> שתי הדוגמאות למעלה ברמה הנכונה? אם כן, אתחיל לכתוב את עונת השיחה במקביל ל-M5.2a, בגלים של 24 עם דגימה לקריאה שלך.</li>
+  </ol>
+</section>
+</div>
