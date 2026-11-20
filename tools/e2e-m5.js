@@ -20,7 +20,7 @@ fs.mkdirSync(OUT, { recursive: true });
   if (SEED) await p.addInitScript(s => { try { if (!localStorage.getItem('wordplay:v1')) localStorage.setItem('wordplay:v1', s); } catch (e) {} }, fs.readFileSync(SEED, 'utf8'));
   await p.goto('http://local.test/', { waitUntil: 'networkidle' }); await p.waitForTimeout(2200);
   await p.screenshot({ path: OUT + '/01-home.png' });
-  const types = {}; const timings = []; let thinks = 0;
+  const types = {}; const timings = []; let thinks = 0, builds = 0;
   const playSession = async (tag, start) => {
     await p.click(start || '[data-act="go"]', { force: true });
     await p.waitForTimeout(800); // the dive transition plus the first-question tap guard
@@ -34,7 +34,12 @@ fs.mkdirSync(OUT, { recursive: true });
       if (!shots[t]) { shots[t] = 1; await p.screenshot({ path: OUT + '/' + tag + '-' + t + '.png' }); }
       if (await p.$('[data-act="introdone"]')) { await p.click('[data-act="introdone"]', { force: true }); continue; }
       if (await p.$('[data-act="think-yes"]')) { thinks++; if (!shots.think) { shots.think = 1; await p.screenshot({ path: OUT + '/' + tag + '-think.png' }); } await p.click(Math.random() < .6 ? '[data-act="think-yes"]' : '[data-act="think-no"]', { force: true }); await p.waitForTimeout(420); }
-      if (await p.$('[data-act="reveal"]')) { await p.click('[data-act="reveal"]', { force: true }); await p.waitForTimeout(600); await p.click('[data-act="self"][data-v="yes"]', { force: true }); }
+      if (await p.$('.btile:not(.used)')) { builds++; if (!shots.buildq) { shots.buildq = 1; await p.screenshot({ path: OUT + '/' + tag + '-build.png' }); }
+        const good = Math.random() < .7; const tiles = await p.$$eval('.btile', es => es.map(e => ({ k: e.dataset.k, o: +e.dataset.ord })));
+        const order = good ? tiles.filter(x => x.o >= 0).sort((a, b) => a.o - b.o) : tiles.sort(() => Math.random() - .5).slice(0, tiles.filter(x => x.o >= 0).length);
+        for (const x of order) { await p.click('.btile[data-k="' + x.k + '"]', { force: true }); await p.waitForTimeout(90); }
+        await p.waitForTimeout(700); if (!shots['buildfb' + good]) { shots['buildfb' + good] = 1; await p.screenshot({ path: OUT + '/' + tag + '-build-' + (good ? 'ok' : 'bad') + '.png' }); } }
+      else if (await p.$('[data-act="reveal"]')) { await p.click('[data-act="reveal"]', { force: true }); await p.waitForTimeout(600); await p.click('[data-act="self"][data-v="yes"]', { force: true }); }
       else if (await p.$('[data-act="pick"]')) { const o = await p.$$('[data-act="pick"]'); const t0 = Date.now(); await o[Math.floor(Math.random() * o.length)].click({ force: true }); timings.push(Date.now() - t0); }
       else if (await p.$('.tile')) { const tl = await p.$$('.tile'); await tl[Math.floor(Math.random() * tl.length)].click({ force: true }); await p.waitForTimeout(450); }
       else if (await p.$('.mt')) { const ids = await p.$$eval('.mt[data-side="en"]', es => es.map(e => e.dataset.id)); for (const id of ids) { await p.click('.mt[data-side="en"][data-id="' + id + '"]', { force: true }); await p.click('.mt[data-side="he"][data-id="' + id + '"]', { force: true }); await p.waitForTimeout(90); } }
@@ -83,7 +88,7 @@ fs.mkdirSync(OUT, { recursive: true });
   let weakStarted = false;
   if (await p.$('[data-act="weak"]')) { await p.click('[data-act="weak"]', { force: true }); await p.waitForTimeout(800); weakStarted = !!(await p.$('#stage')); await p.screenshot({ path: OUT + '/11-weak.png' }); }
   const overflow = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth);
-  const mem = await p.evaluate(() => { const d = JSON.parse(localStorage.getItem('wordplay:v1')); const ev = Object.values(d.items).filter(s => s.ev); return { engine: d.profile.engine, withEv: ev.length, rclDays: ev.reduce((n, s) => n + s.ev.rcl.d.length, 0), mlog: d.profile.mlog, backup: !!localStorage.getItem('wordplay:v1:pre-engine2') }; });
-  console.log(JSON.stringify({ thinks, mem, n1, n2, endText, built, metaAfter, metaNext, bankN, wNote, saved, chapterSheet, weakStarted, overflow, types, avgTapMs: Math.round(timings.reduce((a, b) => a + b, 0) / Math.max(1, timings.length)), errors: errs }));
+  const mem = await p.evaluate(() => { const d = JSON.parse(localStorage.getItem('wordplay:v1')); const ev = Object.values(d.items).filter(s => s.ev); return { engine: d.profile.engine, withEv: ev.length, rclDays: ev.reduce((n, s) => n + s.ev.rcl.d.length, 0), asmDays: ev.reduce((n, s) => n + ((s.ev.asm && s.ev.asm.d.length) || 0), 0), mlog: d.profile.mlog, backup: !!localStorage.getItem('wordplay:v1:pre-engine2') }; });
+  console.log(JSON.stringify({ thinks, builds, mem, n1, n2, endText, built, metaAfter, metaNext, bankN, wNote, saved, chapterSheet, weakStarted, overflow, types, avgTapMs: Math.round(timings.reduce((a, b) => a + b, 0) / Math.max(1, timings.length)), errors: errs }));
   await b.close();
 })();

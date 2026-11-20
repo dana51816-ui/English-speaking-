@@ -1,0 +1,1212 @@
+{
+ "schema": 1,
+ "items": [
+  {
+   "id": "thatsaid",
+   "en": "that said",
+   "type": "phrase",
+   "pos": "connector",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "that <b>SAID</b>",
+   "he": "עם זאת, ובכל זאת",
+   "hint": [
+    "t",
+    "2 מילים"
+   ],
+   "sit": "אמרת שהתקציב קטן, ועכשיו את מסייגת: ובכל זאת אפשר לגייס עוד אדם.",
+   "examples": [
+    {
+     "s": "The budget is tight. {That said}, we can still hire one more person.",
+     "d": "business"
+    },
+    {
+     "s": "I loved the show. {That said}, the ending was a mess.",
+     "d": "shows"
+    },
+    {
+     "s": "He's not the fastest. {That said}, his work is always solid.",
+     "d": "daily"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "so to speak",
+     "why": "so to speak = כביכול. לא מסייג משהו שנאמר."
+    },
+    {
+     "t": "in other words",
+     "why": "in other words = במילים אחרות. מסביר מחדש, לא מסייג."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "this",
+     "say",
+     "so"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "tobefair",
+   "en": "to be fair",
+   "type": "phrase",
+   "pos": "connector",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "to be <b>FAIR</b>",
+   "he": "למען ההגינות, צריך לומר ש...",
+   "hint": [
+    "t",
+    "3 מילים"
+   ],
+   "sit": "מתחת ביקורת על אפליקציה, ואז מאזנת: היא עדיין בגרסת ניסיון.",
+   "examples": [
+    {
+     "s": "The app crashed twice. {To be fair}, it's still in beta.",
+     "d": "business"
+    },
+    {
+     "s": "{To be fair}, she did warn us about the traffic.",
+     "d": "daily"
+    },
+    {
+     "s": "The acting was weak, but {to be fair}, it was their first season.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "to be honest",
+     "why": "to be honest = בכנות. מודים בדעה אישית, לא מאזנים ביקורת."
+    },
+    {
+     "t": "to be sure",
+     "why": "to be sure = אכן, ללא ספק. לא מגן על מישהו."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "honest",
+     "sure",
+     "fairly"
+    ],
+    "near": {
+     "to be honest": "to be honest = בכנות, כשמודים בדעה. to be fair מאזן ביקורת או מגן על מישהו."
+    }
+   }
+  },
+  {
+   "id": "cometothink",
+   "en": "come to think of it",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "come to <b>THINK</b> of it",
+   "he": "עכשיו כשאני חושבת על זה",
+   "hint": [
+    "c",
+    "5 מילים"
+   ],
+   "sit": "באמצע שיחה את פתאום נזכרת שלא ראית את דנה כל השבוע.",
+   "examples": [
+    {
+     "s": "{Come to think of it}, I haven't seen Dana all week.",
+     "d": "daily"
+    },
+    {
+     "s": "{Come to think of it}, we never confirmed the venue.",
+     "d": "business"
+    },
+    {
+     "s": "{Come to think of it}, the butler was in every scene.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "to put it mildly",
+     "why": "to put it mildly = בלשון המעטה. לא נזכרים במשהו."
+    },
+    {
+     "t": "for the record",
+     "why": "for the record = לפרוטוקול. מצהירים, לא נזכרים."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "about",
+     "now",
+     "mention",
+     "on"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "bytheway",
+   "en": "by the way",
+   "type": "phrase",
+   "pos": "connector",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "by the <b>WAY</b>",
+   "he": "דרך אגב",
+   "hint": [
+    "b",
+    "3 מילים"
+   ],
+   "sit": "את רוצה להכניס נושא צדדי: הישיבה זזה לשלוש.",
+   "examples": [
+    {
+     "s": "{By the way}, the meeting moved to three.",
+     "d": "business"
+    },
+    {
+     "s": "Oh, {by the way}, your sister called.",
+     "d": "daily"
+    },
+    {
+     "s": "{By the way}, did you finish the season?",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "on the way",
+     "why": "on the way = בדרך, פיזית. לא מכניס נושא צדדי."
+    },
+    {
+     "t": "by the book",
+     "why": "by the book = לפי הספר, בדיוק לפי הכללים."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "on",
+     "in",
+     "road"
+    ],
+    "near": {
+     "on the way": "on the way = בדרך, פיזית. by the way מכניס נושא צדדי לשיחה."
+    }
+   }
+  },
+  {
+   "id": "anyway",
+   "en": "anyway",
+   "type": "word",
+   "pos": "connector",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "<b>AN</b>·y·way",
+   "he": "בכל מקרה, טוב...",
+   "hint": [
+    "a",
+    "מילה אחת"
+   ],
+   "sit": "חזרת לנושא אחרי סטייה ארוכה.",
+   "examples": [
+    {
+     "s": "{Anyway}, where were we? Oh right, the budget.",
+     "d": "business"
+    },
+    {
+     "s": "It's a long story. {Anyway}, we got home safe.",
+     "d": "daily"
+    },
+    {
+     "s": "{Anyway}, enough about me. How was your trip?",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "anywhere",
+     "why": "anywhere = בכל מקום. לא מחזיר לנושא."
+    },
+    {
+     "t": "otherwise",
+     "why": "otherwise = אחרת, אם לא. לא סוגר סטייה."
+    }
+   ]
+  },
+  {
+   "id": "ontopofthat",
+   "en": "on top of that",
+   "type": "phrase",
+   "pos": "connector",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "on <b>TOP</b> of that",
+   "he": "ונוסף על כך, ועוד",
+   "hint": [
+    "o",
+    "4 מילים"
+   ],
+   "sit": "קודם הטיסה איחרה, ועוד מעבר לזה איבדו לך את המזוודה.",
+   "examples": [
+    {
+     "s": "The flight was late, and {on top of that} they lost my bag.",
+     "d": "daily"
+    },
+    {
+     "s": "He's smart, and {on top of that}, he's really kind.",
+     "d": "talk"
+    },
+    {
+     "s": "We're short on staff. {On top of that}, the server is down.",
+     "d": "business"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "on the other hand",
+     "why": "on the other hand = מצד שני. מנגיד, לא מוסיף."
+    },
+    {
+     "t": "in the end",
+     "why": "in the end = בסוף. מסכם, לא מוסיף."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "over",
+     "above",
+     "this"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "ifanything",
+   "en": "if anything",
+   "type": "phrase",
+   "pos": "connector",
+   "level": "C1",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "if <b>AN</b>·y·thing",
+   "he": "אם כבר, דווקא להפך",
+   "hint": [
+    "i",
+    "2 מילים"
+   ],
+   "sit": "מישהו אומר שהגרסה החדשה איטית, ואת עונה: דווקא להפך.",
+   "examples": [
+    {
+     "s": "The new version isn't slower. {If anything}, it's faster.",
+     "d": "business"
+    },
+    {
+     "s": "I'm not angry. {If anything}, I'm relieved.",
+     "d": "daily"
+    },
+    {
+     "s": "The sequel isn't weaker. {If anything}, it's better.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "if not",
+     "why": "if not = אם לא. מעלה אפשרות, לא הופך את ההנחה."
+    },
+    {
+     "t": "anything but",
+     "why": "anything but = הכול חוץ מ... שולל לגמרי."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "any",
+     "something",
+     "else"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "speakingofwhich",
+   "en": "speaking of which",
+   "type": "phrase",
+   "pos": "connector",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "<b>SPEAK</b>·ing of <b>WHICH</b>",
+   "he": "אם כבר מדברים על זה",
+   "hint": [
+    "s",
+    "3 מילים"
+   ],
+   "sit": "דיברתן על ארוחת צהריים, וזה מזכיר לך לשאול אם היא פנויה ביום שישי.",
+   "examples": [
+    {
+     "s": "Lunch was great. {Speaking of which}, are you free on Friday?",
+     "d": "daily"
+    },
+    {
+     "s": "We need new laptops. {Speaking of which}, did IT reply?",
+     "d": "business"
+    },
+    {
+     "s": "We talked about TV all night. {Speaking of which}, have you seen the finale?",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "which is why",
+     "why": "which is why = ולכן. מסקנה, לא קישור לנושא."
+    },
+    {
+     "t": "to begin with",
+     "why": "to begin with = קודם כל, מלכתחילה."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "about",
+     "what",
+     "that"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "wherewasi",
+   "en": "where was I?",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "where <b>WAS</b> I",
+   "he": "איפה הייתי?",
+   "hint": [
+    "w",
+    "3 מילים"
+   ],
+   "sit": "הטלפון קטע אותך באמצע סיפור, ואת רוצה לחזור לחוט.",
+   "examples": [
+    {
+     "s": "Sorry, my phone. {Where was I}?",
+     "d": "daily"
+    },
+    {
+     "s": "Okay, {where was I}? Right, the second slide.",
+     "d": "business"
+    },
+    {
+     "s": "Hold on, {where was I}? Oh yes, the wedding.",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "where am I",
+     "why": "where am I = איפה אני נמצאת, פיזית. לא חוזרים לחוט."
+    },
+    {
+     "t": "what was that",
+     "why": "what was that = מה זה היה? מה אמרת?"
+    }
+   ],
+   "build": {
+    "decoys": [
+     "am",
+     "were",
+     "is"
+    ],
+    "near": {
+     "where am I": "where am I = איפה אני נמצאת. where was I חוזר לחוט של השיחה."
+    }
+   }
+  },
+  {
+   "id": "longstory",
+   "en": "long story short",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "long story <b>SHORT</b>",
+   "he": "בקיצור",
+   "hint": [
+    "l",
+    "3 מילים"
+   ],
+   "sit": "יש לך סיפור ארוך, ואת רוצה לקפוץ ישר לסוף.",
+   "examples": [
+    {
+     "s": "{Long story short}, we missed the train.",
+     "d": "daily"
+    },
+    {
+     "s": "{Long story short}, the client said yes.",
+     "d": "business"
+    },
+    {
+     "s": "{Long story short}, they broke up again.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "short of time",
+     "why": "short of time = חסרת זמן."
+    },
+    {
+     "t": "in the long run",
+     "why": "in the long run = בטווח הארוך."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "tale",
+     "in",
+     "small"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "bearwithme",
+   "en": "bear with me",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B2",
+   "domains": [
+    "business",
+    "talk"
+   ],
+   "stress": "<b>BEAR</b> with me",
+   "he": "סבלנות רגע, אני כבר מגיעה לזה",
+   "hint": [
+    "b",
+    "3 מילים"
+   ],
+   "sit": "את משתפת מסך בזום והוא נטען לאט, ואת מבקשת מכולם סבלנות.",
+   "examples": [
+    {
+     "s": "{Bear with me}, I'm just sharing my screen.",
+     "d": "business"
+    },
+    {
+     "s": "{Bear with me}, this story has a point.",
+     "d": "talk"
+    },
+    {
+     "s": "Sorry, the page is loading. {Bear with me}.",
+     "d": "daily"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "back me up",
+     "why": "back me up = תגבו אותי. לא בקשת סבלנות."
+    },
+    {
+     "t": "count me in",
+     "why": "count me in = תכלילו אותי, אני בעניין."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "wait",
+     "for",
+     "on"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "offthetop",
+   "en": "off the top of my head",
+   "type": "idiom",
+   "pos": "expression",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "off the <b>TOP</b> of my <b>HEAD</b>",
+   "he": "ככה מהראש, בלי לבדוק",
+   "hint": [
+    "o",
+    "6 מילים"
+   ],
+   "sit": "שואלים כמה אנשים יגיעו, ואת עונה מהזיכרון, בלי לבדוק.",
+   "examples": [
+    {
+     "s": "{Off the top of my head}, I'd say around fifty people.",
+     "d": "business"
+    },
+    {
+     "s": "I can't remember the name {off the top of my head}.",
+     "d": "daily"
+    },
+    {
+     "s": "{Off the top of my head}, season two was the best.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "over my head",
+     "why": "over my head = מעל לראש שלי, לא מבינה."
+    },
+    {
+     "t": "on top of things",
+     "why": "on top of things = שולטת במצב."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "over",
+     "your",
+     "mind"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "putitthisway",
+   "en": "let me put it this way",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "let me <b>PUT</b> it this <b>WAY</b>",
+   "he": "בואי נגיד את זה כך",
+   "hint": [
+    "l",
+    "6 מילים"
+   ],
+   "sit": "את לא רוצה להגיד ישירות שאת לא אוהבת את הפרויקט, אז את מנסחת בעדינות.",
+   "examples": [
+    {
+     "s": "{Let me put it this way}: it's not my favorite project.",
+     "d": "business"
+    },
+    {
+     "s": "{Let me put it this way}, I won't be ordering there again.",
+     "d": "daily"
+    },
+    {
+     "s": "{Let me put it this way}: he's no hero.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "let me get this straight",
+     "why": "let me get this straight = רגע, שאבין נכון. מוודאים, לא מנסחים."
+    },
+    {
+     "t": "let me know",
+     "why": "let me know = תעדכני אותי."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "say",
+     "that",
+     "like"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "whatimean",
+   "en": "what I mean is",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "what I <b>MEAN</b> is",
+   "he": "מה שאני מתכוונת זה",
+   "hint": [
+    "w",
+    "4 מילים"
+   ],
+   "sit": "לא הבינו אותך נכון, ואת רוצה להבהיר את הכוונה.",
+   "examples": [
+    {
+     "s": "{What I mean is}, we need more time, not more people.",
+     "d": "business"
+    },
+    {
+     "s": "No, {what I mean is} I'm tired, not angry.",
+     "d": "daily"
+    },
+    {
+     "s": "{What I mean is}, the show got better after episode three.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "I mean it",
+     "why": "I mean it = אני רצינית. לא מבהירים כוונה."
+    },
+    {
+     "t": "what if",
+     "why": "what if = מה אם..."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "said",
+     "think",
+     "was"
+    ],
+    "near": {
+     "what I think is": "what I think is = מה שאני חושבת: דעה. what I mean is מבהיר למה התכוונת."
+    }
+   }
+  },
+  {
+   "id": "goingback",
+   "en": "going back to",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B2",
+   "domains": [
+    "business",
+    "talk"
+   ],
+   "stress": "<b>GO</b>·ing <b>BACK</b> to",
+   "he": "אם לחזור ל...",
+   "hint": [
+    "g",
+    "3 מילים"
+   ],
+   "sit": "בישיבה עלתה שאלה לפני כמה דקות, ואת רוצה לחזור אליה.",
+   "examples": [
+    {
+     "s": "{Going back to} your question, yes, it's possible.",
+     "d": "business"
+    },
+    {
+     "s": "{Going back to} what you said earlier, I agree.",
+     "d": "talk"
+    },
+    {
+     "s": "{Going back to} the first episode, who was the stranger?",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "getting back at",
+     "why": "getting back at = לנקום ב..."
+    },
+    {
+     "t": "looking forward to",
+     "why": "looking forward to = מצפה ל..."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "moving",
+     "into",
+     "from"
+    ],
+    "near": {
+     "moving back to": "moving back to = לחזור לגור במקום. going back to חוזר לנושא בשיחה."
+    }
+   }
+  },
+  {
+   "id": "justtoclarify",
+   "en": "just to clarify",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B2",
+   "domains": [
+    "business",
+    "talk"
+   ],
+   "stress": "just to <b>CLAR</b>·i·fy",
+   "he": "רק כדי להבהיר",
+   "hint": [
+    "j",
+    "3 מילים"
+   ],
+   "sit": "את רוצה לוודא שהבנת נכון שהדדליין ביום שישי.",
+   "examples": [
+    {
+     "s": "{Just to clarify}, the deadline is Friday, not Monday?",
+     "d": "business"
+    },
+    {
+     "s": "{Just to clarify}, you want me to bring dessert?",
+     "d": "daily"
+    },
+    {
+     "s": "{Just to clarify}, I never said that.",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "just in case",
+     "why": "just in case = ליתר ביטחון."
+    },
+    {
+     "t": "just in time",
+     "why": "just in time = בדיוק בזמן."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "only",
+     "clear",
+     "for"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "fairenough",
+   "en": "fair enough",
+   "type": "phrase",
+   "pos": "response",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "fair e·<b>NOUGH</b>",
+   "he": "בסדר, הוגן",
+   "hint": [
+    "f",
+    "2 מילים"
+   ],
+   "sit": "חברה מבטלת כי היא חולה, ואת מקבלת את זה בלי ויכוח.",
+   "examples": [
+    {
+     "s": "\"I can't come, I'm sick.\" \"{Fair enough}.\"",
+     "d": "daily"
+    },
+    {
+     "s": "\"We need one more week.\" \"{Fair enough}, let's push it.\"",
+     "d": "business"
+    },
+    {
+     "s": "{Fair enough}, I didn't think of that.",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "enough is enough",
+     "why": "enough is enough = די, נמאס. ההפך מלקבל."
+    },
+    {
+     "t": "good enough",
+     "why": "good enough = מספיק טוב."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "fine",
+     "so",
+     "fairly"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "nowonder",
+   "en": "no wonder",
+   "type": "phrase",
+   "pos": "response",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "no <b>WON</b>·der",
+   "he": "אין פלא",
+   "hint": [
+    "n",
+    "2 מילים"
+   ],
+   "sit": "את שומעת שהיא עבדה עד שתיים בלילה ומבינה למה היא עייפה.",
+   "examples": [
+    {
+     "s": "You worked till 2 a.m.? {No wonder} you're tired.",
+     "d": "daily"
+    },
+    {
+     "s": "The price doubled. {No wonder} sales dropped.",
+     "d": "business"
+    },
+    {
+     "s": "{No wonder} she left him, he lied about everything.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "no doubt",
+     "why": "no doubt = בלי ספק."
+    },
+    {
+     "t": "I wonder",
+     "why": "I wonder = אני תוהה."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "not",
+     "wonders",
+     "surprise"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "takeyourword",
+   "en": "I'll take your word for it",
+   "type": "phrase",
+   "pos": "response",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "I'll <b>TAKE</b> your <b>WORD</b> for it",
+   "he": "אני אסמוך עלייך בעניין",
+   "hint": [
+    "i",
+    "6 מילים"
+   ],
+   "sit": "מספרים לך שהסדרה מעולה. לא ראית, אבל את סומכת עליהם.",
+   "examples": [
+    {
+     "s": "I haven't seen the show, but {I'll take your word for it}.",
+     "d": "shows"
+    },
+    {
+     "s": "You say the numbers are right? {I'll take your word for it}.",
+     "d": "business"
+    },
+    {
+     "s": "\"The soup is too spicy.\" \"{I'll take your word for it}.\"",
+     "d": "daily"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "I'll keep my word",
+     "why": "I'll keep my word = אקיים את ההבטחה שלי."
+    },
+    {
+     "t": "take it or leave it",
+     "why": "take it or leave it = קחי או תוותרי."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "keep",
+     "my",
+     "on"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "tellmeaboutit",
+   "en": "tell me about it",
+   "type": "phrase",
+   "pos": "response",
+   "level": "B2",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "<b>TELL</b> me a·<b>BOUT</b> it",
+   "he": "למי את מספרת! (גם אני מכירה את זה)",
+   "hint": [
+    "t",
+    "4 מילים"
+   ],
+   "sit": "חברה מתלוננת שימי שני מתישים, ואת מזדהה לגמרי.",
+   "examples": [
+    {
+     "s": "\"Mondays are exhausting.\" \"{Tell me about it}.\"",
+     "d": "daily"
+    },
+    {
+     "s": "\"This client is impossible.\" \"{Tell me about it}.\"",
+     "d": "business"
+    },
+    {
+     "s": "\"Traffic was terrible.\" \"Ugh, {tell me about it}.\"",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "tell me more",
+     "why": "tell me more = ספרי לי עוד. בקשה אמיתית, לא הזדהות."
+    },
+    {
+     "t": "don't mention it",
+     "why": "don't mention it = על לא דבר."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "more",
+     "something",
+     "from"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "uptoyou",
+   "en": "it's up to you",
+   "type": "phrase",
+   "pos": "expression",
+   "level": "B1",
+   "domains": [
+    "talk",
+    "daily"
+   ],
+   "stress": "it's <b>UP</b> to <b>YOU</b>",
+   "he": "זה תלוי בך, את מחליטה",
+   "hint": [
+    "i",
+    "4 מילים"
+   ],
+   "sit": "שואלים אותך פיצה או סושי, ואת נותנת לחבר להחליט.",
+   "examples": [
+    {
+     "s": "Pizza or sushi? {It's up to you}.",
+     "d": "daily"
+    },
+    {
+     "s": "We can start Monday or Tuesday. {It's up to you}.",
+     "d": "business"
+    },
+    {
+     "s": "\"Should I call him?\" \"{It's up to you}.\"",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "it's on me",
+     "why": "it's on me = אני מזמינה, עליי."
+    },
+    {
+     "t": "I'm up for it",
+     "why": "I'm up for it = אני בעניין."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "on",
+     "me",
+     "for"
+    ],
+    "near": {
+     "it's up to me": "it's up to me = אני מחליטה. כאן נותנים לאחר להחליט: up to you."
+    }
+   }
+  },
+  {
+   "id": "standcorrected",
+   "en": "I stand corrected",
+   "type": "phrase",
+   "pos": "response",
+   "level": "C1",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "I stand cor·<b>RECT</b>·ed",
+   "he": "טעיתי, צדקת",
+   "hint": [
+    "i",
+    "3 מילים"
+   ],
+   "sit": "תיקנו אותך שהאירוע היה ב-2019, ואת מודה בטעות בחן.",
+   "examples": [
+    {
+     "s": "Oh, it was 2019? {I stand corrected}.",
+     "d": "talk"
+    },
+    {
+     "s": "You're right, the file was shared. {I stand corrected}.",
+     "d": "business"
+    },
+    {
+     "s": "Fine, {I stand corrected}: the sequel was better.",
+     "d": "shows"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "I stand by it",
+     "why": "I stand by it = אני עומדת מאחורי זה. לא חוזרת בי."
+    },
+    {
+     "t": "I beg to differ",
+     "why": "I beg to differ = אני לא מסכימה."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "by",
+     "correct",
+     "am"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "besidethepoint",
+   "en": "that's beside the point",
+   "type": "idiom",
+   "pos": "response",
+   "level": "C1",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "that's be·<b>SIDE</b> the <b>POINT</b>",
+   "he": "זה לא העניין עכשיו",
+   "hint": [
+    "t",
+    "4 מילים"
+   ],
+   "sit": "מישהו מדבר על כמה זה זול, ואת מחזירה לעיקר.",
+   "examples": [
+    {
+     "s": "Sure, it's cheap, but {that's beside the point}.",
+     "d": "business"
+    },
+    {
+     "s": "He's handsome, but {that's beside the point}.",
+     "d": "shows"
+    },
+    {
+     "s": "{That's beside the point}. We still need a decision.",
+     "d": "talk"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "that's the point",
+     "why": "that's the point = זה בדיוק העניין."
+    },
+    {
+     "t": "that's a good point",
+     "why": "that's a good point = נקודה טובה."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "off",
+     "main",
+     "not"
+    ],
+    "near": {}
+   }
+  },
+  {
+   "id": "couldntagree",
+   "en": "I couldn't agree more",
+   "type": "phrase",
+   "pos": "response",
+   "level": "C1",
+   "domains": [
+    "talk",
+    "business"
+   ],
+   "stress": "I <b>COULD</b>·n't a·<b>GREE MORE</b>",
+   "he": "אני מסכימה לגמרי",
+   "hint": [
+    "i",
+    "4 מילים"
+   ],
+   "sit": "מישהו אומר שצריך פחות ישיבות, ואת מסכימה איתו לגמרי.",
+   "examples": [
+    {
+     "s": "\"We need fewer meetings.\" \"{I couldn't agree more}.\"",
+     "d": "business"
+    },
+    {
+     "s": "\"This show is overrated.\" \"{I couldn't agree more}.\"",
+     "d": "shows"
+    },
+    {
+     "s": "\"Life's too short for bad coffee.\" \"{I couldn't agree more}.\"",
+     "d": "daily"
+    }
+   ],
+   "distractors": [
+    {
+     "t": "I couldn't care less",
+     "why": "I couldn't care less = ממש לא אכפת לי."
+    },
+    {
+     "t": "I couldn't help it",
+     "why": "I couldn't help it = לא יכולתי להתאפק."
+    }
+   ],
+   "build": {
+    "decoys": [
+     "less",
+     "care",
+     "much"
+    ],
+    "near": {
+     "I couldn't care less": "I couldn't care less = ממש לא אכפת לי. I couldn't agree more = מסכימה לגמרי."
+    }
+   }
+  }
+ ]
+}

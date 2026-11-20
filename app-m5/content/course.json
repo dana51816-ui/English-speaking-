@@ -1,0 +1,546 @@
+{
+ "schema": 1,
+ "itemFiles": [
+  "items.json",
+  "items-b.json",
+  "items-c.json",
+  "items-d.json",
+  "items-e.json"
+ ],
+ "worlds": [
+  {
+   "id": "s1",
+   "title": "עונה 1",
+   "chapters": [
+    {
+     "id": "c1",
+     "title": "במשרד",
+     "subtitle": "פגישות, מיילים ולוחות זמנים",
+     "color": "#FF7A59",
+     "icon": "briefcase",
+     "stages": [
+      {
+       "id": "c1s1",
+       "title": "יום ראשון בעבודה",
+       "items": [
+        "leverage",
+        "followup",
+        "touchbase",
+        "bottleneck",
+        "procrastinate",
+        "overwhelmed",
+        "hesitant",
+        "reluctant"
+       ]
+      },
+      {
+       "id": "c1s2",
+       "title": "הפרויקט מתעכב",
+       "items": [
+        "behindschedule",
+        "samepage",
+        "wrapup",
+        "headsup",
+        "streamline",
+        "feasible",
+        "drawback",
+        "turndown"
+       ]
+      },
+      {
+       "id": "c1s3",
+       "title": "שבוע עמוס",
+       "items": [
+        "intheloop",
+        "swamped",
+        "delegate",
+        "prioritize",
+        "deadline",
+        "runlate",
+        "outofoffice",
+        "burnout"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c2",
+     "title": "החיים בחוץ",
+     "subtitle": "חברים, בית וסופ\"ש",
+     "color": "#3FC1C9",
+     "icon": "house",
+     "stages": [
+      {
+       "id": "c2s1",
+       "title": "סופ\"ש בעיר",
+       "items": [
+        "fragile",
+        "thrive",
+        "hang",
+        "granted",
+        "runoutof",
+        "figureout",
+        "comeupwith",
+        "putoff"
+       ]
+      },
+      {
+       "id": "c2s2",
+       "title": "ערב סדרות",
+       "items": [
+        "awkward",
+        "hangout",
+        "worthit",
+        "longshot",
+        "nobigdeal",
+        "bingewatch",
+        "grababite",
+        "cozy"
+       ]
+      },
+      {
+       "id": "c2s3",
+       "title": "בבית",
+       "items": [
+        "chillout",
+        "messy",
+        "dodishes",
+        "runerrands",
+        "sleepin",
+        "paininneck",
+        "handy",
+        "getalong"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c3",
+     "title": "משא ומתן",
+     "subtitle": "פגישות, מיקוח וסגירת עסקאות",
+     "color": "#8F7CFF",
+     "icon": "handshake",
+     "stages": [
+      {
+       "id": "c3s1",
+       "title": "מסביב לשולחן",
+       "items": [
+        "agenda",
+        "brainstorm",
+        "consensus",
+        "bringup",
+        "pointout",
+        "sync",
+        "offrecord",
+        "goover"
+       ]
+      },
+      {
+       "id": "c3s2",
+       "title": "המיקוח",
+       "items": [
+        "negotiate",
+        "compromise",
+        "bargain",
+        "counteroffer",
+        "meethalfway",
+        "dealbreaker",
+        "upfront",
+        "nonnegotiable"
+       ]
+      },
+      {
+       "id": "c3s3",
+       "title": "סוגרים עסקה",
+       "items": [
+        "sealdeal",
+        "followthrough",
+        "fallthrough",
+        "winwin",
+        "terms",
+        "ballpark",
+        "signoff",
+        "donedeal"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c4",
+     "title": "סלנג של סדרות",
+     "subtitle": "מה הדמויות באמת אומרות",
+     "color": "#E85D9C",
+     "icon": "clapper",
+     "stages": [
+      {
+       "id": "c4s1",
+       "title": "חברים",
+       "items": [
+        "whatsup",
+        "mybad",
+        "bestie",
+        "catchup",
+        "noworries",
+        "forreal",
+        "bail",
+        "hitmeup"
+       ]
+      },
+      {
+       "id": "c4s2",
+       "title": "דרמה",
+       "items": [
+        "dramaqueen",
+        "ghost",
+        "freakout",
+        "getover",
+        "backstab",
+        "cringe",
+        "spilltea",
+        "toxic"
+       ]
+      },
+      {
+       "id": "c4s3",
+       "title": "קומדיה",
+       "items": [
+        "couchpotato",
+        "nightowl",
+        "roast",
+        "lowkey",
+        "goviral",
+        "crackup",
+        "vibe",
+        "epicfail"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c5",
+     "title": "טיולים",
+     "subtitle": "שדה תעופה, דרכים ומלונות",
+     "color": "#4FB06B",
+     "icon": "plane",
+     "stages": [
+      {
+       "id": "c5s1",
+       "title": "בשדה התעופה",
+       "items": [
+        "checkin",
+        "layover",
+        "carryon",
+        "boardingpass",
+        "delayed",
+        "jetlag",
+        "aisleseat",
+        "missflight"
+       ]
+      },
+      {
+       "id": "c5s2",
+       "title": "בדרכים",
+       "items": [
+        "getlost",
+        "offbeaten",
+        "sightseeing",
+        "itinerary",
+        "touristtrap",
+        "rushhour",
+        "hitroad",
+        "detour"
+       ]
+      },
+      {
+       "id": "c5s3",
+       "title": "במלון",
+       "items": [
+        "checkout",
+        "amenities",
+        "fullybooked",
+        "complimentary",
+        "roomservice",
+        "ripoff",
+        "travellight",
+        "souvenir"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c6",
+     "title": "רגשות ויחסים",
+     "subtitle": "מה אני מרגישה ואיך אומרים את זה",
+     "color": "#F2B33D",
+     "icon": "heart",
+     "stages": [
+      {
+       "id": "c6s1",
+       "title": "מה אני מרגישה",
+       "items": [
+        "thrilled",
+        "frustrated",
+        "nervous",
+        "relieved",
+        "jealous",
+        "moody",
+        "down",
+        "onedge"
+       ]
+      },
+      {
+       "id": "c6s2",
+       "title": "בין אנשים",
+       "items": [
+        "supportive",
+        "trust",
+        "apologize",
+        "makeup",
+        "breakup",
+        "counton",
+        "openup",
+        "personally"
+       ]
+      },
+      {
+       "id": "c6s3",
+       "title": "שיחות עמוקות",
+       "items": [
+        "tobehonest",
+        "makesense",
+        "seepoint",
+        "overthink",
+        "offchest",
+        "hearttoheart",
+        "nutshell",
+        "agreedisagree"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c7",
+     "title": "כסף ועסקים",
+     "subtitle": "קניות, תקציב ויזמות",
+     "color": "#5BA8FF",
+     "icon": "coin",
+     "stages": [
+      {
+       "id": "c7s1",
+       "title": "בחנות",
+       "items": [
+        "onsale",
+        "receipt",
+        "refund",
+        "afford",
+        "pricey",
+        "goodvalue",
+        "splitbill",
+        "checkoutn"
+       ]
+      },
+      {
+       "id": "c7s2",
+       "title": "תקציב",
+       "items": [
+        "budget",
+        "saveup",
+        "broke",
+        "expense",
+        "splurge",
+        "cutbackon",
+        "makeends",
+        "payoff"
+       ]
+      },
+      {
+       "id": "c7s3",
+       "title": "עסק קטן",
+       "items": [
+        "startup",
+        "profit",
+        "customer",
+        "launch",
+        "targetaudience",
+        "wordofmouth",
+        "scaleup",
+        "pitch"
+       ]
+      }
+     ]
+    }
+   ],
+   "color": "#FF7A59",
+   "subtitle": "החיים, העבודה והסדרות"
+  },
+  {
+   "id": "s2",
+   "title": "עונה 2",
+   "subtitle": "תקשורת ובריאות",
+   "color": "#7BD389",
+   "chapters": [
+    {
+     "id": "c8",
+     "title": "טלפון, מייל וזום",
+     "subtitle": "לתקשר בעבודה ובחיים",
+     "color": "#FF9F43",
+     "icon": "phone",
+     "stages": [
+      {
+       "id": "c8s1",
+       "title": "בטלפון",
+       "items": [
+        "hangup",
+        "holdon",
+        "callback",
+        "pickup",
+        "voicemail",
+        "badconnection",
+        "speakup",
+        "getthrough"
+       ]
+      },
+      {
+       "id": "c8s2",
+       "title": "במייל",
+       "items": [
+        "attach",
+        "cc",
+        "replyall",
+        "asdiscussed",
+        "draft",
+        "typo",
+        "inbox",
+        "getbackto"
+       ]
+      },
+      {
+       "id": "c8s3",
+       "title": "בזום",
+       "items": [
+        "onmute",
+        "sharescreen",
+        "lag",
+        "freeze",
+        "loopin",
+        "bandwidth",
+        "takeoffline",
+        "circleback"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c9",
+     "title": "בריאות וכושר",
+     "subtitle": "רופא, אימון ואורח חיים",
+     "color": "#7BD389",
+     "icon": "dumbbell",
+     "stages": [
+      {
+       "id": "c9s1",
+       "title": "אצל הרופא",
+       "items": [
+        "appointment",
+        "prescription",
+        "symptoms",
+        "sore",
+        "comedownwith",
+        "checkup",
+        "sideeffects",
+        "recover"
+       ]
+      },
+      {
+       "id": "c9s2",
+       "title": "בחדר הכושר",
+       "items": [
+        "workout",
+        "warmup",
+        "outofbreath",
+        "pushyourself",
+        "getinshape",
+        "reps",
+        "stretch",
+        "burncalories"
+       ]
+      },
+      {
+       "id": "c9s3",
+       "title": "אורח חיים",
+       "items": [
+        "quit",
+        "balanceddiet",
+        "wellrested",
+        "unwind",
+        "stressedout",
+        "takebreak",
+        "sleepdeprived",
+        "hydrated"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "title": "עונה 3",
+   "subtitle": "שיחה טבעית",
+   "color": "#D98C6A",
+   "chapters": [
+    {
+     "id": "c10",
+     "title": "מילות קישור",
+     "subtitle": "לחבר, לנהל ולהגיב בשיחה",
+     "color": "#D98C6A",
+     "icon": "chat",
+     "stages": [
+      {
+       "id": "c10s1",
+       "title": "לחבר מחשבות",
+       "items": [
+        "thatsaid",
+        "tobefair",
+        "cometothink",
+        "bytheway",
+        "anyway",
+        "ontopofthat",
+        "ifanything",
+        "speakingofwhich"
+       ]
+      },
+      {
+       "id": "c10s2",
+       "title": "לנהל את השיחה",
+       "items": [
+        "wherewasi",
+        "longstory",
+        "bearwithme",
+        "offthetop",
+        "putitthisway",
+        "whatimean",
+        "goingback",
+        "justtoclarify"
+       ]
+      },
+      {
+       "id": "c10s3",
+       "title": "להגיב כמו דוברת",
+       "items": [
+        "fairenough",
+        "nowonder",
+        "takeyourword",
+        "tellmeaboutit",
+        "uptoyou",
+        "standcorrected",
+        "besidethepoint",
+        "couldntagree"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -78,5 +78,40 @@ const prof = {}; M.log(prof, "rec", true); M.log(prof, "rcl", false); M.claim(pr
 const rt = M.retention(prof, 7);
 t("retention counts", rt.rN === 1 && rt.rOk === 1 && rt.cN === 1 && rt.cOk === 0 && rt.claims === 2 && rt.claimsOk === 1);
 
+// 9. M5.3: assembly is its own level, never counted as reported recall
+const b = S.grade(S.fresh(), "learned", clock); M.ev(b); M.record(b, "rec", true);
+M.record(b, "asm", true);
+t("one assembly is not the level yet", M.levels(b).asm === false);
+day(); M.record(b, "asm", true);
+t("assembly on two days counts", M.levels(b).asm === true);
+t("assembly does not grant reported recall", M.levels(b).rcl === false);
+M.record(b, "asm", false);
+t("a failed assembly drops the level", M.levels(b).asm === false);
+const old = { s: "review", ivl: 2, ev: { rec: { d: ["x"], n: 1, ok: 1, last: 1 }, rcl: { d: [], sr: [], n: 0, ok: 0, last: null }, ctx: { d: [], s: [], n: 0, ok: 0, last: null } } };
+M.record(old, "asm", true);
+t("evidence saved before M5.3 gains the assembly slot", old.ev.asm && old.ev.asm.ok === 1);
+
+// 10. builder is scheduled for recognized multi-word items, at most twice a session
+WP.Content.byId.p = { id: "p", en: "come to think of it", build: { decoys: ["about", "now", "on"] } };
+const pst = S.grade(S.fresh(), "learned", clock); M.ev(pst); M.record(pst, "rec", true);
+M.sessionBuilds = 0;
+const tb = { kind: "review", id: "p" };
+t("recognized phrase gets the builder", WP.Ex.choose(tb, pst, "pick") === "build" && tb.think === true);
+t("never two builds in a row", WP.Ex.choose({ kind: "review", id: "p" }, pst, "build") !== "build");
+WP.Ex.choose({ kind: "review", id: "p" }, pst, "pick");
+t("at most two builds per session", WP.Ex.choose({ kind: "review", id: "p" }, pst, "pick") !== "build");
+t("single words are never built", !M.buildable({ en: "anyway", build: { decoys: ["a", "b", "c"] } }));
+t("the builder joins capable types only for phrases", WP.Ex.capable(WP.Content.byId.p).includes("build") && !WP.Ex.capable(items[0]).includes("build"));
+
+// 11. journey: later seasons open in parallel once the first stage passes
+WP.Content.course = { worlds: [{ chapters: [{ id: "c1" }] }, { chapters: [{ id: "c10" }] }] };
+WP.Content.chapters = () => [{ id: "c1" }, { id: "c10" }];
+WP.Content.stages = [{ id: "c1s1", chapter: "c1", inChapter: 0, items: ["a"] }, { id: "c10s1", chapter: "c10", inChapter: 0, items: ["p"] }, { id: "c10s2", chapter: "c10", inChapter: 1, items: ["q"] }];
+eval(fs.readFileSync(path.join(root, "app-m5/js/journey.js"), "utf8").replace("(window.WP = window.WP || {})", "(WP)"));
+t("season stays closed before the first stage passes", S.unlocked({}).indexOf("c10s1") === -1);
+const passed = { a: Object.assign(S.grade(S.fresh(), "learned", clock), { ivl: 3, s: "review" }) };
+const op = S.unlocked(passed);
+t("season opens after the first stage passes", op.indexOf("c10s1") !== -1 && op.indexOf("c10s2") === -1);
+
 console.log(pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

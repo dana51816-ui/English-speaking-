@@ -8,7 +8,8 @@
     intro: { label: "מילה חדשה", color: "var(--intro)" }, listen: { label: "שמיעה", color: "var(--listen)" },
     gap: { label: "השלמת משפט", color: "var(--gap)" }, recall: { label: "שליפה שקטה", color: "var(--recall)" },
     match: { label: "התאמה", color: "var(--match)" }, scene: { label: "סצנה", color: "var(--scene)" },
-    pick: { label: "טריוויה", color: "var(--pick)" }, reverse: { label: "איך אומרים?", color: "var(--reverse)" }
+    pick: { label: "טריוויה", color: "var(--pick)" }, reverse: { label: "איך אומרים?", color: "var(--reverse)" },
+    build: { label: "בונה ביטוי", color: "var(--recall)" }
   };
   const SHAPES = [
     '<svg viewBox="0 0 20 20"><path d="M10 2l8 8-8 8-8-8z" fill="currentColor"/></svg>',
@@ -24,7 +25,7 @@
   const E = () => cur.ex;
 
   R.start = function (plan, done) {
-    onEnd = done; stageEl = document.getElementById("stage"); actEl = document.getElementById("actions");
+    onEnd = done; stageEl = document.getElementById("stage"); actEl = document.getElementById("actions"); if (WP.Mem) WP.Mem.sessionBuilds = 0;
     halfDone = false; Q = []; pos = 0; prev = null; combo = 0; best = 0; sinceMatch = 0; matches = 0; seen = []; res = {}; firstNewShown = false; startedAt = Date.now(); anyOk = false;
     stats = { ok: {}, newSeen: 0, reviewGood: 0, matchPerfect: 0, stars: 0, weak: !!plan.weak };
     const rv = plan.reviews.slice(), nw = plan.fresh.slice();
@@ -85,7 +86,7 @@
     cur.type = cur.kind === "intro" ? "intro" : X.choose(cur, s, prev);
     cur.ex = cur.kind === "intro" ? it.examples[0] : X.example(it);
     if (seen.indexOf(cur.id) === -1) seen.push(cur.id);
-    ({ intro: renderIntro, listen: renderListen, gap: renderGap, recall: renderRecall, scene: renderScene, pick: renderPick, reverse: renderReverse })[cur.type](it);
+    ({ intro: renderIntro, listen: renderListen, gap: renderGap, recall: renderRecall, scene: renderScene, pick: renderPick, reverse: renderReverse, build: renderBuild })[cur.type](it);
   }
 
   function renderIntro(it) {
@@ -115,6 +116,47 @@
     const w = document.getElementById("optsw"); if (w) w.classList.remove("opts-hid");
     U.tone(yes ? "flip" : "tap"); U.pose(null, yes ? "point" : "think", yes ? "k" : "t");
     lockUntil = performance.now() + 280;
+  }
+  /* Phrase builder: the situation alone, a chance to recall, then the phrase is assembled from word tiles.
+     Tiles make it assembly, not free recall: it is measured as its own level. */
+  const bwords = it => it.en.replace(/[?!.]/g, "").trim().split(/\s+/);
+  function renderBuild(it) {
+    const words = bwords(it), dec = (it.build && it.build.decoys) || [];
+    const tiles = X.shuffle(words.map((w, i) => ({ w, ord: i })).concat(dec.map(w => ({ w, ord: -1 }))));
+    cur.words = words; cur.tiles = tiles; cur.placed = [];
+    paint("build",
+      '<p class="prompt">איך אומרים את זה באנגלית?</p>' +
+      '<div class="sit5"><b class="he5">' + U.esc(it.he) + '</b><span>' + U.esc(it.sit || "") + '</span></div>' +
+      '<div class="bslots" id="bslots" dir="ltr">' + words.map((w, i) => '<button class="bslot" data-act="bslot" data-s="' + i + '" aria-label="מקום ' + (i + 1) + '"></button>').join("") + '</div><div id="fb"></div>',
+      thinkWrap('<div class="bpool" id="bpool" dir="ltr">' + tiles.map((t, k) => '<button class="btile" data-act="btile" data-k="' + k + '" data-ord="' + t.ord + '">' + U.esc(t.w) + '</button>').join("") + '</div>' +
+        '<p class="tray-hint">געי במילים לפי הסדר. נגיעה במילה שכבר במקום מחזירה אותה.</p>', "נסי להיזכר בביטוי לפני שתראי את המילים."));
+  }
+  function buildTap(k) {
+    if (answered || locked() || cur.claim === undefined) return;
+    if (cur.placed.indexOf(k) !== -1 || cur.placed.length >= cur.words.length) return;
+    cur.placed.push(k); U.tone("tap"); drawBuild();
+    clearTimeout(cur.bt); if (cur.placed.length === cur.words.length) cur.bt = setTimeout(checkBuild, 380);
+  }
+  function buildBack(i) {
+    if (answered || cur.placed[i] === undefined) return;
+    clearTimeout(cur.bt); cur.placed.splice(i, 1); drawBuild();
+  }
+  function drawBuild() {
+    stageEl.querySelectorAll(".bslot").forEach((b, i) => { const k = cur.placed[i]; b.textContent = k === undefined ? "" : cur.tiles[k].w; b.classList.toggle("filled", k !== undefined); });
+    actEl.querySelectorAll(".btile").forEach(b => b.classList.toggle("used", cur.placed.indexOf(+b.dataset.k) !== -1));
+  }
+  function checkBuild() {
+    if (answered) return; answered = true;
+    const it = item(cur.id), built = cur.placed.map(k => cur.tiles[k].w), ok = built.map(w => w.toLowerCase()).join(" ") === cur.words.map(w => w.toLowerCase()).join(" ");
+    const slots = $("#bslots"); slots.classList.add(ok ? "ok" : "bad");
+    stageEl.querySelectorAll(".bslot").forEach((b, i) => { b.disabled = true; if (!ok && (built[i] || "").toLowerCase() !== cur.words[i].toLowerCase()) b.classList.add("wrong"); });
+    actEl.querySelectorAll(".btile").forEach(b => b.disabled = true);
+    const pool = document.getElementById("optsw"); if (pool) pool.classList.add("done");
+    const near = it.build && it.build.near ? Object.keys(it.build.near).find(n => n.toLowerCase().replace(/[?!.]/g, "") === built.join(" ").toLowerCase()) : null;
+    if (ok) { U.tone("ok"); U.burst(slots); U.fly(slots, meter(), "+1 ★"); $("#fb").innerHTML = U.fb(true, cur.claim ? "נבנה, ושלפת לפני שראית את המילים." : "נבנה נכון.", null, marked(E(), 16)); }
+    else { U.tone("bad"); $("#fb").innerHTML = U.fb(false, "הביטוי:", it, near ? '<div class="diff">' + U.esc(it.build.near[near]) + '</div>' : marked(E(), 16)); }
+    actEl.insertAdjacentHTML("beforeend", contBtn());
+    U.say(it.en, .9); settle(ok);
   }
   function renderPick(it) {
     const ex = X.pick(it); cur.opts = ex.opts;
@@ -233,11 +275,12 @@
         const delayed = cur.kind === "review" || (cur.kind === "check" && cur.stage === 2), firstTry = r.firstOk === null, good = !!ok && !partial;
         const sk = (E() && (E().plain || (E().pre + E().ans))) ? String(E().plain || (E().pre + E().ans)).slice(0, 48) : "";
         if (cur.think && cur.claim === true) { WP.Mem.record(s, "rcl", good); if (cur.type === "gap") WP.Mem.record(s, "ctx", good, { s: sk }); if (good) r.recalled = true; else r.claimMiss = true; }
+        if (cur.type === "build") { WP.Mem.record(s, "asm", good); if (good) r.assembled = true; }
         else if (cur.type === "recall") WP.Mem.record(s, "rcl", good, { self: true });
         if (delayed) WP.Mem.record(s, "rec", !!ok);
         if (cur.kind === "review" && firstTry) WP.Store.touchProfile(p => WP.Mem.log(p, cur.claim === true ? "rcl" : "rec", good));
         else if (cur.claim === true) WP.Store.touchProfile(p => WP.Mem.claim(p, good));
-        if (good && cur.claim !== true && cur.type !== "recall") r.recogOnly = true;
+        if (good && cur.claim !== true && cur.type !== "recall" && cur.type !== "build") r.recogOnly = true;
       }
       s.upd = WP.Store.now(); WP.Store.putItem(cur.id, s);
       if (r.firstOk === null && cur.kind !== "intro") r.firstOk = !!ok && !partial;
@@ -439,6 +482,8 @@
     else if (a === "pick") pick(+b.dataset.i);
     else if (a === "reveal") reveal();
     else if (a === "think-yes") thinkReveal(true);
+    else if (a === "btile") buildTap(+b.dataset.k);
+    else if (a === "bslot") buildBack(+b.dataset.s);
     else if (a === "think-no") thinkReveal(false);
     else if (a === "self") selfRate(b.dataset.v);
     else if (a === "hint") hint();

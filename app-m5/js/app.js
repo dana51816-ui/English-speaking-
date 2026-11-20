@@ -102,9 +102,11 @@
   let seenCh = []; try { seenCh = JSON.parse(localStorage.getItem("wp:seenChapters") || "[]"); } catch (e) {}
   function toast(t) { const o = document.getElementById("toast5"); if (o) o.remove(); const d = document.createElement("div"); d.id = "toast5"; d.className = "toast5"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3600); }
   function litOf(s, items) { return s.items.filter(id => S.level(items[id]) >= 2).length; }
-  const ML = st => WP.Mem ? WP.Mem.levels(st) : { rec: S.level(st) >= 2, rcl: S.level(st) >= 3, ctx: false };
+  const ML = st => WP.Mem ? WP.Mem.levels(st) : { rec: S.level(st) >= 2, rcl: S.level(st) >= 3, asm: false, ctx: false };
+  const LV = [["rec", "ז", "מזהה"], ["rcl", "ש", "שליפה מדווחת"], ["asm", "ר", "הרכבה"], ["ctx", "ה", "בהקשר"]];
+  const tri = st => { const L = ML(st); return '<span class="tri" aria-label="זיהוי, שליפה מדווחת, הרכבה, הקשר">' + LV.map(([k, t]) => '<i class="' + (L[k] ? "on" : "") + '" title="' + t + '">' + t + '</i>').join("") + '</span>'; };
   function recOf(s, items) { return s.items.filter(id => ML(items[id]).rec).length; }
-  function rclOf(s, items) { return s.items.filter(id => ML(items[id]).rcl).length; }
+  function rclOf(s, items) { return s.items.filter(id => { const L = ML(items[id]); return L.rcl || L.asm; }).length; }
   function migrateMem() {
     if (!WP.Mem) return;
     if (!St.data.profile.engine) { try { localStorage.setItem("wordplay:v1:pre-engine2", JSON.stringify(St.data)); } catch (e) {} }
@@ -113,8 +115,9 @@
     if (!St.data.profile.engine) St.touchProfile(p => p.engine = 2);
   }
   function currentStage(items, open) {
-    const stages = WP.Content.stages;
-    return stages.filter(s => open.indexOf(s.id) !== -1 && !S.meets(s, items))[0] || stages.filter(s => open.indexOf(s.id) !== -1).slice(-1)[0];
+    const stages = WP.Content.stages, f = St.data.profile.focus;
+    const inFocus = f ? stages.filter(s => s.chapter === f && open.indexOf(s.id) !== -1 && !S.meets(s, items))[0] : null;
+    return inFocus || stages.filter(s => open.indexOf(s.id) !== -1 && !S.meets(s, items))[0] || stages.filter(s => open.indexOf(s.id) !== -1).slice(-1)[0];
   }
   function chapterData(items, open, cur) {
     return WP.Content.chapters().map(ch => {
@@ -182,7 +185,7 @@
       '<span class="kick5">' + (cur ? 'פרק ' + (curIndex + 1) + ' · ' + U.esc(cur.chapterTitle) + ' · שלב ' + (cur.inChapter + 1) + ' מתוך 3' : 'המסע') + '</span>' +
       '<h2 class="h5t">' + (cur ? U.esc(cur.title) : 'הכול מוכן') + '</h2>' +
       (cur ? '<div class="lights5" aria-label="' + rcN + ' שולפת ו-' + rgN + ' מזהה מתוך 8">' + cur.items.map((id, i) => '<i class="' + (i < rcN ? "on" : i < rgN ? "dim" : "") + (i === gate - 1 ? " gate" : "") + '"></i>').join("") + '</div>' +
-        '<span class="cap5"><b class="k-on">' + rcN + '</b> שולפת · <b class="k-dim">' + rgN + '</b> מזהה מתוך 8. ' + (lit >= gate ? 'השלב הבא כבר פתוח.' : 'עוד ' + (gate - lit) + ' מזוהות והשלב הבא נפתח.') + '</span>' : '') +
+        '<span class="cap5"><b class="k-on">' + rcN + '</b> שולפת או מרכיבה · <b class="k-dim">' + rgN + '</b> מזהה מתוך 8. ' + (lit >= gate ? 'השלב הבא כבר פתוח.' : 'עוד ' + (gate - lit) + ' מזוהות והשלב הבא נפתח.') + '</span>' : '') +
       '<button class="cta5" data-act="go"' + (can ? '' : ' disabled') + '><span>' + (can ? (St.data.profile.sessions ? 'להמשיך את המסע' : 'לצאת לדרך') + '<small>' + meta + ' · כ-' + plan.minutes + ' דק\'</small>' : 'הכול מעודכן<small>מחר יחכו חזרות חדשות</small>') + '</span><span class="go5">' + ARROW + '</span></button>' +
       '<nav class="links5"><button data-act="bank">בנק המילים <b>' + bankN + '</b></button><button data-act="quests">משימות <b>' + qn + '/3</b></button>' +
       '<button data-act="progress">התקדמות</button>' + (weak.length >= 3 ? '<button data-act="weak">חיזוק <b>' + weak.length + '</b></button>' : '') + '</nav>' +
@@ -227,9 +230,9 @@
     const sheet = document.createElement("div"); sheet.className = "sheet-wrap"; sheet.id = "sheet";
     sheet.innerHTML = '<div class="sheet" role="dialog" aria-label="התקדמות"><div class="sheet-h"><b>התקדמות</b><button class="icon-btn dark" data-act="closesheet" aria-label="סגירה">✕</button></div>' +
       (WP.Mem ? (() => { const m = WP.Mem.counts(items), rt = WP.Mem.retention(St.data.profile, 7), pct = (a, b) => b ? Math.round(a / b * 100) + "%" : "—";
-        return '<div class="pg4"><div><b>' + m.seen + '</b><span>נפגשו</span></div><div><b>' + m.rec + '</b><span>מזהה</span></div><div><b>' + m.rcl + '</b><span>שולפת</span></div><div><b>' + m.ctx + '</b><span>בהקשר</span></div></div>' +
+        return '<div class="pg4">' + LV.map(([k, , t]) => '<div><b>' + m[k] + '</b><span>' + t + '</span></div>').join("") + '</div><p class="free5">שליפה חופשית, בלי שום רמז: עוד לא נמדדת. תתווסף בעתיד בבדיקת דיבור.</p>' +
           '<div class="ret5"><div><b>' + pct(rt.rOk, rt.rN) + '</b><span>זיהוי בחזרות, 7 ימים</span><small>' + rt.rN + ' ניסיונות · נמדד</small></div><div><b>' + pct(rt.cOk, rt.cN) + '</b><span>שליפה בחזרות, 7 ימים</span><small>' + rt.cN + ' ניסיונות · נמדד</small></div><div><b>' + pct(rt.claimsOk, rt.claims) + '</b><span>"יש לי" שהתאמת</span><small>' + rt.claims + ' פעמים · דיווח שנבדק</small></div></div>' +
-          '<p class="honest-s">מזהה: בחרת נכון אחרי השהיה. שולפת: אמרת "יש לי" לפני האפשרויות ובחרת נכון, בשני ימים נפרדים. בהקשר: שליפה כזו בתוך שני משפטים שונים. "יש לי" שלא התאמת מוריד את הרמה עד ההצלחה הבאה.' + (rt.rN + rt.cN < 20 ? ' עדיין מעט נתונים, האחוזים יתייצבו עם הזמן.' : '') + '</p>'; })()
+          '<p class="honest-s">מזהה: בחרת נכון מתוך אפשרויות, אחרי השהיה. שליפה מדווחת: אמרת "יש לי" לפני שראית משהו, והבחירה או הבנייה אישרו, בשני ימים נפרדים. הרכבה: בנית את הביטוי מאריחי מילים בשני ימים נפרדים. זו לא שליפה חופשית, כי המילים גלויות. בהקשר: שליפה מדווחת בתוך שני משפטים שונים. "יש לי" שלא התאמת מוריד את הרמה עד ההצלחה הבאה.' + (rt.rN + rt.cN < 20 ? ' עדיין מעט נתונים, האחוזים יתייצבו עם הזמן.' : '') + '</p>'; })()
       : '<div class="pg4"><div><b>' + c.seen + '</b><span>נפגשו</span></div><div><b>' + c.understood + '</b><span>נשלפו</span></div><div><b>' + c.solid + '</b><span>יציבות 3+ ימים</span></div><div><b>' + c.strong + '</b><span>יציבות 21+ ימים</span></div></div>') +
       '<div class="wk4">' + week.map((d, i) => '<i class="' + (d ? "on" : "") + '"></i>').join("") + '<span>7 הימים האחרונים</span></div>' +
       '<div class="sec4">הישגים · ' + ACH.filter(a => ach[a.id]).length + '/' + ACH.length + '</div>' +
@@ -248,7 +251,9 @@
       '<div class="sheet-h"><div><small style="color:var(--muted)">' + U.esc(s.chapterTitle) + '</small><br><b>' + U.esc(s.title) + '</b></div><button class="icon-btn dark" data-act="closesheet" aria-label="סגירה">✕</button></div>' +
       (ss.isOpen ? '<p class="peek-sub">' + ss.pct + '% נשלפו · ' + ss.strong + ' יציבות</p>' : '<p class="peek-sub">השלב נפתח כש-60% מהשלב הקודם נשלפו. אפשר כבר להציץ.</p>') +
       '<div class="peek-list">' + s.items.map(id => { const it = WP.Content.byId[id], seen = S.level(items[id]) >= 1; return '<div class="pw' + (seen ? "" : " hid") + '"><span class="en">' + U.esc(it.en) + '</span><span class="he">' + (seen ? U.esc(it.he) : "עוד לא נפגשתן") + '</span>' + dots(id) + '</div>'; }).join("") + '</div>' +
-      '<p class="honest-s">הנקודות: נראתה · נשלפה · יציבה 3+ ימים · יציבה 21+ ימים. לפי מה שנמדד באפליקציה.</p>' +
+      '<p class="honest-s">הסימנים לכל מילה: ז מזהה · ש שליפה מדווחת · ר הרכבה · ה בהקשר. לפי מה שנמדד באפליקציה.</p>' +
+      (ss.isOpen && St.data.profile.focus !== s.chapter ? '<button class="cta5 small" data-act="focus" data-ch="' + s.chapter + '"><span>מילים חדשות מהפרק הזה<small>החזרות ממשיכות מכל הפרקים</small></span><span class="go5">' + ARROW + '</span></button>' : ''
+      ) +
       '</div>';
     document.body.appendChild(sheet);
   }
@@ -282,7 +287,7 @@
       const r = sum.res[id], prev = items[id];
       let result;
       if (r.kind === "new") { result = r.learned ? "learned" : "notyet"; if (r.firstOk === false) firstMiss++; }
-      else { if (r.firstOk === null) continue; result = r.failed ? "fail" : r.partial ? "partial" : (WP.Mem && !r.recalled && !ML(prev).rcl) ? "recog" : "good"; if (r.firstOk === false) firstMiss++; if ((result === "good" || result === "recog") && prev && prev.ivl >= 1) comeback = true; }
+      else { if (r.firstOk === null) continue; result = r.failed ? "fail" : r.partial ? "partial" : (WP.Mem && !r.recalled && !r.assembled && !ML(prev).rcl && !ML(prev).asm) ? "recog" : "good"; if (r.firstOk === false) firstMiss++; if ((result === "good" || result === "recog") && prev && prev.ivl >= 1) comeback = true; }
       St.putItem(id, S.grade(Object.assign(S.fresh(), prev || {}), result, now));
     }
     const after = S.counts(items), openNow = S.unlocked(items);
@@ -338,9 +343,10 @@
     const chd = chapterData(items, S.unlocked(items), stg).find(x => x.id === stg.chapter);
     const gain = litNow - litBefore, tier = newStage ? 4 : !wasDone && nowDone ? 3 : gain >= 4 ? 2 : gain > 0 ? 1 : 0;
     const head = ["סבב הושלם", "האורות מתרבים", "העמק מאיר", "שלב הושלם", "נפתחה דרך חדשה"][tier];
-    const lvN = L => (L.rec ? 1 : 0) + (L.rcl ? 1 : 0) + (L.ctx ? 1 : 0);
+    const lvN = L => (L.rec ? 1 : 0) + (L.rcl ? 1 : 0) + (L.asm ? 1 : 0) + (L.ctx ? 1 : 0);
+    const builds = ids.filter(id => res[id].assembled).length;
     const up = Object.keys(sum.res).filter(id => lvN(ML(items[id])) > lvN(before.ml[id] || {})).sort((x, y) => lvN(ML(items[y])) - lvN(ML(items[x])));
-    const dots = id => { const L = ML(items[id]); return '<span class="tri">' + [["rec", "ז"], ["rcl", "ש"], ["ctx", "ה"]].map(([k, t]) => '<i class="' + (L[k] ? "on" : "") + '">' + t + '</i>').join("") + '</span>'; };
+    const dots = id => tri(items[id]);
     const openAfter = S.unlocked(items), nxt = currentStage(items, openAfter);
     const gateN = nxt ? Math.max(0, Math.ceil(nxt.items.length * .6) - litOf(nxt, items)) : 0;
     const teaser = nxt ? (nxt.id === stg.id ? (gateN > 0 ? "עוד " + gateN + " אורות כאן, והשלב הבא נפתח." : "השלב הבא כבר פתוח ומחכה.") : 'הבא בדרך: "' + U.esc(nxt.title) + '"' + (nxt.chapter !== stg.chapter ? " בעמק חדש." : ".")) : "";
@@ -355,8 +361,8 @@
       '<section class="sheet5 end5">' +
       '<span class="kick5">' + head + '</span><h2 class="h5t">' + U.esc(stg.title) + '</h2><p class="lead5">' + line + '</p>' +
       '<div class="cols5"><div class="learn5"><span class="ch5">מה למדת</span>' +
-      (mc ? '<div class="know5"><div><b>' + mc.rec + '</b><span>מזהה</span><em>' + (mc.rec - mb.rec > 0 ? '+' + (mc.rec - mb.rec) : '·') + '</em></div><div><b>' + mc.rcl + '</b><span>שולפת</span><em>' + (mc.rcl - mb.rcl > 0 ? '+' + (mc.rcl - mb.rcl) : '·') + '</em></div><div><b>' + mc.ctx + '</b><span>בהקשר</span><em>' + (mc.ctx - mb.ctx > 0 ? '+' + (mc.ctx - mb.ctx) : '·') + '</em></div></div>' : '') +
-      '<span class="sm5">' + learned.length + '/' + nw.length + ' חדשות נקלטו · ' + kept.length + '/' + rv.length + ' חזרות נשמרו' + (claims.length ? ' · ' + recalledN + '/' + claims.length + ' שליפות אומתו' : '') + ' · נמדד</span>' +
+      (mc ? '<div class="know5">' + LV.map(([k, , t]) => '<div><b>' + mc[k] + '</b><span>' + t + '</span><em>' + (mc[k] - (mb[k] || 0) > 0 ? '+' + (mc[k] - (mb[k] || 0)) : '·') + '</em></div>').join("") + '</div>' : '') +
+      '<span class="sm5">' + learned.length + '/' + nw.length + ' חדשות נקלטו · ' + kept.length + '/' + rv.length + ' חזרות נשמרו' + (claims.length ? ' · ' + recalledN + '/' + claims.length + ' שליפות מדווחות אומתו' : '') + (builds ? ' · ' + builds + ' ביטויים נבנו' : '') + ' · נמדד</span>' +
       (up.length ? '<span class="ch5 sm">התחזקו בסבב</span><div class="up5">' + up.slice(0, 6).map((id, k) => '<span style="animation-delay:' + (1.4 + k * .12).toFixed(2) + 's"><bdi class="en">' + U.esc(WP.Content.byId[id].en) + '</bdi>' + dots(id) + '</span>').join("") + '</div>' : '') +
       ((shaky.length + slipped.length) ? '<div class="wl5">' + wl(shaky, "sh") + wl(slipped, "sh") + '</div>' : '') + '</div>' +
       '<div class="vr5"></div><div class="game5"><span class="ch5">מה הרווחת</span><b id="gcount">+0</b><span>כוכבים</span>' +
@@ -386,7 +392,7 @@
     root().innerHTML = '<div class="home">' +
       '<header class="hbar"><button class="icon-btn" data-act="home" aria-label="חזרה">' + U.ICON.home + '</button><div class="logo">בנק המילים</div><span class="stars">' + U.ICON.book + '<b>' + groups.all.length + '/' + all.length + '</b></span></header>' +
       '<div class="fchips">' + chip("all", "הכול") + chip("weak", "חלשות") + chip("learning", "בלמידה") + chip("solid", "יציבות") + '</div>' +
-      (list.length ? '<div class="bank">' + list.map(it => '<div class="bw"><button class="play" data-act="bsay" data-id="' + it.id + '" aria-label="השמעה">' + U.ICON.play + '</button><div class="bt"><span class="en">' + U.esc(it.en) + '</span><span class="he">' + U.esc(it.he) + '</span></div>' + (() => { const m = ML(items[it.id]); return '<span class="tri" aria-label="זיהוי, שליפה, הקשר">' + [["rec", "ז"], ["rcl", "ש"], ["ctx", "ה"]].map(([k, t]) => '<i class="' + (m[k] ? "on" : "") + '">' + t + '</i>').join("") + '</span>'; })() + '</div>').join("") + '</div>'
+      (list.length ? '<div class="bank">' + list.map(it => '<div class="bw"><button class="play" data-act="bsay" data-id="' + it.id + '" aria-label="השמעה">' + U.ICON.play + '</button><div class="bt"><span class="en">' + U.esc(it.en) + '</span><span class="he">' + U.esc(it.he) + '</span></div>' + tri(items[it.id]) + '</div>').join("") + '</div>'
         : '<div class="soon-card">' + U.ICON.book + '<div><b>עוד אין כאן מילים</b><span>מילים נכנסות לבנק ברגע שפוגשים אותן בסבב.</span></div></div>') +
       (groups.weak.length >= 3 ? '<button class="weak-btn" data-act="weak">' + U.ICON.bolt + ' לתרגל את החלשות עכשיו</button>' : '') +
       '<p class="honest-s" style="color:var(--soft)">הנקודות: נראתה · נשלפה · יציבה 3+ ימים · יציבה 21+ ימים. לפי מה שנמדד באפליקציה.</p></div>';
@@ -469,6 +475,7 @@
     else if (a === "weak") { U.tone("tap"); dive(() => startSession(false, true)); }
     else if (a === "bank") showBank();
     else if (a === "quests") showQuests();
+    else if (a === "focus") { const ch = WP.Content.chapters().find(c => c.id === b.dataset.ch); St.touchProfile(p => p.focus = b.dataset.ch); closeSheet(); toast("מילים חדשות יגיעו עכשיו מ\"" + (ch ? ch.title : "") + "\". החזרות ממשיכות כרגיל."); showHome(); }
     else if (a === "progress") showProgress();
     else if (a === "chapter") showChapter(b.dataset.ch);
     else if (a === "focuscur") { if (world && world.focusOn) world.focusOn(homeCur); }

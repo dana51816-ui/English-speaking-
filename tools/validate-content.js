@@ -3,18 +3,20 @@
 // Exits non-zero when any item would produce a broken or misleading exercise.
 const fs = require("fs");
 const path = require("path");
-const dir = path.join(__dirname, "..", "app", "content");
-const read = f => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+// Optional argument: a content folder that overrides app/content file by file (used by test builds such as app-m5/content).
+const base = path.join(__dirname, "..", "app", "content"), dir = process.argv[2] ? path.resolve(process.argv[2]) : base;
+const read = f => JSON.parse(fs.readFileSync(fs.existsSync(path.join(dir, f)) ? path.join(dir, f) : path.join(base, f), "utf8"));
 const course = read("course.json"), conf = read("confusions.json").pairs;
 const items = (course.itemFiles || ["items.json"]).flatMap(f => read(f).items);
-const TYPES = ["word", "phrasal", "idiom", "collocation", "slang"];
+const TYPES = ["word", "phrasal", "idiom", "collocation", "slang", "phrase"];
 const LEVELS = ["A2", "B1", "B2", "C1", "C2"];
 const DOMAINS = ["daily", "business", "talk", "shows"];
-const ICONS = ["briefcase", "house", "handshake", "clapper", "plane", "heart", "coin", "phone", "dumbbell"];
+const ICONS = ["briefcase", "house", "handshake", "clapper", "plane", "heart", "coin", "phone", "dumbbell", "chat"];
 const SCENES = ["party", "desk", "shop"];
 const PICS = ["lever", "glass", "sprout", "clock", "bottle"];
 const errs = [], warns = [];
-const ids = new Set();
+const ids = new Set(), seenEn = new Map();
+const words = s => (s || "").toLowerCase().replace(/[?!.,]/g, "").split(/\s+/).filter(Boolean);
 const E = (id, m) => errs.push(id + ": " + m), W = (id, m) => warns.push(id + ": " + m);
 
 for (const it of items) {
@@ -39,6 +41,24 @@ for (const it of items) {
     if (!target.toLowerCase().includes(head.slice(0, 3))) W(id, "target '" + target + "' does not look like a form of '" + it.en + "'");
     if (ex.d && !DOMAINS.includes(ex.d)) E(id, "example domain " + ex.d);
     if ((ex.s || "").length > 110) W(id, "example longer than 110 chars");
+  }
+  // no two items may teach the same expression
+  const key = words(it.en).join(" ");
+  if (seenEn.has(key)) E(id, "duplicate expression of " + seenEn.get(key)); seenEn.set(key, id);
+  // items written for a situation (season 3 onward) carry three examples and a Hebrew situation
+  if (it.sit !== undefined) {
+    if (!/[֐-׿]/.test(it.sit)) E(id, "situation must be in Hebrew");
+    if ((it.examples || []).length < 3) E(id, "needs three examples");
+    if (new Set((it.examples || []).map(e => e.d)).size < 2) W(id, "examples come from a single context");
+  }
+  // phrase builder: decoys are single words that are not part of the phrase
+  if (it.build) {
+    const w = words(it.en);
+    if (w.length < 2) E(id, "phrase builder needs a multi-word expression");
+    const dc = it.build.decoys || [];
+    if (dc.length < 3 || dc.length > 4) E(id, "phrase builder needs 3-4 decoys");
+    dc.forEach(d => { if (/\s/.test(d)) E(id, "decoy must be one word: " + d); if (w.includes(d.toLowerCase())) E(id, "decoy is part of the phrase: " + d); });
+    for (const n in it.build.near || {}) { const nw = words(n); if (nw.length !== w.length) E(id, "near phrase '" + n + "' has a different length"); if (!nw.every(x => w.includes(x) || dc.map(y => y.toLowerCase()).includes(x))) E(id, "near phrase '" + n + "' cannot be built from the tiles"); if (!/[֐-׿]/.test(it.build.near[n])) E(id, "near note must be in Hebrew"); }
   }
   const ds = it.distractors || [];
   if (ds.length < 2) E(id, "needs 2 distractors");

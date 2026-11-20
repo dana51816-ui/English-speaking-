@@ -1194,6 +1194,28 @@ body.in-session #app{padding:0 0 calc(12px + env(safe-area-inset-bottom,0px));ga
 .ret5 div{background:var(--paper2);border-radius:12px;padding:8px;display:flex;flex-direction:column;line-height:1.25}
 .ret5 b{font-family:var(--f-hs);font-size:24px}
 .ret5 span{font-size:12px}.ret5 small{font-size:10.5px;color:var(--muted)}
+
+/* ===== M5.3 · phrase builder ===== */
+.sit5{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border-radius:16px;background:var(--paper);border:1px solid var(--line)}
+.he5{font-family:var(--f-hs);font-size:22px;font-weight:700;line-height:1.25}
+.sit5 span{font-size:14px;color:var(--muted);line-height:1.45}
+.bslots{display:flex;flex-wrap:wrap;gap:6px 8px;justify-content:center;min-height:52px;padding:8px 0 2px}
+.bslot{min-width:46px;height:42px;padding:0 10px;border:0;border-bottom:2px solid rgba(180,83,47,.6);border-radius:0;background:none;font-family:var(--f-en);font-weight:600;font-size:19px;color:var(--ink);cursor:pointer}
+.bslot.filled{border-bottom-color:var(--ink);animation:slot5 .26s var(--e-moment)}
+@keyframes slot5{from{transform:translateY(8px);opacity:0}}
+.bslots.ok .bslot{color:var(--okink);border-bottom-color:var(--sage);background:linear-gradient(transparent 62%,rgba(95,138,104,.28) 0);animation:okIn .4s var(--e-moment)}
+.bslots.ok{position:relative}
+.bslots.bad{animation:sink .4s ease}
+.bslot.wrong{color:var(--terra);text-decoration:line-through;text-decoration-thickness:1.5px}
+.bpool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.btile{font-family:var(--f-en);font-weight:600;font-size:18px;padding:9px 14px;border-radius:14px;background:var(--paper);border:1px solid var(--line);color:var(--ink);box-shadow:0 2px 0 rgba(42,33,29,.08);transition:transform .12s var(--e-std),opacity .2s;cursor:pointer}
+.btile:active{transform:scale(.94)}
+.btile.used{opacity:.18;transform:scale(.92);pointer-events:none}
+#optsw.done .bpool,#optsw.done .tray-hint{display:none}
+.free5{margin:6px 0 0;font-size:12.5px;color:var(--muted);background:var(--paper2);border-radius:10px;padding:6px 10px}
+.know5{grid-template-columns:repeat(4,minmax(0,1fr))}
+.know5 b{font-size:24px}
+.pg4{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-height:720px){.band5{height:136px}.track5{top:122px}.hz-walker{width:46px;height:74px}.hz-walker .margo{width:46px;height:74px}.world5{height:52vh}.fin5{height:44vh}.h5t{font-size:26px}.band5{height:120px}.track5{top:106px}.stage .word{font-size:38px!important}.stage .sent{font-size:16px!important}.gtile{min-height:50px}.actions .tiles .gtile.dim{display:none}}
 </style>
 
@@ -1204,6 +1226,7 @@ body.in-session #app{padding:0 0 calc(12px + env(safe-area-inset-bottom,0px));ga
 <script src="js/store.js"></script>
 <script src="js/exercises.js"></script>
 <script src="js/memory.js"></script>
+<script src="js/journey.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/horizons.js"></script>
 <script src="js/session.js"></script>
