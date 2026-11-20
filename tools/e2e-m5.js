@@ -23,6 +23,7 @@ fs.mkdirSync(OUT, { recursive: true });
   const types = {}; const timings = [];
   const playSession = async (tag, start) => {
     await p.click(start || '[data-act="go"]', { force: true });
+    await p.waitForTimeout(800); // the dive transition plus the first-question tap guard
     let n = 0; const shots = {};
     for (let i = 0; i < 90; i++) {
       await p.waitForTimeout(420);
@@ -38,7 +39,9 @@ fs.mkdirSync(OUT, { recursive: true });
       else if (await p.$('.mt')) { const ids = await p.$$eval('.mt[data-side="en"]', es => es.map(e => e.dataset.id)); for (const id of ids) { await p.click('.mt[data-side="en"][data-id="' + id + '"]', { force: true }); await p.click('.mt[data-side="he"][data-id="' + id + '"]', { force: true }); await p.waitForTimeout(90); } }
       else if (await p.$('.hs')) { const hs = await p.$$('.hs'); for (const h of hs) { if (await p.$('[data-act="next"]')) break; await h.click({ force: true }); await p.waitForTimeout(90); } }
       if (!shots['fb' + t]) { shots['fb' + t] = 1; await p.waitForTimeout(350); await p.screenshot({ path: OUT + '/' + tag + '-' + t + '-fb.png' }); }
-      await p.waitForSelector('[data-act="next"]:not([disabled])', { timeout: 4000 }); await p.click('[data-act="next"]', { force: true });
+      try { await p.waitForSelector('[data-act="next"]:not([disabled])', { timeout: 4000 }); }
+      catch (e) { const info = await p.evaluate(() => ({ stage: (document.getElementById('stage') || {}).className, actions: (document.getElementById('actions') || {}).innerHTML.slice(0, 300) })); await p.screenshot({ path: OUT + '/FAIL-' + tag + '-' + i + '.png' }); console.error('STUCK', JSON.stringify(info)); throw e; }
+      await p.click('[data-act="next"]', { force: true });
     }
     await p.waitForTimeout(2200); await p.screenshot({ path: OUT + '/' + tag + '-end0.png' }); await p.waitForTimeout(3800); await p.screenshot({ path: OUT + '/' + tag + '-end.png' });
     return n;

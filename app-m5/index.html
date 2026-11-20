@@ -1076,7 +1076,101 @@ body.in-session #app{padding:0 0 calc(12px + env(safe-area-inset-bottom,0px));ga
 .weak-btn{background:var(--ink);box-shadow:none;border-radius:999px}
 .bw .lvl i.on{background:#E8B44C;box-shadow:0 0 6px rgba(232,180,76,.7)}
 .hz-say{max-width:150px}
-@media (max-height:720px){.world5{height:52vh}.fin5{height:44vh}.h5t{font-size:26px}.band5{height:120px}.track5{top:106px}.stage .word{font-size:38px!important}.stage .sent{font-size:16px!important}.gtile{min-height:50px}.actions .tiles .gtile.dim{display:none}}
+
+/* ===== M5.1 ===== */
+/* practice: ink that spreads from the touch point */
+.gtile,.opt{isolation:isolate}
+.gtile .ink,.opt .ink{position:absolute;border-radius:50%;pointer-events:none;z-index:0;transform:scale(0);animation:ink5 .46s var(--e-std) forwards}
+@keyframes ink5{to{transform:scale(1)}}
+.gtile>*:not(.ink),.gtile::before{position:relative;z-index:1}
+.gtile.ok{transition:background-color .15s .36s,color .15s .36s,border-color .2s .3s}
+.gtile.bad .ink{animation-duration:.3s}
+.stage-wrap{align-items:flex-start;padding-top:26px}
+.band5{height:164px}
+.btns5{position:sticky;bottom:calc(-16px - env(safe-area-inset-bottom,0px));background:var(--bg);padding:10px 0 4px;margin-bottom:-4px;z-index:2}
+.sheet5.end5{padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+.track5{top:150px}
+.hz-walker{width:56px;height:90px;bottom:8px}
+.hz-walker .margo{width:56px;height:90px}
+.margo .lantern circle{animation:lant5 2.4s ease-in-out infinite alternate}
+@keyframes lant5{to{opacity:.55}}
+.hz-ribbon{position:absolute;top:calc(48px + env(safe-area-inset-top,0px));left:50%;transform:translate(-50%,-6px);z-index:7;font-family:var(--f-hs);font-weight:700;font-size:15px;color:#2A211D;background:#FFE3A6;padding:3px 14px;border-radius:999px;opacity:0;pointer-events:none;box-shadow:0 6px 16px -6px rgba(0,0,0,.4)}
+.hz-ribbon.on{animation:rib5 2.2s var(--e-std)}
+@keyframes rib5{0%{opacity:0;transform:translate(-50%,-6px) scale(.8)}12%{opacity:1;transform:translate(-50%,0) scale(1)}80%{opacity:1}100%{opacity:0}}
+.match-svg .thread{animation:thr5 .5s var(--e-std) forwards}
+@keyframes thr5{to{stroke-dashoffset:0}}
+.mt.done{transition:background .3s,opacity .3s}
+.combo{font-family:var(--f-hs);font-weight:700}
+/* world signatures */
+.hz svg .sig-crane,.hz svg .sig-beam,.hz svg .sig-flut,.hz svg .sig-wave{transform-box:view-box}
+.hz svg .sig-crane{animation:crane5 9s ease-in-out infinite alternate}
+@keyframes crane5{from{transform:rotate(-5deg)}to{transform:rotate(6deg)}}
+.hz svg .sig-smoke{animation:smoke5 4s ease-out infinite;opacity:0}
+@keyframes smoke5{0%{opacity:0;transform:translate(0,0) scale(.6)}20%{opacity:.6}100%{opacity:0;transform:translate(10px,-40px) scale(1.8)}}
+.hz svg .sig-beam{animation:beam5 6s ease-in-out infinite alternate}
+@keyframes beam5{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+.hz svg .sig-beam.lh{animation:lh5 5s linear infinite alternate}
+@keyframes lh5{from{transform:rotate(-8deg)}to{transform:rotate(14deg)}}
+.hz svg .sig-bob{animation:bob5 3.2s ease-in-out infinite alternate}
+@keyframes bob5{to{transform:translateY(3px) rotate(2deg)}}
+.hz svg .sig-fly{animation:fly5 8s ease-in-out infinite}
+@keyframes fly5{25%{transform:translate(18px,-12px)}50%{transform:translate(34px,4px)}75%{transform:translate(12px,-20px)}}
+.hz svg .sig-flut{animation:flut5 1.2s ease-in-out infinite alternate}
+@keyframes flut5{to{transform:skewX(14deg)}}
+.hz svg .sig-wave{animation:wave5 3s ease-out infinite;opacity:0}
+@keyframes wave5{0%{opacity:.8;transform:scale(.4)}100%{opacity:0;transform:scale(3.4)}}
+.hz svg .sig-pulse{animation:pulse5 2.4s ease-in-out infinite alternate}
+@keyframes pulse5{to{opacity:.45}}
+/* the mist over valleys not yet open */
+.hz svg .fog{pointer-events:auto;cursor:pointer;animation:fog5 9s ease-in-out infinite alternate}
+@keyframes fog5{to{transform:translateX(14px)}}
+.hz svg .fog.part ellipse{animation:part5 2.8s var(--e-std)}
+@keyframes part5{20%{opacity:.15}75%{opacity:.15}}
+.hz-pin em{font-style:normal;font-size:11px;font-weight:800;color:#2A211D;background:#FFE3A6;border-radius:999px;padding:0 8px;margin-top:3px;animation:fresh5 1.6s ease-in-out infinite alternate}
+@keyframes fresh5{to{box-shadow:0 0 0 6px rgba(255,227,166,.25)}}
+.toast5{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:95;max-width:86%;background:var(--ink);color:#F6EEDF;font:600 14px var(--f-body);padding:9px 16px;border-radius:14px;text-align:center;animation:toast5 3.6s var(--e-std) both}
+@keyframes toast5{0%{opacity:0;transform:translate(-50%,8px)}8%{opacity:1;transform:translate(-50%,0)}88%{opacity:1}100%{opacity:0}}
+/* entering the world */
+.h5 .world5,.h5 .sheet5{transition:transform .43s var(--e-std),opacity .3s}
+.h5.dive .world5{transform:scale(1.16) translateY(40px)}
+.h5.dive .sheet5{transform:translateY(60px);opacity:0}
+.h5.dive .top5{opacity:0;transition:opacity .2s}
+/* finale tiers */
+.hz-fin.tier0 .hz-dusk{animation-name:dusk0}
+@keyframes dusk0{to{opacity:.3}}
+.hz-fin .reveal .body{opacity:0;animation:reveal5 1.2s var(--e-std) forwards;animation-delay:2.2s}
+@keyframes reveal5{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hz-fin .reveal .body{transform-box:fill-box}
+.hz-fin .skyl{opacity:0;animation:skyl5 5s ease-out forwards}
+@keyframes skyl5{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}100%{opacity:0;transform:translate(14px,-260px)}}
+.hz-fin .flock{opacity:0;animation:flock5 4s ease-in forwards}
+@keyframes flock5{0%{opacity:0}10%{opacity:1}100%{opacity:0;transform:translate(260px,-90px)}}
+.hz-fin .shoot{opacity:0;stroke-dasharray:70;stroke-dashoffset:70;animation:shoot5 1s ease-out forwards}
+@keyframes shoot5{30%{opacity:1}100%{opacity:0;stroke-dashoffset:-70}}
+.hz-fin.skip .reveal .body{animation-duration:.01s;animation-delay:0s}
+/* end: what got stronger, what's next */
+.ch5.sm{margin-top:6px;display:block}
+.up5{display:flex;flex-direction:column;gap:3px;margin-top:3px}
+.up5 span{display:flex;align-items:center;justify-content:space-between;gap:10px;opacity:0;animation:up5 .4s var(--e-std) forwards}
+@keyframes up5{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.up5 .en{font-family:var(--f-en);font-style:italic;font-size:14.5px}
+.dl{display:inline-flex;gap:3px}
+.dl i{width:7px;height:7px;border-radius:50%;background:rgba(42,33,29,.15)}
+.dl i.on{background:#E8B44C;box-shadow:0 0 5px rgba(232,180,76,.7)}
+.next5{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:2px}
+.next5 b{font-family:var(--f-hs);font-weight:700;font-size:16.5px}
+.e5.tier3 .h5t,.e5.tier4 .h5t{animation:head5 .6s 1.6s var(--e-moment) both}
+@keyframes head5{from{opacity:0;transform:translateY(8px)}}
+.stage-wrap{overflow:hidden}.stage{overflow:hidden!important;max-height:100%}
+.actions .tray:has(.tile[disabled]){display:none}
+.match-svg .knot{transform-box:fill-box;transform-origin:center;animation:knot5 .4s var(--e-moment) both}
+@keyframes knot5{from{transform:scale(0)}}
+.orb-wrap{transition:height .35s var(--e-std)}
+.stage.t-listen:has(.fb) .orb-wrap{height:72px}
+.stage.t-listen:has(.fb) .orb-play{transform:scale(.7)}
+.hz .vg.idle,.hz .vg.idle *,.hz-skyw.idle *{animation-play-state:paused!important}
+.hz .vg.idle{visibility:hidden}
+@media (max-height:720px){.band5{height:136px}.track5{top:122px}.hz-walker{width:46px;height:74px}.hz-walker .margo{width:46px;height:74px}.world5{height:52vh}.fin5{height:44vh}.h5t{font-size:26px}.band5{height:120px}.track5{top:106px}.stage .word{font-size:38px!important}.stage .sent{font-size:16px!important}.gtile{min-height:50px}.actions .tiles .gtile.dim{display:none}}
 </style>
 
 <div id="app"><div class="fatal" style="background:transparent;color:var(--soft)">טוען...</div></div>

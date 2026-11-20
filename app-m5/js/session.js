@@ -16,6 +16,7 @@
     '<svg viewBox="0 0 20 20"><path d="M10 2l8.5 15h-17z" fill="currentColor"/></svg>',
     '<svg viewBox="0 0 20 20"><rect x="2.5" y="2.5" width="15" height="15" rx="3" fill="currentColor"/></svg>'
   ];
+  let halfDone = false, lastPt = null;
   let Q, pos, prev, cur, answered, combo, best, sinceMatch, matches, seen, res, lockUntil, autoT, onEnd, stageEl, actEl, firstNewShown, startedAt, orb, stats, anyOk;
   const $ = s => stageEl.querySelector(s);
   const item = id => WP.Content.byId[id];
@@ -24,7 +25,7 @@
 
   R.start = function (plan, done) {
     onEnd = done; stageEl = document.getElementById("stage"); actEl = document.getElementById("actions");
-    Q = []; pos = 0; prev = null; combo = 0; best = 0; sinceMatch = 0; matches = 0; seen = []; res = {}; firstNewShown = false; startedAt = Date.now(); anyOk = false;
+    halfDone = false; Q = []; pos = 0; prev = null; combo = 0; best = 0; sinceMatch = 0; matches = 0; seen = []; res = {}; firstNewShown = false; startedAt = Date.now(); anyOk = false;
     stats = { ok: {}, newSeen: 0, reviewGood: 0, matchPerfect: 0, stars: 0, weak: !!plan.weak };
     const rv = plan.reviews.slice(), nw = plan.fresh.slice();
     rv.forEach(id => res[id] = { kind: "review", firstOk: null, partial: false, learned: false, known: false });
@@ -78,6 +79,7 @@
     if (pos >= Q.length) return onEnd(R.summary());
     if (sinceMatch >= 8 && matches < 2 && seen.length >= 4 && Q[pos].kind !== "match") Q.splice(pos, 0, { kind: "match" });
     cur = Q[pos]; answered = false;
+    if (!halfDone && Q.length >= 8 && pos >= Q.length / 2) { halfDone = true; setTimeout(() => { document.dispatchEvent(new CustomEvent("wp:react", { detail: "half" })); U.quip("half", "h", true, pos); }, 450); }
     if (cur.kind === "match") { cur.type = "match"; return renderMatch(); }
     const it = item(cur.id), s = st(cur.id) || {};
     cur.type = cur.kind === "intro" ? "intro" : X.choose(cur, s, prev);
@@ -231,16 +233,25 @@
       combo++; best = Math.max(best, combo); U.face("h"); U.hop(); stamp(["בול!", "נכון!", "יש!", "מעולה!"][Math.floor(Math.random() * 4)], "ok");
       stats.ok[cur.type] = (stats.ok[cur.type] || 0) + 1; stats.stars++; addStar();
       if (cur.kind === "review") stats.reviewGood++;
-      U.peek(combo >= 6 ? "wow" : "cheer"); if (combo !== 3 && combo !== 6 && combo !== 9) U.quip("ok1", "h", false, pos);
+      U.peek(combo >= 6 ? "wow" : "cheer");
+      const was = st(cur.id) || {}, rr = cur.id ? res[cur.id] : null;
+      if (combo !== 3 && combo !== 6 && combo !== 9) U.quip(cur.kind === "review" && was.ivl >= 2 ? "longRecall" : rr && rr.failed ? "recover" : "ok1", "h", false, pos);
       anyOk = true;
     }
     else if (!ok) { U.peek("oops"); U.quip("miss1", "s", false, pos); combo = 0; stamp("לא הפעם", "bad"); }
     else stamp("כמעט", "mid");
     setCombo();
-    if (ok && !partial && combo > 0 && combo % 3 === 0) document.dispatchEvent(new CustomEvent("wp:react", { detail: "streak" }));
+    if (ok && !partial && (combo === 3 || combo === 5 || (combo >= 10 && combo % 5 === 0))) { document.dispatchEvent(new CustomEvent("wp:react", { detail: "streak" })); document.dispatchEvent(new CustomEvent("wp:react", { detail: "streak:" + combo })); }
     if (combo === 3) { U.tone("combo"); U.quip("combo3", "h", false, pos); } else if (combo === 6) { U.tone("combo"); U.quip("combo6", "h", true, pos); } else if (combo === 9) { U.tone("combo"); U.quip("combo9", "w", true, pos); }
     armContinue();
     if (U.prefs().auto && ok && !partial) autoT = setTimeout(next, 1300);
+  }
+  function ink(btn, color, big) {
+    if (!btn || document.body.classList.contains("calm")) return;
+    const r = btn.getBoundingClientRect(), p = lastPt && lastPt.x >= r.left && lastPt.x <= r.right && lastPt.y >= r.top && lastPt.y <= r.bottom ? lastPt : { x: r.left + r.width * .85, y: r.top + r.height / 2 };
+    const d = document.createElement("span"); d.className = "ink"; const R = Math.hypot(r.width, r.height) * (big ? 1.1 : .5);
+    d.style.cssText = "left:" + (p.x - r.left - R) + "px;top:" + (p.y - r.top - R) + "px;width:" + 2 * R + "px;height:" + 2 * R + "px;background:" + color;
+    btn.prepend(d);
   }
   const meter = () => document.getElementById("sstars") || document.getElementById("strack");
   function addStar() {
@@ -255,9 +266,9 @@
     btns.forEach((b, j) => { b.disabled = true; if (cur.opts[j].ok) b.classList.add("ok"); else if (j === i) b.classList.add("bad"); else b.classList.add("dim"); });
     const btn = btns[i];
     const rw = $("#rw"); if (rw) rw.innerHTML = '<span class="w">' + U.esc(it.en) + '</span>';
-    if (o.ok) { U.tone("ok"); U.burst(btn); U.fly(btn, meter(), "+1 ★"); $("#fb").innerHTML = U.fb(true, "נכון", cur.type === "pick" ? null : it, cur.type === "listen" ? marked(E(), 16) : ""); }
+    if (o.ok) { ink(btn, "var(--sage)", true); U.tone("ok"); U.burst(btn); U.fly(btn, meter(), "+1 ★"); $("#fb").innerHTML = U.fb(true, "נכון", cur.type === "pick" ? null : it, cur.type === "listen" ? marked(E(), 16) : ""); }
     else {
-      U.tone("bad"); const c = WP.Content.confusion(o.item.id, it.id);
+      ink(btn, "rgba(180,83,47,.16)", false); U.tone("bad"); const c = WP.Content.confusion(o.item.id, it.id);
       $("#fb").innerHTML = U.fb(false, c ? "בלבול קלאסי. ההבדל:" : "התשובה:", c ? null : it, c ? U.diff(c) : '');
       if (c) U.quip("confuse", "w", false, pos);
     }
@@ -325,7 +336,7 @@
   function matchTry(a, b) {
     if (!a || !b || a === b || a.dataset.side === b.dataset.side) return;
     if (a.dataset.id === b.dataset.id) {
-      const w = item(a.dataset.id); U.tone("pair"); U.burst(b, 10);
+      const w = item(a.dataset.id); U.tone("pair"); U.burst(b, 10); tie(a, b);
       [a, b].forEach(el => el.classList.add("done"));
       if (cur.ex.audio) [a, b].forEach(el => { if (el.dataset.side === "en") el.innerHTML = '<span class="en">' + U.esc(w.en) + '</span>'; });
       if (cur.ex.audio) U.say(w.en, .9);
@@ -348,11 +359,19 @@
   function clearSel() { stageEl.querySelectorAll(".mt.sel").forEach(e => e.classList.remove("sel")); if (cur) cur.sel = null; }
   function line(a, x, y) {
     const svg = $("#msvg"); if (!svg) return; const box = $("#match").getBoundingClientRect(), r = a.getBoundingClientRect();
-    svg.innerHTML = '<line x1="' + (r.left + r.width / 2 - box.left) + '" y1="' + (r.top + r.height / 2 - box.top) + '" x2="' + (x - box.left) + '" y2="' + (y - box.top) + '" stroke="#E85D9C" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 9"/>';
+    let l = svg.querySelector("#dragl"); if (!l) { svg.insertAdjacentHTML("beforeend", '<line id="dragl" stroke="#B4532F" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 8"/>'); l = svg.querySelector("#dragl"); }
+    l.setAttribute("x1", r.left + r.width / 2 - box.left); l.setAttribute("y1", r.top + r.height / 2 - box.top); l.setAttribute("x2", x - box.left); l.setAttribute("y2", y - box.top); l.style.display = "";
+  }
+  function tie(a, b) {
+    const svg = $("#msvg"), m = $("#match"); if (!svg || !m) return; const box = m.getBoundingClientRect(), ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+    const en = a.dataset.side === "en" ? ra : rb, he = a.dataset.side === "en" ? rb : ra;
+    const x1 = en.right - box.left, y1 = en.top + en.height / 2 - box.top, x2 = he.left - box.left, y2 = he.top + he.height / 2 - box.top;
+    svg.insertAdjacentHTML("beforeend", '<g class="knot"><line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#5F8A68" stroke-width="2" stroke-linecap="round"/><circle cx="' + ((x1 + x2) / 2) + '" cy="' + ((y1 + y2) / 2) + '" r="4.5" fill="#5F8A68"/></g>');
   }
 
   R.bind = function () {
     document.addEventListener("pointerdown", e => {
+      lastPt = { x: e.clientX, y: e.clientY };
       const rb = e.target.closest(".gtile,.tile.key,.opt,.primary,.go,.mt,.ghost");
       if (rb && !rb.disabled) { const r = rb.getBoundingClientRect(), sp = document.createElement("span"); sp.className = "ripple"; sp.style.left = (e.clientX - r.left) + "px"; sp.style.top = (e.clientY - r.top) + "px"; rb.appendChild(sp); setTimeout(() => sp.remove(), 520); }
       if (!cur || !stageEl || !document.body.contains(stageEl)) return;
@@ -369,7 +388,7 @@
     });
     window.addEventListener("pointerup", e => {
       if (drag) {
-        const d = drag; drag = null; const svg = $("#msvg"); if (svg) svg.innerHTML = "";
+        const d = drag; drag = null; const dl = document.getElementById("dragl"); if (dl) dl.style.display = "none";
         if (d.moved) { const t = document.elementFromPoint(e.clientX, e.clientY), target = t && t.closest(".mt"); d.el.classList.remove("sel"); if (target) matchTry(d.el, target); }
         else {
           const el = d.el; if (el.dataset.side === "en" && cur.ex.audio) U.say(item(el.dataset.id).en, .9);

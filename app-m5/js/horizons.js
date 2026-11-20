@@ -41,7 +41,9 @@
     if (kind === "office") {
       const T = [[44, 118, ink], [38, 92, "#5A4350"], [32, 70, ink]][slot];
       w = T[0]; top = base - T[1];
+      if (!ghost) g += '<path d="M' + (cx + w / 2) + ' ' + (top + 2) + ' l9 -6 v' + (T[1] - 2) + ' l-9 6z" fill="#000" opacity=".28"/><path d="M' + (cx - w / 2) + ' ' + top + ' l9 -6 h' + w + ' l-9 6z" fill="#fff" opacity=".12"/>';
       g += rect(cx - w / 2, top, w, T[1], T[2], 2);
+      if (!ghost) g += '<rect x="' + (cx - w / 2) + '" y="' + top + '" width="' + (w * .32) + '" height="' + T[1] + '" fill="#fff" opacity=".05"/>';
       if (slot === 2) g += rect(cx - 1, top - 14, 2, 14, "#F6EEDF");
       lights = []; for (let r = 0; r < 4; r++) for (let c = 0; c < 2; c++) lights.push([cx - w / 4 + c * w / 2, top + 14 + r * (T[1] - 24) / 4]);
       if (!ghost) for (const [x, y] of lights) g += '<rect x="' + (x - 3) + '" y="' + (y - 4) + '" width="6" height="8" fill="#000" opacity=".25"/>';
@@ -49,6 +51,7 @@
     }
     if (kind === "home") {
       const s = [[40, 30], [48, 36], [38, 28]][slot]; w = s[0]; top = base - s[1] - 22;
+      if (!ghost) g += '<path d="M' + (cx + w / 2) + ' ' + (base - s[1]) + ' l8 -5 v' + s[1] + ' l-8 5z" fill="#000" opacity=".22"/>';
       g += rect(cx - w / 2, base - s[1], w, s[1], "#E8D9BF") + path("M" + (cx - w / 2 - 4) + " " + (base - s[1]) + " L" + cx + " " + top + " L" + (cx + w / 2 + 4) + " " + (base - s[1]) + "Z", ["#B4532F", "#4E6A57", "#D99A4B"][slot]);
       if (!ghost) g += rect(cx - 5, base - 14, 10, 14, "#6E4B3A") + rect(cx + w / 4 - 3, base - s[1] + 7, 7, 7, "#F6D79A");
       if (slot === 1) g += rect(cx + 10, top + 6, 6, 12, "#6E4B3A");
@@ -99,11 +102,33 @@
     });
     return s;
   }
-  function tree(x, base, s, col, ph) {
-    return '<g class="sway" style="transform-origin:' + x + 'px ' + base + 'px;animation-delay:' + (-ph * 3).toFixed(2) + 's"><rect x="' + (x - 1.5 * s) + '" y="' + (base - 12 * s) + '" width="' + 3 * s + '" height="' + 12 * s + '" fill="#2A211D" opacity=".7"/>' +
+ function tree(x, base, s, col, ph, still) {
+    return '<g class="' + (still ? "" : "sway") + '" style="transform-origin:' + x + 'px ' + base + 'px;animation-delay:' + (-ph * 3).toFixed(2) + 's"><rect x="' + (x - 1.5 * s) + '" y="' + (base - 12 * s) + '" width="' + 3 * s + '" height="' + 12 * s + '" fill="#2A211D" opacity=".7"/>' +
       '<ellipse cx="' + x + '" cy="' + (base - 20 * s) + '" rx="' + 9 * s + '" ry="' + 13 * s + '" fill="' + col + '"/><ellipse cx="' + (x - 2 * s) + '" cy="' + (base - 24 * s) + '" rx="' + 4 * s + '" ry="' + 6 * s + '" fill="#fff" opacity=".08"/></g>';
   }
-  const SLOT_DX = [80, 2, -80]; // stage 1 on the right: the journey reads right to left
+  const SLOT_DX = [80, 2, -80];
+  const BEAM = '<linearGradient id="beamg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FFF3D0" stop-opacity=".75"/><stop offset="1" stop-color="#FFF3D0" stop-opacity="0"/></linearGradient>'; // stage 1 on the right: the journey reads right to left
+
+  /* one living signature per world: cheap CSS transforms only */
+  function signature(kind, cx, base, stages) {
+    const s0 = cx + SLOT_DX[0], s1 = cx + SLOT_DX[1], s2 = cx + SLOT_DX[2], any = stages.some(x => x.open);
+    if (!any) return "";
+    if (kind === "office") return '<g class="sig-crane" style="transform-origin:' + (cx - 150) + 'px ' + (base - 150) + 'px"><rect x="' + (cx - 151.5) + '" y="' + (base - 150) + '" width="3" height="150" fill="#2A211D" opacity=".55"/><path d="M' + (cx - 190) + ' ' + (base - 150) + ' h70" stroke="#2A211D" stroke-opacity=".55" stroke-width="3"/><path d="M' + (cx - 125) + ' ' + (base - 150) + ' v26" stroke="#2A211D" stroke-opacity=".5" stroke-width="1"/><rect x="' + (cx - 129) + '" y="' + (base - 124) + '" width="8" height="6" fill="#D99A4B"/></g>';
+    if (kind === "home") return [0, 1, 2].map(k => '<circle class="sig-smoke" style="animation-delay:' + (k * 1.3) + 's" cx="' + (s1 + 13) + '" cy="' + (base - 66) + '" r="5" fill="#F6EEDF"/>').join("");
+    if (kind === "cinema") return '<g opacity=".5">' + [0, 1].map(k => '<path class="sig-beam" style="transform-origin:' + (s0 + (k ? 20 : -20)) + 'px ' + (base - 46) + 'px;animation-delay:' + (k * -3) + 's" d="M' + (s0 + (k ? 20 : -20)) + ' ' + (base - 46) + ' l-26 -230 h22z" fill="url(#beamg)"/>').join("") + '</g>';
+    if (kind === "coast") return '<path class="sig-beam lh" style="transform-origin:' + s0 + 'px ' + (base - 86) + 'px" d="M' + s0 + ' ' + (base - 86) + ' l-160 -24 v30z" fill="url(#beamg)" opacity=".7"/><g class="sig-bob"><path d="M' + (cx - 140) + ' ' + (base + 2) + ' l20 0 l-4 5 h-12z" fill="#2A211D" opacity=".7"/><path d="M' + (cx - 131) + ' ' + (base + 2) + ' v-16 l9 13z" fill="#F6EEDF" opacity=".8"/></g>';
+    if (kind === "garden") return [0, 1].map(k => '<g class="sig-fly" style="animation-delay:' + (k * -4) + 's"><path d="M' + (s1 - 30 + k * 60) + ' ' + (base - 60) + ' q-4 -6 0 -8 q4 2 0 8 q4 -6 8 -4 q-2 6 -8 4z" fill="' + (k ? "#F6D79A" : "#E57C8E") + '"/></g>').join("");
+    if (kind === "market") { let b = '<path d="M' + (s0 + 30) + ' ' + (base - 54) + ' Q' + s1 + ' ' + (base - 36) + ' ' + (s2 - 26) + ' ' + (base - 50) + '" stroke="#2A211D" stroke-opacity=".5" fill="none"/>'; for (let k = 0; k < 9; k++) { const t = k / 8, x = (s0 + 30) + (s2 - 26 - s0 - 30) * t, y = base - 54 + Math.sin(t * Math.PI) * 15 + 4 * t; b += '<path class="sig-flut" style="transform-origin:' + x + 'px ' + y + 'px;animation-delay:' + (-k * .2) + 's" d="M' + (x - 3) + ' ' + y + ' h6 l-3 7z" fill="' + ["#B4532F", "#D99A4B", "#F3EADB"][k % 3] + '"/>'; } return b; }
+    if (kind === "radio") return [0, 1, 2].map(k => '<circle class="sig-wave" style="animation-delay:' + (k * .8) + 's;transform-origin:' + s0 + 'px ' + (base - 100) + 'px" cx="' + s0 + '" cy="' + (base - 100) + '" r="10" fill="none" stroke="#9FC3E6" stroke-width="1.4"/>').join("");
+    if (kind === "arena") return [-1, 1].map(k => '<rect x="' + (s0 + k * 42 - 1) + '" y="' + (base - 70) + '" width="2" height="70" fill="#2A211D" opacity=".5"/><circle class="sig-pulse" cx="' + (s0 + k * 42) + '" cy="' + (base - 72) + '" r="5" fill="#FFF3D0"/>').join("");
+    return '<g class="sig-bob"><circle cx="' + (s1 + 50) + '" cy="' + (base - 120) + '" r="3" fill="#F6EEDF" opacity=".8"/></g>';
+  }
+  /* road lanterns: a chapter's overall recall, six lamps along the path */
+  function roadLamps(cx, base, frac) {
+    let s = ""; const on = Math.round(6 * frac);
+    for (let k = 0; k < 6; k++) { const x = cx + 120 - k * 48, y = base + 18 + Math.sin(x / 70) * 5; s += '<rect x="' + (x - .7) + '" y="' + (y - 14) + '" width="1.4" height="14" fill="#2A211D" opacity=".6"/>' + (k < on ? '<circle cx="' + x + '" cy="' + (y - 16) + '" r="6" fill="#FFD99A" opacity=".3"/><circle cx="' + x + '" cy="' + (y - 16) + '" r="2.2" fill="#FFE3A6"/>' : '<circle cx="' + x + '" cy="' + (y - 16) + '" r="2" fill="#5A4A44"/>'); }
+    return s;
+  }
 
   /* one valley: structures, lights, trees, details unlocked by progress */
   function valley(icon, cx, base, stages, o) {
@@ -114,7 +139,7 @@
       const x = cx + SLOT_DX[i], mode = st.open ? "solid" : "ghost";
       const S = structure(p.kind, i, x, base, mode, p.ink);
       const pts = S.lights || strand(x, S.top, S.w);
-      let g = '<g class="st' + (st.open ? "" : " ghost") + (o.focus === i ? " focus" : "") + '" data-stage="' + (st.id || "") + '">' + S.g;
+      let g = '<g class="st' + (st.open ? "" : " ghost") + (o.focus === i ? " focus" : "") + (o.reveal === i ? " reveal" : "") + '" data-stage="' + (st.id || "") + '">' + (o.reveal === i ? structure(p.kind, i, x, base, "ghost", p.ink).g : "") + '<g class="body">' + S.g + '</g>';
       if (st.open) g += lightsSVG(pts, o.focus === i && o.anim ? o.to : st.lit, { win: S.win, wire: !S.win, anim: o.focus === i && o.anim, from: o.from, delay: o.delay || 1.2 });
       if (st.done) g += '<g class="pennant"><rect x="' + (x - .8) + '" y="' + (S.top - 30) + '" width="1.6" height="22" fill="#F6EEDF"/><path class="flag" style="transform-origin:' + x + 'px ' + (S.top - 30) + 'px" d="M' + x + ' ' + (S.top - 30) + ' l13 4 l-13 4z" fill="#E8B44C"/></g>';
       g += '<rect x="' + (x - S.w / 2 - 10) + '" y="' + (S.top - 26) + '" width="' + (S.w + 20) + '" height="' + (base - S.top + 30) + '" fill="transparent"/></g>';
@@ -123,6 +148,9 @@
     // small discoveries that only appear once a stage has really been learned
     if (stages[0] && stages[0].done) front += '<g class="cat"><path d="M' + (cx + 104) + ' ' + (base - 2) + ' q2 -9 7 -9 l2 -4 l2 4 q5 0 6 9z" fill="#2A211D"/><path class="tail" style="transform-origin:' + (cx + 119) + 'px ' + (base - 3) + 'px" d="M' + (cx + 119) + ' ' + (base - 3) + ' q8 -2 7 -10" stroke="#2A211D" stroke-width="2" fill="none" stroke-linecap="round"/></g>';
     if (stages[1] && stages[1].done) front += '<g class="kite" style="transform-origin:' + (cx - 30) + 'px ' + (base - 140) + 'px"><path d="M' + (cx - 30) + ' ' + (base - 150) + ' l9 10 l-9 12 l-9 -12z" fill="#E8B44C"/><path d="M' + (cx - 30) + ' ' + (base - 128) + ' q10 30 30 60" stroke="#F6EEDF" stroke-opacity=".6" fill="none"/></g>';
+    front += signature(p.kind, cx, base, stages);
+    const tot = stages.reduce((n, x) => n + (x.lit || 0), 0);
+    if (stages.some(x => x.open)) front += roadLamps(cx, base, tot / (stages.length * 8));
     return { back, front, hits };
   }
 
@@ -167,7 +195,7 @@
       { f: .16, svg: lw => clouds(lw, Ht, Math.round(lw / 120), 3), cls: "drift" },
       { f: .32, svg: lw => '<defs>' + hgrad("hzf", "far", lw, .32) + '</defs><path d="' + ridge(1.3, lw, base - 130, 30, 8, Ht) + '" fill="url(#hzf)"/>' },
       { f: .58, svg: lw => { let s = '<defs>' + hgrad("hzm", "mid", lw, .58) + '</defs><path d="' + ridge(4.1, lw, base - 78, 24, 8, Ht) + '" fill="url(#hzm)"/>';
-          o.chapters.forEach((c, i) => { const cx = cxOf(lw, i, .58); for (let k = 0; k < 7; k++) s += tree(cx - 90 + k * 30 + rnd(k + i) * 14, base - 74 + rnd(k * 2 + i) * 8, .45, H.palette(c.icon).near, k + i);
+          o.chapters.forEach((c, i) => { const cx = cxOf(lw, i, .58); for (let k = 0; k < 7; k++) s += tree(cx - 90 + k * 30 + rnd(k + i) * 14, base - 74 + rnd(k * 2 + i) * 8, .45, H.palette(c.icon).near, k + i, true);
             if (H.palette(c.icon).kind === "coast") s += '<path d="M' + (cx - 170) + ' ' + (base - 40) + ' Q' + cx + ' ' + (base - 60) + ' ' + (cx + 170) + ' ' + (base - 40) + ' L' + (cx + 170) + ' ' + (base - 20) + ' L' + (cx - 170) + ' ' + (base - 20) + 'Z" fill="#9FC3D3" opacity=".6"/><g class="shimmer">' + [0, 1, 2, 3].map(k => '<path d="M' + (cx - 90 + k * 50) + ' ' + (base - 40 + k % 2 * 6) + ' h22" stroke="#F6EEDF" stroke-width="1.2" opacity=".7"/>').join("") + '</g>'; });
           return s; } },
       { f: 1, main: true },
@@ -178,11 +206,12 @@
       let back = "", front = "", labels = "";
       o.chapters.forEach((c, i) => {
         const cx = cxOf(lw, i, 1), v = valley(c.icon, cx, base, c.stages, {});
-        back += v.back; front += v.front;
-        labels += '<div class="hz-pin' + (c.open ? "" : " lock") + (c.cur ? " cur" : "") + '" style="left:' + cx + 'px;top:' + Math.max(104, base - 300) + 'px"><b>' + c.title + '</b><span>' + (c.open ? H.palette(c.icon).hour + " · " + c.lit + "/" + (c.stages.length * 8) + " אורות" : "עוד לא התגלה") + '</span></div>';
+        back += '<g class="vg" data-v="' + i + '">' + v.back + '</g>'; front += '<g class="vg" data-v="' + i + '">' + v.front + '</g>';
+        labels += '<div class="hz-pin' + (c.open ? "" : " lock") + (c.cur ? " cur" : "") + (c.fresh ? " fresh" : "") + '" style="left:' + cx + 'px;top:' + Math.max(104, base - 300) + 'px"><b>' + c.title + '</b><span>' + (c.open ? H.palette(c.icon).hour + " · " + c.lit + "/" + (c.stages.length * 8) + " אורות" : "שביל מוביל לכאן · " + H.palette(c.icon).hour) + '</span>' + (c.fresh ? '<em>חדש</em>' : '') + '</div>';
+        if (!c.open) front += '<g class="fog" data-fog="' + i + '"><ellipse cx="' + cx + '" cy="' + (base - 40) + '" rx="190" ry="120" fill="url(#fogg)"/></g>';
       });
       let road = "M" + lw + " " + (base + 26); for (let x = lw; x >= 0; x -= 24) road += " L" + x + " " + (base + 22 + Math.sin(x / 70) * 6).toFixed(1);
-      let s = '<svg width="' + lw + '" height="' + Ht + '" viewBox="0 0 ' + lw + ' ' + Ht + '"><defs>' + hgrad("hzn", "near", lw, 1) + '</defs>' + back +
+      let s = '<svg width="' + lw + '" height="' + Ht + '" viewBox="0 0 ' + lw + ' ' + Ht + '"><defs>' + hgrad("hzn", "near", lw, 1) + BEAM + '<radialGradient id="fogg"><stop offset="0" stop-color="#F6EEDF" stop-opacity=".62"/><stop offset=".7" stop-color="#F6EEDF" stop-opacity=".3"/><stop offset="1" stop-color="#F6EEDF" stop-opacity="0"/></radialGradient></defs>' + back +
         '<path d="' + ridge(7.7, lw, base + 4, 8, 6, Ht) + '" fill="url(#hzn)"/>' + front +
         '<path d="' + road + '" fill="none" stroke="#F6EEDF" stroke-opacity=".5" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/></svg>';
       const cur = Math.max(0, o.curIndex), cs = o.chapters[cur], sx = cxOf(lw, cur, 1) + SLOT_DX[Math.max(0, cs.curStage || 0)] - 46;
@@ -191,11 +220,12 @@
     host.innerHTML = html + (o.greet ? '<div class="hz-say">' + o.greet + '</div>' : '');
     const night = o.chapters.some(c => H.night(c.icon));
     const mt = motes(host, 16, false), bd = birds(host);
-    const lays = [...host.querySelectorAll(".hz-lay")], skies = [...host.querySelectorAll(".hz-skyw")];
+    const lays = [...host.querySelectorAll(".hz-lay")], skies = [...host.querySelectorAll(".hz-skyw")], vgs = [...host.querySelectorAll(".vg")];
     let p = Math.max(0, o.curIndex) * SP, want = p, drag = null, raf = 0, vel = 0;
     const apply = () => {
       lays.forEach(l => l.style.transform = "translate3d(" + (p * +l.dataset.f).toFixed(1) + "px,0,0)");
-      const fi = p / SP; skies.forEach((k, i) => k.style.opacity = Math.max(0, 1 - Math.abs(fi - i)).toFixed(3));
+      const fi = p / SP; skies.forEach((k, i) => { const op = Math.max(0, 1 - Math.abs(fi - i)); k.style.opacity = op.toFixed(3); k.classList.toggle("idle", op === 0); });
+      vgs.forEach(g => g.classList.toggle("idle", Math.abs(+g.dataset.v - fi) > 1.2));
       const ni = Math.round(fi), nc = o.chapters[ni]; host.classList.toggle("night", !!(nc && H.night(nc.icon)));
       if (o.onFocus) o.onFocus(ni);
     };
@@ -206,7 +236,8 @@
     pan.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - drag.x; if (Math.abs(dx) > 6) drag.moved = true; vel = e.clientX - drag.lx; drag.lx = e.clientX; want = Math.max(-40, Math.min(MAX + 40, drag.p + dx * 1.15)); kick(); });
     const up = e => {
       if (!drag) return; const d = drag; drag = null;
-      if (!d.moved) { const st = e.target.closest("[data-stage]"); if (st && st.dataset.stage && o.onStage) { st.classList.remove("poke"); void st.getBoundingClientRect(); st.classList.add("poke"); setTimeout(() => o.onStage(st.dataset.stage), 260); } return; }
+      if (!d.moved) { const fg = e.target.closest("[data-fog]"); if (fg) { fg.classList.remove("part"); void fg.getBoundingClientRect(); fg.classList.add("part"); if (o.onFog) o.onFog(+fg.dataset.fog); return; }
+        const st = e.target.closest("[data-stage]"); if (st && st.dataset.stage && o.onStage) { st.classList.remove("poke"); void st.getBoundingClientRect(); st.classList.add("poke"); setTimeout(() => o.onStage(st.dataset.stage), 260); } return; }
       want = Math.max(0, Math.min(MAX, Math.round((want + vel * 6) / SP) * SP)); kick();
     };
     pan.addEventListener("pointerup", up); pan.addEventListener("pointercancel", () => { drag = null; });
@@ -232,7 +263,7 @@
       tree(W - 26, base + 2, .7, p.mid, 1) + tree(130, base + 2, .6, p.mid, 2) +
       '<path d="' + ridge(7.7, W, base + 2, 3, 6, Ht) + '" fill="' + p.near + '"/><g class="bandst" transform="translate(' + cx + ' ' + base + ') scale(.62) translate(' + (-cx) + ' ' + (-base) + ')">' + S.g + lightsSVG(pts, o.lit || 0, { win: S.win, wire: !S.win }) + '</g>' +
       '<path d="' + road + '" fill="none" stroke="#F6EEDF" stroke-opacity=".45" stroke-width="1.6" stroke-dasharray="2 6"/>' + lamps + '</svg>' +
-      '<div class="hz-walker">' + WP.UI.rig("mg-band", "walk") + '</div>';
+      '<div class="hz-walker">' + WP.UI.rig("mg-band", "walk") + '</div><div class="hz-ribbon" id="hzrib"></div>';
     const walker = host.querySelector(".hz-walker"), lampEls = [...host.querySelectorAll(".lamp")];
     let lit = 0;
     const api = {
@@ -252,6 +283,7 @@
         const r = walker.querySelector(".margo");
         if (kind === "oops") { walker.classList.remove("stumble"); void walker.offsetWidth; walker.classList.add("stumble"); }
         if (kind === "streak") { host.classList.remove("shoot"); void host.offsetWidth; host.classList.add("shoot"); }
+        if (kind === "half" || (kind && kind.indexOf && kind.indexOf("streak:") === 0)) { const rb = host.querySelector(".hz-ribbon"); rb.textContent = kind === "half" ? "חצי הדרך" : kind.slice(7) + " ברצף"; rb.classList.remove("on"); void rb.offsetWidth; rb.classList.add("on"); if (r) WP.UI.pose(r, kind === "half" ? "point" : "clap", "h"); }
         if (r) { clearTimeout(api.t); api.t = setTimeout(() => WP.UI.pose(r, "walk", "n"), 1400); }
       }
     };
@@ -265,19 +297,29 @@
     host.classList.add("hz", "hz-fin");
     const cx = W / 2 + 20;
     const stages = o.stages.map((s, i) => Object.assign({}, s, i === o.focus ? { lit: o.to } : {}));
-    const v = valley(o.icon, cx, base, stages, { focus: o.focus, anim: !calm(), from: o.from, to: o.to, delay: 1.1 });
+    const v = valley(o.icon, cx, base, stages, { focus: o.focus, anim: !calm(), from: o.from, to: o.to, delay: 1.1, reveal: o.reveal });
+    const tier = o.tier || 0, fx = ["lanterns", "birds", "stars"][Math.floor(Math.random() * 3)];
+    let extra = "";
+    if (tier >= 2 && !calm()) {
+      const t0 = 1.6 + (o.to - (o.from || 0)) * .32;
+      if (fx === "lanterns") for (let k = 0; k < 7; k++) extra += '<g class="skyl" style="animation-delay:' + (t0 + k * .25).toFixed(2) + 's"><rect x="' + (40 + rnd(k + 5) * (W - 80)) + '" y="' + (base - 30 - rnd(k) * 40) + '" width="7" height="9" rx="2" fill="#FFD99A"/></g>';
+      else if (fx === "birds") for (let k = 0; k < 5; k++) extra += '<path class="flock" style="animation-delay:' + (t0 + k * .15).toFixed(2) + 's" d="M' + (W * .2 + k * 14) + ' ' + (base - 120 - k * 8) + ' q4 -5 8 0 q4 -5 8 0" stroke="#F6EEDF" stroke-width="1.6" fill="none"/>';
+      else for (let k = 0; k < 3; k++) extra += '<path class="shoot" style="animation-delay:' + (t0 + k * .6).toFixed(2) + 's" d="M' + (W - 30 - k * 60) + ' ' + (30 + k * 26) + ' l-60 26" stroke="#FFF6E0" stroke-width="1.6" stroke-linecap="round"/>';
+    }
     let fw = "";
-    if (o.done && !calm()) for (let k = 0; k < 3; k++) { const fx = cx + SLOT_DX[o.focus] + (k - 1) * 46, fy = 70 + k % 2 * 34; fw += '<g class="fw" style="animation-delay:' + (2.6 + o.to * .32 + k * .45).toFixed(2) + 's">' + Array.from({ length: 12 }, (_, j) => { const a = j / 12 * Math.PI * 2; return '<line x1="' + fx + '" y1="' + fy + '" x2="' + (fx + Math.cos(a) * 22).toFixed(1) + '" y2="' + (fy + Math.sin(a) * 22).toFixed(1) + '" stroke="' + ["#FFD99A", "#F6EEDF", "#E57C8E"][j % 3] + '" stroke-width="2" stroke-linecap="round"/>'; }).join("") + '</g>'; }
+    if (tier >= 3 && !calm()) for (let k = 0; k < 3; k++) { const fx = cx + SLOT_DX[o.focus] + (k - 1) * 46, fy = 70 + k % 2 * 34; fw += '<g class="fw" style="animation-delay:' + (2.6 + o.to * .32 + k * .45).toFixed(2) + 's">' + Array.from({ length: 12 }, (_, j) => { const a = j / 12 * Math.PI * 2; return '<line x1="' + fx + '" y1="' + fy + '" x2="' + (fx + Math.cos(a) * 22).toFixed(1) + '" y2="' + (fy + Math.sin(a) * 22).toFixed(1) + '" stroke="' + ["#FFD99A", "#F6EEDF", "#E57C8E"][j % 3] + '" stroke-width="2" stroke-linecap="round"/>'; }).join("") + '</g>'; }
+    host.classList.add("tier" + tier);
     host.innerHTML = skyHTML(o.icon, W, Ht) + '<div class="hz-dusk"></div>' +
-      '<svg class="hz-finsvg" width="' + W + '" height="' + Ht + '" viewBox="0 0 ' + W + ' ' + Ht + '"><g class="drift">' + clouds(W, Ht, 4, 11) + '</g>' +
+      '<svg class="hz-finsvg" width="' + W + '" height="' + Ht + '" viewBox="0 0 ' + W + ' ' + Ht + '"><defs>' + BEAM + '</defs><g class="drift">' + clouds(W, Ht, 4, 11) + '</g>' +
       '<path d="' + ridge(1.3, W, base - 120, 26, 6, Ht) + '" fill="' + p.far + '"/><path d="' + ridge(4.1, W, base - 70, 20, 6, Ht) + '" fill="' + p.mid + '"/>' + v.back +
-      '<path d="' + ridge(7.7, W, base + 4, 8, 6, Ht) + '" fill="' + p.near + '"/>' + v.front + fw + grass(W, Ht, "#1E1716") + '</svg>' +
+      '<path d="' + ridge(7.7, W, base + 4, 8, 6, Ht) + '" fill="' + p.near + '"/>' + v.front + fw + extra + grass(W, Ht, "#1E1716") + '</svg>' +
       '<div class="hz-finmargo" style="left:' + (W - 110) + 'px;top:' + (base - 118) + 'px">' + WP.UI.rig("mg-fin", "proud") + '</div>';
     motes(host, 12, true);
     const r = host.querySelector(".hz-finmargo .margo");
     const timers = [];
-    if (!calm()) { timers.push(setTimeout(() => WP.UI.pose(r, "point", "w"), 900)); timers.push(setTimeout(() => WP.UI.pose(r, "cheer", "h"), 1300 + o.to * 320)); timers.push(setTimeout(() => WP.UI.pose(r, "proud", "k"), 3600 + o.to * 320)); }
-    else WP.UI.pose(r, "cheer", "h");
+    const peak = ["proud", "clap", "clap", "cheer", "cheer"][tier], peakFace = ["k", "h", "h", "h", "w"][tier], lit = (o.to - (o.from || 0)) * 320;
+    if (!calm()) { timers.push(setTimeout(() => WP.UI.pose(r, "point", tier ? "w" : "t"), 900)); timers.push(setTimeout(() => WP.UI.pose(r, peak, peakFace), 1300 + lit)); timers.push(setTimeout(() => WP.UI.pose(r, "proud", "k"), 3900 + lit)); }
+    else WP.UI.pose(r, peak, peakFace);
     const skip = () => { host.classList.add("skip"); timers.forEach(clearTimeout); WP.UI.pose(r, "cheer", "h"); };
     host.addEventListener("click", skip, { once: true });
     return { skip, dispose() { timers.forEach(clearTimeout); } };

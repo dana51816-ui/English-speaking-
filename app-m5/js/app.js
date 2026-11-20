@@ -88,7 +88,7 @@
   /* ---------- M4: world lifecycle ---------- */
   let world = null, homeCur = 0, band = null;
   document.addEventListener("wp:progress", e => { if (band) band.progress(e.detail); });
-  document.addEventListener("wp:react", e => { if (!band) return; if (e.detail !== "oops" && e.detail !== "streak") band.lamp(); band.react(e.detail); });
+  document.addEventListener("wp:react", e => { if (!band) return; if (e.detail === "cheer" || e.detail === "wow") band.lamp(); band.react(e.detail); });
   function leave() { if (world) { try { world.dispose(); } catch (e) {} world = null; } band = null; closeSheet(); }
   function fracOf(s, items) { return s.items.filter(id => S.level(items[id]) >= 2).length / s.items.length; }
   function streak() {
@@ -97,6 +97,9 @@
     while (d[St.dayKey(t)]) { n++; t -= 86400000; }
     return n;
   }
+  function lantern() { const u = S.counts(St.data.items).understood; U.lanternLevel = u >= 5 ? Math.min(1, u / 120) : 0; }
+  let seenCh = []; try { seenCh = JSON.parse(localStorage.getItem("wp:seenChapters") || "[]"); } catch (e) {}
+  function toast(t) { const o = document.getElementById("toast5"); if (o) o.remove(); const d = document.createElement("div"); d.id = "toast5"; d.className = "toast5"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3600); }
   function litOf(s, items) { return s.items.filter(id => S.level(items[id]) >= 2).length; }
   function currentStage(items, open) {
     const stages = WP.Content.stages;
@@ -106,7 +109,7 @@
     return WP.Content.chapters().map(ch => {
       const sts = WP.Content.stages.filter(s => s.chapter === ch.id);
       const stages = sts.map(s => ({ id: s.id, title: s.title, open: open.indexOf(s.id) !== -1, done: S.meets(s, items), lit: litOf(s, items) }));
-      return { id: ch.id, icon: ch.icon, title: U.esc(ch.title), open: stages.some(x => x.open), cur: !!(cur && cur.chapter === ch.id), curStage: cur && cur.chapter === ch.id ? cur.inChapter : 0, lit: stages.reduce((n, x) => n + x.lit, 0), stages };
+      return { id: ch.id, icon: ch.icon, title: U.esc(ch.title), open: stages.some(x => x.open), fresh: stages.some(x => x.open) && seenCh.indexOf(ch.id) === -1 && ch.id !== WP.Content.chapters()[0].id, cur: !!(cur && cur.chapter === ch.id), curStage: cur && cur.chapter === ch.id ? cur.inChapter : 0, lit: stages.reduce((n, x) => n + x.lit, 0), stages };
     });
   }
   function greeting(plan) {
@@ -150,7 +153,7 @@
     }).join("");
   }
   function showHome() {
-    leave(); screen = "home"; WP.Session.stop(); document.body.classList.remove("in-session");
+    leave(); screen = "home"; WP.Session.stop(); document.body.classList.remove("in-session"); lantern();
     const now = St.now(), items = St.data.items, plan = S.plan(items, now);
     const open = S.unlocked(items), cur = currentStage(items, open);
     const qs = todayQuests(), weak = S.weak(items, 10), qn = qs.list.filter(x => x.done).length;
@@ -175,7 +178,11 @@
       '</section></div>';
     const host = document.getElementById("world");
     if (WP.Horizons) {
-      try { world = WP.Horizons.home(host, { chapters: chs, curIndex, greet: U.esc(greeting(plan)), onStage: id => showPeek(id) }); }
+      try {
+        world = WP.Horizons.home(host, { chapters: chs, curIndex, greet: U.esc(greeting(plan)), onStage: id => showPeek(id),
+          onFog: i => { const prev = WP.Content.chapters()[i - 1], fs = prev && WP.Content.stages.find(x => x.chapter === prev.id); toast(chs[i].title.replace(/&[^;]+;/g, "") + ": " + (fs ? 'נפתח כש"' + fs.title + '" מגיע ל-60% מהמילים' : "נפתח בהמשך הדרך")); } });
+        const opened = chs.filter(c => c.open).map(c => c.id); if (opened.some(id => seenCh.indexOf(id) === -1)) { seenCh = Array.from(new Set(seenCh.concat(opened))); try { localStorage.setItem("wp:seenChapters", JSON.stringify(seenCh)); } catch (e) {} }
+      }
       catch (e) { console.error(e); world = null; }
     }
     syncBadge();
@@ -236,7 +243,8 @@
     const plan = S.plan(St.data.items, St.now(), { extraNew: extra, weak: weak });
     if (!plan.reviews.length && !plan.fresh.length) { showHome(); return; }
     leave();
-    before = { counts: S.counts(St.data.items), open: S.unlocked(St.data.items).length, fr: Object.fromEntries(WP.Content.stages.map(s => [s.id, fracOf(s, St.data.items)])), done: Object.fromEntries(WP.Content.stages.map(s => [s.id, S.meets(s, St.data.items)])) };
+    lantern();
+    before = { lv: Object.fromEntries(Object.keys(St.data.items).map(id => [id, S.level(St.data.items[id])])), counts: S.counts(St.data.items), open: S.unlocked(St.data.items).length, fr: Object.fromEntries(WP.Content.stages.map(s => [s.id, fracOf(s, St.data.items)])), done: Object.fromEntries(WP.Content.stages.map(s => [s.id, S.meets(s, St.data.items)])) };
     screen = "session";
     const open0 = S.unlocked(St.data.items), bandStage = currentStage(St.data.items, open0) || WP.Content.stages[0];
     const bch = WP.Content.chapters().find(c => c.id === bandStage.chapter) || {};
@@ -296,7 +304,7 @@
   }
 
   function showEnd(sum, after, got, unlockedStage, openNow) {
-    leave(); screen = "end"; document.body.classList.remove("in-session");
+    leave(); screen = "end"; document.body.classList.remove("in-session"); lantern();
     const items = St.data.items, res = sum.res, ids = Object.keys(res);
     const nw = ids.filter(id => res[id].kind === "new"), rv = ids.filter(id => res[id].kind === "review");
     const learned = nw.filter(id => res[id].learned), shaky = nw.filter(id => !res[id].learned);
@@ -311,26 +319,35 @@
     const nowDone = S.meets(stg, items), wasDone = before.done[stg.id];
     const ch = WP.Content.chapters().find(c => c.id === stg.chapter);
     const chd = chapterData(items, S.unlocked(items), stg).find(x => x.id === stg.chapter);
-    const head = !wasDone && nowDone ? "שלב הושלם" : newStage ? "נפתח שלב חדש" : "סבב הושלם";
+    const gain = litNow - litBefore, tier = newStage ? 4 : !wasDone && nowDone ? 3 : gain >= 4 ? 2 : gain > 0 ? 1 : 0;
+    const head = ["סבב הושלם", "האורות מתרבים", "העמק מאיר", "שלב הושלם", "נפתחה דרך חדשה"][tier];
+    const up = Object.keys(sum.res).filter(id => S.level(items[id]) > (before.lv[id] || 0)).sort((x, y) => S.level(items[y]) - S.level(items[x]));
+    const dots = n => '<span class="dl">' + [1, 2, 3, 4].map(k => '<i class="' + (n >= k ? "on" : "") + '"></i>').join("") + '</span>';
+    const openAfter = S.unlocked(items), nxt = currentStage(items, openAfter);
+    const gateN = nxt ? Math.max(0, Math.ceil(nxt.items.length * .6) - litOf(nxt, items)) : 0;
+    const teaser = nxt ? (nxt.id === stg.id ? (gateN > 0 ? "עוד " + gateN + " אורות כאן, והשלב הבא נפתח." : "השלב הבא כבר פתוח ומחכה.") : 'הבא בדרך: "' + U.esc(nxt.title) + '"' + (nxt.chapter !== stg.chapter ? " בעמק חדש." : ".")) : "";
+    const reveal = newStage && newStage.chapter === stg.chapter ? newStage.inChapter : null;
     const line = litNow > litBefore ? (litNow - litBefore === 1 ? "אור חדש נדלק" : (litNow - litBefore) + " אורות חדשים נדלקו") + ' ב"' + U.esc(stg.title) + '". כל אור הוא מילה שזכרת.' : 'האורות של "' + U.esc(stg.title) + '" ממשיכים לדלוק. כל חזרה שומרת עליהם.';
     const wl = (arr, cls) => arr.map(id => { const it = WP.Content.byId[id]; return '<span class="' + cls + '">' + U.esc(it.en) + '</span>'; }).join("");
     U.tone(unlockedStage ? "unlock" : "end");
     root().innerHTML =
-      '<div class="e5"><div class="fin5" id="world"></div>' +
+      '<div class="e5 tier' + tier + '"><div class="fin5" id="world"></div>' +
       '<header class="top5 onsky"><span class="kick5 light">' + U.esc(stg.chapterTitle) + ' · ' + U.esc(stg.title) + '</span><span class="sp"></span><span class="pill5" id="estars">' + U.ICON.star + '<b>' + ((St.data.profile.stars || 0) - sum.starsGain) + '</b></span></header>' +
       '<div id="quip" class="quip q5 fin"></div>' +
       '<section class="sheet5 end5">' +
       '<span class="kick5">' + head + '</span><h2 class="h5t">' + U.esc(stg.title) + '</h2><p class="lead5">' + line + '</p>' +
       '<div class="cols5"><div class="learn5"><span class="ch5">מה למדת</span><div class="nums5"><div><b>' + learned.length + '/' + nw.length + '</b><span>חדשות נקלטו</span><em>נמדד</em></div><div><b>' + kept.length + '/' + rv.length + '</b><span>חזרות נשמרו</span><em>נמדד</em></div></div>' +
-      '<div class="wl5">' + wl(learned, "ok") + wl(kept, "ok") + wl(shaky, "sh") + wl(slipped, "sh") + '</div></div>' +
+      (up.length ? '<span class="ch5 sm">התחזקו בסבב</span><div class="up5">' + up.slice(0, 6).map((id, k) => '<span style="animation-delay:' + (1.4 + k * .12).toFixed(2) + 's"><bdi class="en">' + U.esc(WP.Content.byId[id].en) + '</bdi>' + dots(S.level(items[id])) + '</span>').join("") + '</div>' : '') +
+      ((shaky.length + slipped.length) ? '<div class="wl5">' + wl(shaky, "sh") + wl(slipped, "sh") + '</div>' : '') + '</div>' +
       '<div class="vr5"></div><div class="game5"><span class="ch5">מה הרווחת</span><b id="gcount">+0</b><span>כוכבים</span>' +
       (sum.qDone.length ? '<small>' + sum.qDone.map(q => U.esc(q.t)).join(" · ") + (sum.bonus ? " · בונוס" : "") + '</small>' : '') +
       (got.length ? '<small class="ach5">' + got.map(id => ACHMAP[id].t).join(" · ") + '</small>' : '') + '</div></div>' +
       (newStage ? '<div class="unl5">נפתח: <b>' + U.esc(newStage.chapterTitle) + ' · ' + U.esc(newStage.title) + '</b></div>' : '') +
-      '<p class="note5">בכתום: מילים שיחזרו בקרוב. ב-26 השעות הקרובות יחכו ' + tomorrow + ' חזרות.</p>' +
+      (teaser ? '<div class="next5"><span class="ch5">מה הלאה</span><b>' + teaser + '</b></div>' : '') +
+      '<p class="note5">' + ((shaky.length + slipped.length) ? 'בכתום: מילים שיחזרו בקרוב. ' : '') + 'ב-26 השעות הקרובות יחכו ' + tomorrow + ' חזרות.</p>' +
       '<div class="btns5"><button class="ghost5" data-act="home">למסע</button><button class="cta5 small" data-act="more"' + (nextPlan.reviews.length + nextPlan.fresh.length ? '' : ' disabled') + '><span>' + 'עוד סבב' + (nextPlan.fresh.length ? '<small>' + nextPlan.fresh.length + ' מילים חדשות</small>' : '') + '</span><span class="go5">' + ARROW + '</span></button></div>' +
       '</section></div>';
-    if (WP.Horizons && ch) { try { world = WP.Horizons.finale(document.getElementById("world"), { icon: ch.icon, stages: chd.stages, focus: stg.inChapter, from: litBefore, to: litNow, done: !wasDone && nowDone }); } catch (e) { console.error(e); } }
+    if (WP.Horizons && ch) { try { world = WP.Horizons.finale(document.getElementById("world"), { icon: ch.icon, stages: chd.stages, focus: stg.inChapter, from: litBefore, to: litNow, done: !wasDone && nowDone, tier, reveal }); } catch (e) { console.error(e); } }
     const gc = document.getElementById("gcount"), es = document.querySelector("#estars b"), base = (St.data.profile.stars || 0) - sum.starsGain;
     let n = 0; const step = Math.max(1, Math.round(sum.starsGain / 20));
     setTimeout(() => { const tick = setInterval(() => { n = Math.min(sum.starsGain, n + step); if (gc) gc.textContent = "+" + n; if (es) es.textContent = base + n; if (n >= sum.starsGain) clearInterval(tick); }, 40); }, 1200);
@@ -406,6 +423,7 @@
     });
   }
   const msg = t => { const m = document.getElementById("sheetmsg"); if (m) m.textContent = t; };
+  function dive(fn) { const h = document.querySelector(".h5"); if (!h || document.body.classList.contains("calm")) return fn(); h.classList.add("dive"); setTimeout(fn, 430); }
   function closeSheet() { const s = document.getElementById("sheet"); if (s) s.remove(); }
   function refresh() { closeSheet(); if (screen === "home") showHome(); showSettings(); }
   async function doExport() {
@@ -423,12 +441,12 @@
     const b = e.target.closest("[data-act]");
     if (!b) { if (e.target.id === "sheet") closeSheet(); return; }
     const a = b.dataset.act;
-    if (a === "go") { U.tone("tap"); startSession(false); }
+    if (a === "go") { U.tone("tap"); dive(() => startSession(false)); }
     else if (a === "more") startSession(true);
     else if (a === "home") showHome();
     else if (a === "settings") showSettings();
         else if (a === "peek") showPeek(b.dataset.stage);
-    else if (a === "weak") { U.tone("tap"); startSession(false, true); }
+    else if (a === "weak") { U.tone("tap"); dive(() => startSession(false, true)); }
     else if (a === "bank") showBank();
     else if (a === "quests") showQuests();
     else if (a === "progress") showProgress();

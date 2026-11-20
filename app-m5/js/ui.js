@@ -117,10 +117,11 @@
     '<g class="f-k"><path d="M50.5 39.5 Q54 38 57 39.4M63 38 Q66 36.5 69.5 38" stroke="#3B2433" stroke-width="1.5" fill="none" stroke-linecap="round"/>' + EYE(54) + '<path d="M63.5 45.5 Q66 43.5 68.5 45.5" stroke="#2A211D" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M56 52.6 Q61 56 65 51.4" stroke="#8E3E22" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>' +
     '<g class="f-t"><path d="M50.5 39.8 Q54 39 57 40M63 37.6 Q66 36 69.5 37.4" stroke="#3B2433" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="55" cy="44.2" rx="1.8" ry="2.3" fill="#2A211D"/><ellipse cx="67" cy="44.2" rx="1.8" ry="2.3" fill="#2A211D"/><path d="M57 53 L62.5 52.4" stroke="#8E3E22" stroke-width="1.5" stroke-linecap="round"/></g>';
   const J = (cls, x, y, inner) => '<g class="j ' + cls + '" style="transform-origin:' + x + 'px ' + y + 'px">' + inner + '</g>';
-  function arm(side, x) {
+  function arm(side, x, lantern) {
     const s = side === "l" ? "l" : "r";
+    const lamp = lantern > 0 ? '<g class="lantern"><path d="M' + x + ' 133 v5" stroke="#2A211D" stroke-width="1"/><circle cx="' + x + '" cy="146" r="' + (9 + lantern * 9).toFixed(1) + '" fill="#FFD99A" opacity="' + (.12 + lantern * .3).toFixed(2) + '"/><rect x="' + (x - 4.5) + '" y="138" width="9" height="12" rx="2" fill="#FFE3A6" stroke="#2A211D" stroke-width="1.2"/><path d="M' + (x - 5.5) + ' 138 h11" stroke="#2A211D" stroke-width="1.6"/></g>' : "";
     return J("j-" + s + "s", x, 74, '<rect x="' + (x - 4.5) + '" y="72" width="9" height="32" rx="4.5" fill="#B4532F"/>' +
-      J("j-" + s + "e", x, 102, '<rect x="' + (x - 4) + '" y="100" width="8" height="28" rx="4" fill="#A54A29"/><circle cx="' + x + '" cy="130" r="4.8" fill="#E9B793"/>'));
+      J("j-" + s + "e", x, 102, '<rect x="' + (x - 4) + '" y="100" width="8" height="28" rx="4" fill="#A54A29"/><circle cx="' + x + '" cy="130" r="4.8" fill="#E9B793"/>' + lamp));
   }
   function leg(side, x) {
     return J("j-" + side + "l", x, 128, '<rect x="' + (x - 4.5) + '" y="126" width="9" height="56" rx="4.5" fill="#2A211D"/><ellipse cx="' + (x + (side === "l" ? -2 : 2)) + '" cy="184" rx="7.5" ry="4" fill="#1E1716"/>');
@@ -131,7 +132,7 @@
     return '<svg class="margo rig ' + (cls || "") + '" data-face="n" data-pose="' + (pose || "idle") + '" viewBox="0 0 120 192" style="' + vars + '" aria-hidden="true"><g class="rb">' +
       '<ellipse cx="60" cy="188" rx="24" ry="3.4" fill="#000" opacity=".16"/>' +
       leg("l", 53) + leg("r", 67) +
-      arm("l", 43) +
+      arm("l", 43, U.lanternLevel || 0) +
       '<g class="torso"><path d="M44 70 Q60 64 76 70 L86 140 Q60 146 34 140Z" fill="#B4532F"/><path d="M60 72 L60 141" stroke="#8E3E22" stroke-width="1.2"/><path d="M48 70 L60 96 L54 70Z" fill="#8E3E22"/><path d="M72 70 L60 96 L66 70Z" fill="#8E3E22"/>' +
       '<rect x="38" y="112" width="44" height="4" rx="2" fill="#8E3E22"/><circle cx="64" cy="104" r="1.5" fill="#D99A4B"/><circle cx="64" cy="124" r="1.5" fill="#D99A4B"/>' +
       '<g class="scarf-t" style="transform-origin:66px 70px"><path d="M63 68 L70 96 L63 97 L59 70Z" fill="' + w.scarf + '"/><path d="M62 82 L68 81.5M64 90 L69.5 89.5" stroke="#000" stroke-opacity=".15" stroke-width="1.5"/></g>' +
@@ -158,17 +159,20 @@
   U.hop = function () { document.querySelectorAll(".host").forEach(h => { h.classList.remove("hop"); void h.offsetWidth; h.classList.add("hop"); }); };
 
   const LINES = {
-    start: ["מוכנה? אני כבר באיפור.", "יאללה, הבמה שלך."],
-    firstNew: ["מילה חדשה עולה לבמה. תני לה רגע להשתחוות.", "מילה חדשה. שימי לב להטעמה, היא הכוכבת פה."],
-    combo3: ["שלוש ברצף. מישהו פה עשה שיעורי בית.", "שלוש מתוך שלוש. אני כמעט מתרגשת.", "רצף. אל תסתכלי עליי, תמשיכי."],
-    combo6: ["שש ברצף. אני מזמינה לך תפקיד ראשי.", "את גונבת לי את ההצגה. בכיף."],
-    combo9: ["תשע. אני מתחילה לחשוש לגבי התפקיד שלי."],
-    match: ["הפסקת התאמות. מהר, אבל בלי לנחש.", "זוגות. כל מילה מוצאת את שלה."],
-    scene: ["סצנה. תסתכלי טוב, אף אחד פה לא מסתיר כלום.", "תאורה, מצלמה, מילה."],
-    ok1: ["כן. זה נשאר.", "בדיוק ככה.", "יפה. המוח שלך עושה חזרות בלי לבקש רשות.", "נקי."],
-    miss1: ["לא נורא. היא תחזור עוד מעט, והפעם זה יעבוד.", "טעות עכשיו היא זיכרון מחר.", "קרוב. תסתכלי על התשובה רגע."],
-    confuse: ["את השתיים האלה כולם מבלבלים. אפילו אני. פעם אחת.", "זה בדיוק הבלבול ששווה ללמוד עכשיו."],
-    tap: ["אני מגיבה רק כשיש סיבה. זו לא סיבה, אבל שלום.", "טעויות הן חזרות שמגיעות מוקדם.", "מילה קשה חוזרת יותר. מילה קלה פחות. ככה זה עובד."]
+    start: ["יוצאות לדרך. אני אחרייך.", "הדרך מוארת בדיוק כמו שהשארנו אותה.", "יש כמה אורות שמחכים לנו. בואי.", "נעליים נוחות? מצוין."],
+    firstNew: ["מילה חדשה. תני לה רגע, היא עוד מתביישת.", "מילה חדשה בדרך. שימי לב להטעמה.", "זו חדשה. לא צריך לזכור עכשיו, רק להכיר."],
+    combo3: ["שלוש ברצף. הדרך נהיית קצרה יותר.", "שלוש. אני כבר לא צריכה להצביע.", "רצף. אני הולכת מהר יותר כשאת ככה."],
+    combo6: ["שש ברצף. את מובילה, אני רק מחזיקה פנס.", "שש. העמק מתחיל להאיר."],
+    combo9: ["תשע. אני מתחילה לחשוד שאת לא צריכה אותי.", "תשע ברצף. רשמתי."],
+    match: ["זוגות. כל מילה מחפשת את הבית שלה.", "התאמות. בלי למהר, בלי לנחש."],
+    scene: ["תסתכלי טוב. התשובה מסתתרת בתמונה.", "סצנה. המילה כבר נמצאת שם."],
+    ok1: ["כן. זה נשאר.", "בדיוק.", "נקי.", "יפה. בלי היסוס.", "זה היה מהיר מדי בשביל מישהי שלומדת.", "עוד אור בדרך."],
+    miss1: ["קרוב. היא תחזור עוד מעט, ואז תזהי אותה.", "טעות עכשיו היא זיכרון מחר.", "שווה רגע להסתכל על התשובה.", "היא תחזור. אני כבר שמתי עליה עין."],
+    longRecall: ["זכרת אחרי כמה ימים. זה בדיוק מה שסופר.", "את זו לא ראינו הרבה זמן. ועדיין.", "זיכרון ארוך. זה האור החזק."],
+    recover: ["חזרת אליה ותפסת אותה. ככה זה עובד.", "קודם טעות, עכשיו נכון. היא שלך יותר עכשיו.", "תיקון. זה שווה יותר מתשובה ראשונה."],
+    half: ["חצי הדרך.", "אנחנו באמצע. הנוף רק משתפר."],
+    confuse: ["את השתיים האלה כולם מבלבלים. ההבדל קטן וחשוב.", "זה בדיוק הבלבול ששווה ללמוד עכשיו."],
+    tap: ["אני כאן. ממשיכות?", "כל אור שם למעלה הוא מילה שזכרת.", "מילה קשה חוזרת יותר. מילה קלה פחות. ככה זה עובד.", "יש לי פנס. הוא נהיה חזק יותר ככל שאת זוכרת."]
   };
   const used = {}; let quipT = null; U.lastQuip = -99;
   U.line = function (kind) { const pool = LINES[kind] || [kind]; used[kind] = used[kind] || []; let o = pool.filter(l => used[kind].indexOf(l) === -1); if (!o.length) { used[kind] = []; o = pool; } const l = o[Math.floor(Math.random() * o.length)]; used[kind].push(l); return l; };
