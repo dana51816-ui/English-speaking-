@@ -95,10 +95,11 @@
   function lightsSVG(pts, lit, opts) {
     opts = opts || {};
     let s = opts.wire ? '<path d="M' + pts.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L") + '" fill="none" stroke="#2A211D" stroke-opacity=".5" stroke-width=".8"/>' : "";
+    const bright = opts.bright == null ? lit : opts.bright;
     pts.forEach((p, i) => {
-      const on = i < lit, cls = opts.anim && on && i >= (opts.from || 0) ? ' class="lt-on" style="animation-delay:' + (opts.delay + (i - (opts.from || 0)) * .32).toFixed(2) + 's"' : "";
-      s += '<g' + cls + ' data-l="' + i + '">' + (on ? '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (opts.win ? 6 : 5.5) + '" fill="#FFD99A" opacity=".28"/>' : '') +
-        (opts.win ? '<rect x="' + (p[0] - 3) + '" y="' + (p[1] - 4) + '" width="6" height="8" fill="' + (on ? "#FFD99A" : "#6E5664") + '"/>' : '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.3" fill="' + (on ? "#FFE3A6" : "#5A4A44") + '"/>') + '</g>';
+      const on = i < lit, dim = on && i >= bright, cls = opts.anim && on && i >= (opts.from || 0) ? ' class="lt-on" style="animation-delay:' + (opts.delay + (i - (opts.from || 0)) * .32).toFixed(2) + 's"' : "";
+      s += '<g' + cls + ' data-l="' + i + '">' + (on ? '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (dim ? 3.6 : opts.win ? 6 : 5.5) + '" fill="#FFD99A" opacity="' + (dim ? .12 : .28) + '"/>' : '') +
+        (opts.win ? '<rect x="' + (p[0] - 3) + '" y="' + (p[1] - 4) + '" width="6" height="8" fill="' + (dim ? "#B98A55" : on ? "#FFD99A" : "#6E5664") + '"/>' : '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.3" fill="' + (dim ? "#B98A55" : on ? "#FFE3A6" : "#5A4A44") + '"/>') + '</g>';
     });
     return s;
   }
@@ -140,7 +141,7 @@
       const S = structure(p.kind, i, x, base, mode, p.ink);
       const pts = S.lights || strand(x, S.top, S.w);
       let g = '<g class="st' + (st.open ? "" : " ghost") + (o.focus === i ? " focus" : "") + (o.reveal === i ? " reveal" : "") + '" data-stage="' + (st.id || "") + '">' + (o.reveal === i ? structure(p.kind, i, x, base, "ghost", p.ink).g : "") + '<g class="body">' + S.g + '</g>';
-      if (st.open) g += lightsSVG(pts, o.focus === i && o.anim ? o.to : st.lit, { win: S.win, wire: !S.win, anim: o.focus === i && o.anim, from: o.from, delay: o.delay || 1.2 });
+      if (st.open) g += lightsSVG(pts, o.focus === i && o.anim ? o.to : st.lit, { win: S.win, wire: !S.win, anim: o.focus === i && o.anim, from: o.from, delay: o.delay || 1.2, bright: st.bright });
       if (st.done) g += '<g class="pennant"><rect x="' + (x - .8) + '" y="' + (S.top - 30) + '" width="1.6" height="22" fill="#F6EEDF"/><path class="flag" style="transform-origin:' + x + 'px ' + (S.top - 30) + 'px" d="M' + x + ' ' + (S.top - 30) + ' l13 4 l-13 4z" fill="#E8B44C"/></g>';
       g += '<rect x="' + (x - S.w / 2 - 10) + '" y="' + (S.top - 26) + '" width="' + (S.w + 20) + '" height="' + (base - S.top + 30) + '" fill="transparent"/></g>';
       front += g; hits.push({ x, top: S.top, pts, win: S.win, w: S.w });
@@ -261,7 +262,7 @@
     host.innerHTML = skyHTML(o.icon, W, Ht * 2.6, ";background-position:0 0") +
       '<svg class="hz-bandsvg" width="' + W + '" height="' + Ht + '" viewBox="0 0 ' + W + ' ' + Ht + '"><g class="drift">' + clouds(W, Ht, 3, 7) + '</g><path d="' + ridge(1.3, W, base - 34, 9, 6, Ht) + '" fill="' + p.far + '"/><path d="' + ridge(4.1, W, base - 18, 7, 6, Ht) + '" fill="' + p.mid + '"/>' +
       tree(W - 26, base + 2, .7, p.mid, 1) + tree(130, base + 2, .6, p.mid, 2) +
-      '<path d="' + ridge(7.7, W, base + 2, 3, 6, Ht) + '" fill="' + p.near + '"/><g class="bandst" transform="translate(' + cx + ' ' + base + ') scale(.62) translate(' + (-cx) + ' ' + (-base) + ')">' + S.g + lightsSVG(pts, o.lit || 0, { win: S.win, wire: !S.win }) + '</g>' +
+      '<path d="' + ridge(7.7, W, base + 2, 3, 6, Ht) + '" fill="' + p.near + '"/><g class="bandst" transform="translate(' + cx + ' ' + base + ') scale(.62) translate(' + (-cx) + ' ' + (-base) + ')">' + S.g + lightsSVG(pts, o.lit || 0, { win: S.win, wire: !S.win, bright: o.bright }) + '</g>' +
       '<path d="' + road + '" fill="none" stroke="#F6EEDF" stroke-opacity=".45" stroke-width="1.6" stroke-dasharray="2 6"/>' + lamps + '</svg>' +
       '<div class="hz-walker">' + WP.UI.rig("mg-band", "walk") + '</div><div class="hz-ribbon" id="hzrib"></div>';
     const walker = host.querySelector(".hz-walker"), lampEls = [...host.querySelectorAll(".lamp")];

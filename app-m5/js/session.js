@@ -106,6 +106,16 @@
       '<button class="gtile c' + i + '" data-act="pick" data-i="' + i + '"><span class="shape">' + SHAPES[i] + '</span><span class="tt">' + U.esc(english ? o.item.en : o.item.he) + '</span></button>').join("") + '</div>';
   }
 
+  /* Think first: options stay hidden until she commits to "I've got it" or "not coming to me". */
+  const thinkWrap = (html, what) => !cur.think ? html :
+    '<div class="think5" id="think"><p class="think-q">' + what + '</p><div class="pair2"><button class="ghost" data-act="think-no">לא עולה לי</button><button class="primary" data-act="think-yes">יש לי</button></div><p class="think-n">"יש לי" נבדק מיד בבחירה. טעות אחרי "יש לי" נספרת כשליפה שלא הצליחה.</p></div><div class="opts-hid" id="optsw">' + html + '</div>';
+  function thinkReveal(yes) {
+    if (!cur.think || cur.claim !== undefined || locked()) return;
+    cur.claim = !!yes; const t = $("#think") || document.getElementById("think"); if (t) t.remove();
+    const w = document.getElementById("optsw"); if (w) w.classList.remove("opts-hid");
+    U.tone(yes ? "flip" : "tap"); U.pose(null, yes ? "point" : "think", yes ? "k" : "t");
+    lockUntil = performance.now() + 280;
+  }
   function renderPick(it) {
     const ex = X.pick(it); cur.opts = ex.opts;
     paint("pick",
@@ -122,7 +132,7 @@
       '<p class="prompt">איך אומרים באנגלית?</p>' +
       '<div class="bubble-q"><span class="who">' + U.avatar() + '</span><p>' + U.esc(it.he) + '</p></div>' +
       '<p class="sent dim" style="font-size:16px">' + U.esc(E().pre) + '<span class="blank-line">&nbsp;</span>' + U.esc(E().post) + '</p><div id="fb"></div>',
-      optTiles(cur.opts, true));
+      thinkWrap(optTiles(cur.opts, true), "נסי לשלוף את הביטוי באנגלית לפני שתראי אפשרויות."));
   }
 
   function renderListen(it) {
@@ -141,11 +151,11 @@
   function renderGap(it) {
     const ex = X.gap(it); cur.why = ex.why;
     const e = E();
-    cur.opts = X.shuffle([e.ans].concat(it.distractors.slice(0, 2).map(d => d.t)));
+    cur.opts = X.shuffle([e.ans].concat(it.distractors.slice(0, 2).map(d => d.t)).concat(cur.think ? X.near(it, 1).map(x => x.en).filter(t => t !== e.ans).slice(0, 1) : []));
     paint("gap",
       '<p class="prompt">איזו מילה משלימה את המשפט?</p>' +
       '<div class="ticket"><p class="gap-sent">' + U.esc(e.pre) + '<span class="slot" id="slot">' + U.esc(e.ans) + '</span>' + U.esc(e.post) + '</p></div><div id="fb"></div>',
-      '<p class="tray-hint">גררי אריח אל החסר, או געי בו</p><div class="tray" id="tray">' + cur.opts.map((t, i) => '<button class="tile key" data-i="' + i + '">' + U.esc(t) + '</button>').join("") + '</div>');
+      thinkWrap('<p class="tray-hint">גררי אריח אל החסר, או געי בו</p><div class="tray" id="tray">' + cur.opts.map((t, i) => '<button class="tile key" data-i="' + i + '">' + U.esc(t) + '</button>').join("") + '</div>', "איזו מילה חסרה? נסי לשלוף אותה לפני שתראי אפשרויות."));
     $("#slot").style.minWidth = Math.max(3.6, e.ans.length * .52) + "em";
   }
 
@@ -218,7 +228,18 @@
     prev = cur.type; sinceMatch++;
     if (cur.id) {
       const r = res[cur.id], s = Object.assign(WP.Sched.fresh(), st(cur.id) || {});
-      WP.Sched.track(s, cur.type, ok); s.upd = WP.Store.now(); WP.Store.putItem(cur.id, s);
+      WP.Sched.track(s, cur.type, ok);
+      if (WP.Mem && cur.kind !== "intro") {
+        const delayed = cur.kind === "review" || (cur.kind === "check" && cur.stage === 2), firstTry = r.firstOk === null, good = !!ok && !partial;
+        const sk = (E() && (E().plain || (E().pre + E().ans))) ? String(E().plain || (E().pre + E().ans)).slice(0, 48) : "";
+        if (cur.think && cur.claim === true) { WP.Mem.record(s, "rcl", good); if (cur.type === "gap") WP.Mem.record(s, "ctx", good, { s: sk }); if (good) r.recalled = true; else r.claimMiss = true; }
+        else if (cur.type === "recall") WP.Mem.record(s, "rcl", good, { self: true });
+        if (delayed) WP.Mem.record(s, "rec", !!ok);
+        if (cur.kind === "review" && firstTry) WP.Store.touchProfile(p => WP.Mem.log(p, cur.claim === true ? "rcl" : "rec", good));
+        else if (cur.claim === true) WP.Store.touchProfile(p => WP.Mem.claim(p, good));
+        if (good && cur.claim !== true && cur.type !== "recall") r.recogOnly = true;
+      }
+      s.upd = WP.Store.now(); WP.Store.putItem(cur.id, s);
       if (r.firstOk === null && cur.kind !== "intro") r.firstOk = !!ok && !partial;
       if (partial) r.partial = true;
       if (!ok) r.failed = true;
@@ -260,7 +281,7 @@
   }
 
   function pick(i) {
-    if (answered || locked()) return; answered = true;
+    if (answered || locked() || (cur.think && cur.claim === undefined)) return; answered = true;
     const it = item(cur.id), o = cur.opts[i];
     const btns = actEl.querySelectorAll('[data-act="pick"]');
     btns.forEach((b, j) => { b.disabled = true; if (cur.opts[j].ok) b.classList.add("ok"); else if (j === i) b.classList.add("bad"); else b.classList.add("dim"); });
@@ -277,7 +298,7 @@
   }
 
   function placeTile(i) {
-    if (answered || locked()) return; answered = true;
+    if (answered || locked() || (cur.think && cur.claim === undefined)) return; answered = true;
     const it = item(cur.id), e = E(), t = cur.opts[i], ok = t === e.ans, slot = $("#slot");
     actEl.querySelectorAll(".tile").forEach((b, j) => { b.disabled = true; if (j === i) b.classList.add("ghost"); });
     slot.textContent = t; slot.classList.add("filled", ok ? "ok" : "bad", "land");
@@ -417,6 +438,8 @@
     else if (a === "known") { if (!locked()) { stats.newSeen++; prev = "intro"; res[cur.id].known = true; insert({ kind: "check", id: cur.id, stage: 2, lastType: "intro" }, 2); next(); } }
     else if (a === "pick") pick(+b.dataset.i);
     else if (a === "reveal") reveal();
+    else if (a === "think-yes") thinkReveal(true);
+    else if (a === "think-no") thinkReveal(false);
     else if (a === "self") selfRate(b.dataset.v);
     else if (a === "hint") hint();
     else if (a === "spot") spot(+b.dataset.i);

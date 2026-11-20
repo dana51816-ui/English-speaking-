@@ -919,7 +919,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;o
 .cta5[disabled]{opacity:.55}
 .cta5.small{min-height:56px;margin-top:0}
 .links5{display:flex;justify-content:center;gap:4px}
-.links5 button{padding:8px 10px;border:0;background:none;font:600 14px var(--f-body);color:var(--muted);cursor:pointer}
+.links5 button{padding:8px 7px;border:0;background:none;font:600 14px var(--f-body);color:var(--muted);cursor:pointer}
 .links5 b{font-family:var(--f-hs);color:var(--ink)}
 
 /* ---------- session ---------- */
@@ -1170,6 +1170,30 @@ body.in-session #app{padding:0 0 calc(12px + env(safe-area-inset-bottom,0px));ga
 .stage.t-listen:has(.fb) .orb-play{transform:scale(.7)}
 .hz .vg.idle,.hz .vg.idle *,.hz-skyw.idle *{animation-play-state:paused!important}
 .hz .vg.idle{visibility:hidden}
+
+/* ===== M5.2a · three kinds of knowledge ===== */
+.think5{display:flex;flex-direction:column;gap:10px;animation:actIn .36s var(--e-std) both}
+.think-q{margin:0;text-align:center;font-family:var(--f-hs);font-size:17px;color:var(--ink)}
+.think-n{margin:0;text-align:center;font-size:12px;color:var(--muted)}
+.think5 .pair2{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)}
+.opts-hid{display:none}
+#optsw{animation:actIn .32s var(--e-std) both}
+.lights5 i.dim{background:#D9B07A;box-shadow:0 0 0 2px rgba(217,176,122,.2)}
+.cap5 b{font-family:var(--f-hs)}
+.cap5 .k-on{color:#B98526}.cap5 .k-dim{color:var(--muted)}
+.tri{display:inline-flex;gap:3px;direction:rtl}
+.tri i{font-style:normal;font-size:10.5px;font-weight:800;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--soft)}
+.tri i.on{background:#E8B44C;border-color:#E8B44C;color:#2A211D}
+.know5{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:6px 0 4px}
+.know5 div{display:flex;flex-direction:column;line-height:1.15}
+.know5 b{font-family:var(--f-hs);font-size:28px;font-variant-numeric:tabular-nums}
+.know5 span{font-size:12.5px;color:var(--muted)}
+.know5 em{font-style:normal;font-size:12px;font-weight:800;color:var(--sage)}
+.sm5{font-size:11.5px;color:var(--muted);line-height:1.4;display:block;margin-bottom:4px}
+.ret5{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ret5 div{background:var(--paper2);border-radius:12px;padding:8px;display:flex;flex-direction:column;line-height:1.25}
+.ret5 b{font-family:var(--f-hs);font-size:24px}
+.ret5 span{font-size:12px}.ret5 small{font-size:10.5px;color:var(--muted)}
 @media (max-height:720px){.band5{height:136px}.track5{top:122px}.hz-walker{width:46px;height:74px}.hz-walker .margo{width:46px;height:74px}.world5{height:52vh}.fin5{height:44vh}.h5t{font-size:26px}.band5{height:120px}.track5{top:106px}.stage .word{font-size:38px!important}.stage .sent{font-size:16px!important}.gtile{min-height:50px}.actions .tiles .gtile.dim{display:none}}
 </style>
 
@@ -1179,6 +1203,7 @@ body.in-session #app{padding:0 0 calc(12px + env(safe-area-inset-bottom,0px));ga
 <script src="js/scheduler.js"></script>
 <script src="js/store.js"></script>
 <script src="js/exercises.js"></script>
+<script src="js/memory.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/horizons.js"></script>
 <script src="js/session.js"></script>

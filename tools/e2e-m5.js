@@ -20,7 +20,7 @@ fs.mkdirSync(OUT, { recursive: true });
   if (SEED) await p.addInitScript(s => { try { if (!localStorage.getItem('wordplay:v1')) localStorage.setItem('wordplay:v1', s); } catch (e) {} }, fs.readFileSync(SEED, 'utf8'));
   await p.goto('http://local.test/', { waitUntil: 'networkidle' }); await p.waitForTimeout(2200);
   await p.screenshot({ path: OUT + '/01-home.png' });
-  const types = {}; const timings = [];
+  const types = {}; const timings = []; let thinks = 0;
   const playSession = async (tag, start) => {
     await p.click(start || '[data-act="go"]', { force: true });
     await p.waitForTimeout(800); // the dive transition plus the first-question tap guard
@@ -33,6 +33,7 @@ fs.mkdirSync(OUT, { recursive: true });
       const t = (cls.match(/t-(\w+)/) || [])[1] || 'x'; types[t] = (types[t] || 0) + 1;
       if (!shots[t]) { shots[t] = 1; await p.screenshot({ path: OUT + '/' + tag + '-' + t + '.png' }); }
       if (await p.$('[data-act="introdone"]')) { await p.click('[data-act="introdone"]', { force: true }); continue; }
+      if (await p.$('[data-act="think-yes"]')) { thinks++; if (!shots.think) { shots.think = 1; await p.screenshot({ path: OUT + '/' + tag + '-think.png' }); } await p.click(Math.random() < .6 ? '[data-act="think-yes"]' : '[data-act="think-no"]', { force: true }); await p.waitForTimeout(420); }
       if (await p.$('[data-act="reveal"]')) { await p.click('[data-act="reveal"]', { force: true }); await p.waitForTimeout(600); await p.click('[data-act="self"][data-v="yes"]', { force: true }); }
       else if (await p.$('[data-act="pick"]')) { const o = await p.$$('[data-act="pick"]'); const t0 = Date.now(); await o[Math.floor(Math.random() * o.length)].click({ force: true }); timings.push(Date.now() - t0); }
       else if (await p.$('.tile')) { const tl = await p.$$('.tile'); await tl[Math.floor(Math.random() * tl.length)].click({ force: true }); await p.waitForTimeout(450); }
@@ -64,6 +65,7 @@ fs.mkdirSync(OUT, { recursive: true });
   if (box) { await p.mouse.move(box[0], box[1]); await p.mouse.down(); await p.mouse.move(box[0] + 260, box[1] + 10, { steps: 12 }); await p.mouse.up(); await p.waitForTimeout(1600); await p.screenshot({ path: OUT + '/05-world-drag.png' }); }
   await p.click('.links5 [data-act="quests"]', { force: true }); await p.waitForTimeout(400); await p.screenshot({ path: OUT + '/06-quests.png' }); await p.click('[data-act="closesheet"]', { force: true });
   
+  await p.click('.links5 [data-act="progress"]', { force: true }); await p.waitForTimeout(400); await p.screenshot({ path: OUT + '/07-progress.png' }); await p.click('[data-act="closesheet"]', { force: true }); await p.waitForTimeout(200);
   await p.click('.links5 [data-act="bank"]', { force: true }); await p.waitForTimeout(500); await p.screenshot({ path: OUT + '/08-bank.png' });
   const bankN = await p.$$eval('.bw', e => e.length);
   await p.click('[data-act="home"]', { force: true }); await p.waitForTimeout(1500);
@@ -81,6 +83,7 @@ fs.mkdirSync(OUT, { recursive: true });
   let weakStarted = false;
   if (await p.$('[data-act="weak"]')) { await p.click('[data-act="weak"]', { force: true }); await p.waitForTimeout(800); weakStarted = !!(await p.$('#stage')); await p.screenshot({ path: OUT + '/11-weak.png' }); }
   const overflow = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth);
-  console.log(JSON.stringify({ n1, n2, endText, built, metaAfter, metaNext, bankN, wNote, saved, chapterSheet, weakStarted, overflow, types, avgTapMs: Math.round(timings.reduce((a, b) => a + b, 0) / Math.max(1, timings.length)), errors: errs }));
+  const mem = await p.evaluate(() => { const d = JSON.parse(localStorage.getItem('wordplay:v1')); const ev = Object.values(d.items).filter(s => s.ev); return { engine: d.profile.engine, withEv: ev.length, rclDays: ev.reduce((n, s) => n + s.ev.rcl.d.length, 0), mlog: d.profile.mlog, backup: !!localStorage.getItem('wordplay:v1:pre-engine2') }; });
+  console.log(JSON.stringify({ thinks, mem, n1, n2, endText, built, metaAfter, metaNext, bankN, wNote, saved, chapterSheet, weakStarted, overflow, types, avgTapMs: Math.round(timings.reduce((a, b) => a + b, 0) / Math.max(1, timings.length)), errors: errs }));
   await b.close();
 })();
